@@ -21,6 +21,12 @@ public:
   void BuildBasis();
   void BuildIndices2();
   void PrintIndices2();
+  inline size_t getIndices2(const size_t &idx0, const size_t &idx1){
+    return (idx1 * HilbertSpace[0] + idx0);
+  };
+  inline size_t getIndices2fromBasis(const size_t &basis0, const size_t &basis1){
+    return (Index[1][basis1] * HilbertSpace[0] + Index[0][basis0]);
+  };
   inline uint64_t getTotalHilbertSpace(){return TotalHilbertSpace;};
   inline uint64_t getEachHilbertSpace(const size_t id){return HilbertSpace[id];};
 

@@ -61,7 +61,6 @@ void FermionBasis::CalculateHilbertSpace()
 void FermionBasis::BuildBasis()
 {
   std::vector<size_t> wbasis;
-  std::vector<size_t> windex;
   for (size_t idx = 0; idx < number_species; idx++) {
     size_t minrange = 0;
     size_t maxrange = 0;
@@ -71,6 +70,7 @@ void FermionBasis::BuildBasis()
     }
     // INFO(minrange << " " << maxrange);
     size_t sub_cnt = 0;
+    std::vector<size_t> windex (maxrange+1, 0);
     for (size_t cnt1 = minrange; cnt1 <= maxrange; cnt1++) {
       int nbit = 0;
       for (size_t cnt2 = 0; cnt2 < lattice_points; cnt2++) {
@@ -81,22 +81,21 @@ void FermionBasis::BuildBasis()
       if (nbit == NSpecies[idx]){
         sub_cnt += 1;
         wbasis.push_back(cnt1);
-        windex.push_back(sub_cnt);
-        // INFO(cnt1 << " " << sub_cnt);
+        windex.at(cnt1) = sub_cnt - 1;//NOTE: I start from 0!
+        // INFO(cnt1 << " " << sub_cnt << " " << windex.at(cnt1));
       }
     }
     Basis.push_back(wbasis);
     Index.push_back(windex);
     wbasis.clear();
-    windex.clear();
   }
 }
 
 void FermionBasis::BuildIndices2()
 {
-  for (size_t cnt1 = 0; cnt1 < Index[1].size(); cnt1++) {
-    for (size_t cnt0 = 0; cnt0 < Index[0].size(); cnt0++) {
-      Indices.push_back( ( Index[1][cnt1] - 1) * HilbertSpace[0] + Index[0][cnt0] );
+  for (size_t cnt1 = 0; cnt1 < Basis[1].size(); cnt1++) {
+    for (size_t cnt0 = 0; cnt0 < Basis[0].size(); cnt0++) {
+      Indices.push_back( getIndices2(Index[1][Basis[1][cnt1]], Index[0][Basis[0][cnt0]]) );
     }
   }
 }
@@ -104,10 +103,10 @@ void FermionBasis::BuildIndices2()
 void FermionBasis::PrintIndices2()
 {
   size_t cnt = 0;
-  for (size_t cnt1 = 0; cnt1 < Index[1].size(); cnt1++) {
-    for (size_t cnt0 = 0; cnt0 < Index[0].size(); cnt0++) {
-      INFO(" Up:" << Basis[0][cnt0] << " " << Index[0][cnt0] <<
-           " Down:" << Basis[1][cnt1] << " " << Index[1][cnt1] <<
+  for (size_t cnt1 = 0; cnt1 < Basis[1].size(); cnt1++) {
+    for (size_t cnt0 = 0; cnt0 < Basis[0].size(); cnt0++) {
+      INFO(" Up:" << Basis[0][cnt0] << " " << Index[0][Basis[0][cnt0]] <<
+           " Down:" << Basis[1][cnt1] << " " << Index[1][Basis[1][cnt1]] <<
            " Index:" << Indices[cnt]);
       cnt += 1;
     }

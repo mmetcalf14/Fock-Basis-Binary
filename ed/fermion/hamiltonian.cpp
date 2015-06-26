@@ -1,6 +1,6 @@
 #include "fermion/hamiltonian.h"
 #include "fermion/bitwise.h"
-#include "fermion/search.h"
+// #include "fermion/search.h"
 
 template<typename Tnum>
 FermiHubbard<Tnum>::FermiHubbard(size_t L, size_t Nup, size_t Ndn,
@@ -50,23 +50,23 @@ void FermiHubbard<Tnum>::Build1DHoppingTerms()
         /* if yes, no particle in i and one particle in j. */
         size_t p = ibset(l,i);
         p = ibclr(p,j);
-        auto val = binary_locate(Basis[0].cbegin(), Basis[0].cend(), p);
-        pid = std::distance(Basis[0].cbegin(), val);
+        // auto val = binary_locate(Basis[0].cbegin(), Basis[0].cend(), p);
+        // pid = std::distance(Basis[0].cbegin(), val);
+        lid = Index[0][l];
+        pid = Index[0][p];
         // INFO(lid << " " << pid);
         for (size_t cnt = 0; cnt < count_dn; cnt++) {
-          rid = cnt * count_up + lid;
-          cid = cnt * count_up + pid;
+          rid = getIndices2(lid, cnt);//cnt * count_up + lid;
+          cid = getIndices2(pid, cnt);//cnt * count_up + pid;
           //NOTE: there is a convention here.
           auto value = -t * pow(-1.0, btest(Basis[1][cnt], i) );
           tripletList.push_back(MatrixElemT(rid, cid, value));
           tripletList.push_back(MatrixElemT(cid, rid, value));
-          INFO(rid << " " << cid << " " << value);
+          INFO(lid << " " << pid << " " << rid << " " << cid << " " << value);
         }
       }
     }
-    lid++;
   }
-  lid = 0;
   for( auto l : Basis[1] ){
     for (size_t i = 0; i < lattice_points; i++) {
       size_t j = i + 1;// hopping between j - i
@@ -75,20 +75,21 @@ void FermiHubbard<Tnum>::Build1DHoppingTerms()
         /* if yes, no particle in i and one particle in j. */
         size_t p = ibset(l,i);
         p = ibclr(p,j);
-        auto val = binary_locate(Basis[1].cbegin(), Basis[1].cend(), p);
-        pid = std::distance(Basis[1].cbegin(), val);
+        // auto val = binary_locate(Basis[1].cbegin(), Basis[1].cend(), p);
+        // pid = std::distance(Basis[1].cbegin(), val);
+        lid = Index[1][l];
+        pid = Index[1][p];
         // INFO(lid << " " << pid);
         for (size_t cnt = 0; cnt < count_dn; cnt++) {
-          rid = lid * count_up + cnt;
-          cid = pid * count_up + cnt;
+          rid = getIndices2(cnt, lid);//lid * count_up + cnt;
+          cid = getIndices2(cnt, pid);//pid * count_up + cnt;
           Tnum value = -t * pow(-1.0, btest(Basis[0][cnt], j) );//NOTE: there is a convention here.
           tripletList.push_back(MatrixElemT(rid, cid, value));
           tripletList.push_back(MatrixElemT(cid, rid, value));
-          INFO(rid << " " << cid << " " << value);
+          INFO(lid << " " << pid << " " << rid << " " << cid << " " << value);
         }
       }
     }
-    lid++;
   }
   H0.setFromTriplets(tripletList.begin(), tripletList.end());
   INFO(H0);
