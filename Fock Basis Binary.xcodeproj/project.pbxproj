@@ -23,6 +23,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		671C05841B3DE7C100D96150 /* ed */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ed; sourceTree = "<group>"; };
 		D3110DFD1B2F65F900363281 /* Fock Basis Binary */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Fock Basis Binary"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3110E001B2F65F900363281 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -41,6 +42,7 @@
 		D3110DF41B2F65F900363281 = {
 			isa = PBXGroup;
 			children = (
+				671C05841B3DE7C100D96150 /* ed */,
 				D3110DFF1B2F65F900363281 /* Fock Basis Binary */,
 				D3110DFE1B2F65F900363281 /* Products */,
 			);
@@ -235,6 +237,7 @@
 				D3110E061B2F65F900363281 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

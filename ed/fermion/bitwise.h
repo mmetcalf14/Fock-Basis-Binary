@@ -9,7 +9,7 @@ inline bool btest(int i, int j)
 
 inline int ibset(int i, int j)
 {
-  /* This is equivalent to c^\dagger */
+  /* This is equivalent to c^\dagger_j */
   int number = i;
   number |= 1 << j;
   return number;
@@ -17,7 +17,7 @@ inline int ibset(int i, int j)
 
 inline int ibclr(int i, int j)
 {
-  /* This is equivalent to c */
+  /* This is equivalent to c_j */
   int number = i;
   number &= ~(1 << j);
   return number;
