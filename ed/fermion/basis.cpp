@@ -1,5 +1,6 @@
-#include <cmath>
-#include <cassert>
+#include <iomanip>//fixed, setw
+#include <cmath>//pow
+#include <cassert>//assert
 #include "EDType.h"
 #include "fermion/basis.h"
 #include "fermion/bitwise.h"
@@ -85,29 +86,39 @@ void FermionBasis::BuildBasis()
         // INFO(cnt1 << " " << sub_cnt << " " << windex.at(cnt1));
       }
     }
+    assert( wbasis.size() == HilbertSpace.at(idx) );
     Basis.push_back(wbasis);
     Index.push_back(windex);
     wbasis.clear();
+  }
+  /*NOTE: check basis consistancy */
+  size_t nBasis = 1;
+  for (size_t cnt = 0; cnt < number_species; cnt++) {
+    nBasis *= Basis[cnt].size();
+  }
+  if ( nBasis != TotalHilbertSpace ) {
+    RUNTIME_ERROR("Hilbert space is not consistence.");
   }
 }
 
 void FermionBasis::BuildIndices2()
 {
-  for (size_t cnt1 = 0; cnt1 < Basis[1].size(); cnt1++) {
-    for (size_t cnt0 = 0; cnt0 < Basis[0].size(); cnt0++) {
-      Indices.push_back( getIndices2(Index[1][Basis[1][cnt1]], Index[0][Basis[0][cnt0]]) );
+  for ( auto &b1 : Basis[1] ){
+    for ( auto &b0 : Basis[0] ){
+      Indices.push_back( getIndices2fromBasis( b0, b1 ) );
     }
   }
 }
 
-void FermionBasis::PrintIndices2()
+void FermionBasis::PrintIndices2()const
 {
   size_t cnt = 0;
-  for (size_t cnt1 = 0; cnt1 < Basis[1].size(); cnt1++) {
-    for (size_t cnt0 = 0; cnt0 < Basis[0].size(); cnt0++) {
-      INFO(" Up:" << Basis[0][cnt0] << " " << Index[0][Basis[0][cnt0]] <<
-           " Down:" << Basis[1][cnt1] << " " << Index[1][Basis[1][cnt1]] <<
-           " Index:" << Indices[cnt]);
+  for ( auto &b1 : Basis[1] ){
+    for ( auto &b0 : Basis[0] ){
+      INFO(std::fixed << std::setw(8) <<
+        "   Up: " << std::setw(4) << b0 << " " << std::setw(4) << Index[0][b0] << std::setw(8) <<
+        " Down: " << std::setw(4) << b1 << " " << std::setw(4) << Index[1][b1] << std::setw(8) <<
+        "Index: " << std::setw(6) << Indices[cnt]);
       cnt += 1;
     }
   }

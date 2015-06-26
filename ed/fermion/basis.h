@@ -1,15 +1,16 @@
 #ifndef __BASIS_HPP__
 #define __BASIS_HPP__
-#include <iostream>
 #include <vector>
 
 class FermionBasis {
-protected:
+private:
   size_t lattice_points;
   size_t number_species;
+  uint64_t TotalHilbertSpace;
   std::vector<size_t> NSpecies;
   std::vector<uint64_t> HilbertSpace;
-  uint64_t TotalHilbertSpace;
+
+protected:
   std::vector< std::vector<size_t> > Basis;
   std::vector< std::vector<size_t> > Index;
   std::vector<size_t> Indices;
@@ -20,15 +21,16 @@ public:
   void CalculateHilbertSpace();
   void BuildBasis();
   void BuildIndices2();
-  void PrintIndices2();
-  inline size_t getIndices2(const size_t &idx0, const size_t &idx1){
+  void PrintIndices2()const;
+  inline size_t getL()const{return lattice_points;};
+  inline size_t getNSpecies()const{return number_species;};
+  inline uint64_t getTotalHilbertSpace()const{return TotalHilbertSpace;};
+  inline uint64_t getEachHilbertSpace(const size_t id)const{return HilbertSpace[id];};
+  inline size_t getIndices2(const size_t &idx0, const size_t &idx1)const{
     return (idx1 * HilbertSpace[0] + idx0);
   };
-  inline size_t getIndices2fromBasis(const size_t &basis0, const size_t &basis1){
+  inline size_t getIndices2fromBasis(const size_t &basis0, const size_t &basis1)const{
     return (Index[1][basis1] * HilbertSpace[0] + Index[0][basis0]);
   };
-  inline uint64_t getTotalHilbertSpace(){return TotalHilbertSpace;};
-  inline uint64_t getEachHilbertSpace(const size_t id){return HilbertSpace[id];};
-
 };
 #endif// __BASIS_HPP__

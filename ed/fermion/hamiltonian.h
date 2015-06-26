@@ -1,5 +1,5 @@
-#ifndef __HAMILTONIAN_HPP__
-#define __HAMILTONIAN_HPP__
+#ifndef __HAMILTONIAN_H__
+#define __HAMILTONIAN_H__
 #include <vector>
 #include "EDType.h"
 #include "fermion/basis.h"
@@ -31,4 +31,4 @@ private:
 
 };
 
-#endif// __HAMILTONIAN_HPP__
+#endif// __HAMILTONIAN_H__

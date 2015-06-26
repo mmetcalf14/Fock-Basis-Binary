@@ -3,8 +3,11 @@
 
 int main (int argc, char const *argv[])
 {
-    FermiHubbard<RealType> FHM(3, 2, 1);
-    // FermiHubbard<ComplexType> FHM(3, 2, 1);
+  size_t L = 4;
+  size_t Nup = 3;
+  size_t Ndn = 2;
+  FermiHubbard<RealType> FHM(L, Nup, Ndn);
+  // FermiHubbard<ComplexType> FHM(L, Nup, Ndn);
 
     return 0;
 }
