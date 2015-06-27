@@ -20,10 +20,10 @@ else ifeq ("$(OS)", "Linux")
 	HDF5LIB = -L$(HDF5DIR)/lib -lhdf5 -lhdf5_cpp
 endif
 
-SRC = fbasis.o fhamiltonian.o
+SRC = fbasis.o fhamiltonian.o lanczos.o
 
-fed.app:fmain.o fbasis.o fhamiltonian.o
-	$(CC) -o $@ $< ${SRC}
+fed.app:fmain.o fbasis.o fhamiltonian.o lanczos.o
+	$(CC) -o $@ $< ${SRC}  $(LAPACK)
 
 fmain.o: fermion/main.cpp
 	$(CC) -c -o $@ $<
@@ -46,6 +46,8 @@ search.app: fermion/search.cpp
 search.o: fermion/search.cpp
 	$(CC) -c -o $@ $<
 
+lanczos.o: lanczos/lanczos.cpp
+	$(CC) -c -o $@ $<
 
 .PHONY:
 	clean

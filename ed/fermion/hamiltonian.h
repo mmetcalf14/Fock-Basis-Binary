@@ -19,6 +19,7 @@ public:
   void Build1DHoppingTerms();
   void BuildOneBodyTerms();
   void BuildTwoBodyTerms();
+  void eigh();
 
 private:
   Tnum t = 1.0;
