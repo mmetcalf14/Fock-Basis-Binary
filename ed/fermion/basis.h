@@ -1,5 +1,5 @@
-#ifndef __BASIS_HPP__
-#define __BASIS_HPP__
+#ifndef __BASIS_H__
+#define __BASIS_H__
 #include <vector>
 
 class FermionBasis {
@@ -33,4 +33,4 @@ public:
     return (Index[1][basis1] * HilbertSpace[0] + Index[0][basis0]);
   };
 };
-#endif// __BASIS_HPP__
+#endif// __BASIS_H__
