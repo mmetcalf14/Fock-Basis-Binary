@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>314309F4-0681-4380-8BC7-E6B42CC19E96</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Fock Basis Binary</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0D934DD1D20BCA4A1FFF51E31E53CD8004415088</key>
+		<string>https://github.com/mmetcalf14/Fock-Basis-Binary.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Fock Basis Binary.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0D934DD1D20BCA4A1FFF51E31E53CD8004415088</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/mmetcalf14/Fock-Basis-Binary.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0D934DD1D20BCA4A1FFF51E31E53CD8004415088</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0D934DD1D20BCA4A1FFF51E31E53CD8004415088</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Fock%20Basis%20Binary</string>
+		</dict>
+	</array>
+</dict>
+</plist>

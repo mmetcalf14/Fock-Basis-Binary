@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		D3110DFD1B2F65F900363281 /* Fock Basis Binary */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Fock Basis Binary"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3110E001B2F65F900363281 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D3E722F51B41A37900D99F48 /* Hamiltonian_Template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hamiltonian_Template.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				D3110E001B2F65F900363281 /* main.cpp */,
+				D3E722F51B41A37900D99F48 /* Hamiltonian_Template.h */,
 			);
 			path = "Fock Basis Binary";
 			sourceTree = "<group>";
@@ -235,6 +237,7 @@
 				D3110E061B2F65F900363281 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
