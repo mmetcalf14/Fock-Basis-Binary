@@ -18,8 +18,9 @@ public:
   virtual ~FermiHubbard ();
   void Build1DHoppingTerms();
   void BuildOneBodyTerms();
-  void BuildTwoBodyTerms();
-  void eigh();
+  void BuildTwoBodyTerms( const Tnum U );
+  void ConstructTotalHamiltonian();
+  void eigh()const;
 
 private:
   Tnum t = 1.0;
@@ -27,7 +28,8 @@ private:
   std::vector<Tnum> tList;
   std::vector<MatrixElemT> tripletList;
   SparseMatrixType H0;
-  SparseMatrixType HI;
+  SparseMatrixType HOne;
+  SparseMatrixType HTwo;
   SparseMatrixType Htot;
 
 };

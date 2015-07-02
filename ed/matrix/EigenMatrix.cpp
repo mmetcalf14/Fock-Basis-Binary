@@ -12,6 +12,7 @@ int main(int argc, char const *argv[]) {
   for (size_t cnt = 0; cnt < 9; cnt++) {
     tripletList.push_back(RealTriplet(cnt, cnt+1, -1.0));
     tripletList.push_back(RealTriplet(cnt+1, cnt, -1.0));
+    // tripletList.push_back(RealTriplet(cnt+1, cnt, -2.0));
   }
   RealSparseMatrixType mat(rows,cols);
   mat.setFromTriplets(tripletList.begin(), tripletList.end());

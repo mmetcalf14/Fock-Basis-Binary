@@ -3,7 +3,7 @@
 // #include "fermion/search.h"
 
 #ifndef DEBUG
-#define DEBUG 3
+#define DEBUG 6
 #endif
 
 template<typename Tnum>
@@ -14,13 +14,13 @@ FermionBasis( L, Nup, Ndn )
   dim = getTotalHilbertSpace();
   // INFO(dim);
   H0.resize(dim, dim);
-  H0.reserve(3*dim);
-  HI.resize(dim, dim);
-  HI.reserve(3*dim);
+  H0.reserve(2*dim);
+  HOne.resize(dim, dim);
+  HOne.reserve(dim);
+  HTwo.resize(dim, dim);
+  HTwo.reserve(dim);
   Htot.resize(dim, dim);
   Htot.reserve(3*dim);
-  // INFO(Hamiltonian.outerSize());
-  tripletList.clear();
 
   tList.push_back(t_up);
   tList.push_back(t_dn);
@@ -34,13 +34,15 @@ FermiHubbard<Tnum>::~FermiHubbard()
   INFO("FermiHubbard Destructor called.");
   tripletList.clear();
   H0.setZero();
-  HI.setZero();
+  HOne.setZero();
+  HTwo.setZero();
   Htot.setZero();
 }
 
 template<typename Tnum>
 void FermiHubbard<Tnum>::Build1DHoppingTerms()
 {
+  tripletList.clear();
   size_t rid, cid;
   uint64_t count_up = getEachHilbertSpace(0);
   uint64_t count_dn = getEachHilbertSpace(1);
@@ -63,7 +65,7 @@ void FermiHubbard<Tnum>::Build1DHoppingTerms()
           rid = getIndices2(lid, cnt);//cnt * count_up + lid;
           cid = getIndices2(pid, cnt);//cnt * count_up + pid;
           //NOTE: there is a convention here.
-          auto value = -t * pow(-1.0, btest(Basis[1][cnt], i) );
+          Tnum value = -t;
           tripletList.push_back(MatrixElemT(rid, cid, value));
           tripletList.push_back(MatrixElemT(cid, rid, value));
           if( DEBUG > 4) INFO(lid << " " << pid << " " << rid << " " << cid << " " << value);
@@ -87,7 +89,7 @@ void FermiHubbard<Tnum>::Build1DHoppingTerms()
         for (size_t cnt = 0; cnt < count_up; cnt++) {
           rid = getIndices2(cnt, lid);//lid * count_up + cnt;
           cid = getIndices2(cnt, pid);//pid * count_up + cnt;
-          Tnum value = -t * pow(-1.0, btest(Basis[0][cnt], j) );//NOTE: there is a convention here.
+          Tnum value = -t;
           tripletList.push_back(MatrixElemT(rid, cid, value));
           tripletList.push_back(MatrixElemT(cid, rid, value));
           if( DEBUG > 4) INFO(lid << " " << pid << " " << rid << " " << cid << " " << value);
@@ -104,7 +106,114 @@ template<typename Tnum>
 void FermiHubbard<Tnum>::BuildOneBodyTerms(){}
 
 template<typename Tnum>
-void FermiHubbard<Tnum>::BuildTwoBodyTerms(){}
+void FermiHubbard<Tnum>::BuildTwoBodyTerms( const Tnum U )
+{
+  tripletList.clear();
+  std::vector< std::vector<size_t> > IndexUup;
+  std::vector< std::vector<size_t> > IndexUdn;
+  size_t point_up, point_dn;
+  Tnum g;
+  for (size_t i = 0; i < getL(); i++) {
+    std::vector<size_t> work;
+    point_up = 0;
+    for (size_t cnt_up = 0; cnt_up < getEachHilbertSpace(0); cnt_up++) {
+      if ( getTotalN() <= getL() ) {
+        if ( btest(Basis.at(0).at(cnt_up), i) ) {
+          point_up++;
+          work.push_back(cnt_up);
+        }
+      }
+      else{
+        if ( !(btest(Basis.at(0).at(cnt_up), i)) ) {
+          point_up++;
+          work.push_back(cnt_up);
+        }
+      }
+    }
+    IndexUup.push_back(work);
+    work.clear();
+  }
+  if ( getN(0) == getN(1) ) {
+    point_dn = point_up;
+    IndexUdn = IndexUup;
+  }
+  else{
+    for (size_t i = 0; i < getL(); i++) {
+      std::vector<size_t> work;
+      point_dn = 0;
+      for (size_t cnt_dn = 0; cnt_dn < getEachHilbertSpace(1); cnt_dn++) {
+        if ( getTotalN() <= getL() ) {
+          if ( btest(Basis.at(1).at(cnt_dn), i) ) {
+            point_dn++;
+            work.push_back(cnt_dn);
+          }
+        }
+        else{
+          if ( !(btest(Basis.at(1).at(cnt_dn), i)) ) {
+            point_dn++;
+            work.push_back(cnt_dn);
+          }
+        }
+      }
+      IndexUdn.push_back(work);
+      work.clear();
+    }
+  }
+  // INFO("point " << point_up << " " << point_dn);
+  if ( getTotalN() > getL() ) {
+    g = U * (Tnum)( getTotalN() - getL() );
+    for (size_t cnt = 0; cnt < getTotalHilbertSpace(); cnt++) {
+      tripletList.push_back(MatrixElemT(cnt, cnt, g));
+      if (DEBUG > 5) INFO("1 " << cnt << " " << cnt << " " << g);
+    }
+  }
+  if ( getN(0) == getN(1) ) {
+    if ( getTotalN() <= getL() ) {
+      g = U * (Tnum)getN(0);
+    }
+    else{
+      g = U * (Tnum)( getL() - getN(0) );
+    }
+    for (size_t cnt_up = 0; cnt_up < getEachHilbertSpace(0); cnt_up++) {
+      size_t id = getIndices2(cnt_up, cnt_up);
+      tripletList.push_back(MatrixElemT(id, id, g));
+      if (DEBUG > 5) INFO("2 " << id << " " << id << " " << g);
+    }
+  }
+  for (size_t i = 0; i < getL(); i++) {
+    for (size_t up = 0; up < point_up; up++) {
+      for (size_t dn = 0; dn < point_dn; dn++) {
+        if ( getN(0) == getN(1) ) {
+          if ( up != dn ) {
+            size_t id = getIndices2(IndexUup.at(i).at(up), IndexUdn.at(i).at(dn) );
+            tripletList.push_back(MatrixElemT(id, id, U));
+            if (DEBUG > 5) INFO("3 " << id << " " << id << " " << U);
+          }
+        }
+        else {
+          size_t id = getIndices2(IndexUup.at(i).at(up), IndexUdn.at(i).at(dn) );
+          tripletList.push_back(MatrixElemT(id, id, U));
+          if (DEBUG > 5){
+            INFO(i << " " << IndexUup.at(i).at(up) << " " << IndexUdn.at(i).at(dn));
+            INFO("4 " << id << " " << id << " " << U);
+          }
+        }
+      }
+    }
+  }
+  INFO("Build HTwo - ");
+  HTwo.setFromTriplets(tripletList.begin(), tripletList.end());
+  if( DEBUG > 5) INFO(HTwo);
+}
+
+template<typename Tnum>
+void FermiHubbard<Tnum>::ConstructTotalHamiltonian()
+{
+  Htot = H0 + HOne + HTwo;
+}
+
+template<typename Tnum>
+void FermiHubbard<Tnum>::eigh()const{}
 
 template class FermiHubbard<RealType>;
 template class FermiHubbard<ComplexType>;
