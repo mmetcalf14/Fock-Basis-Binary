@@ -5,10 +5,10 @@
 #include "fermion/basis.h"
 #include "fermion/bitwise.h"
 
-uint64_t choose( int n, int k);
-int gcd(int n,int m){return m==0?n:gcd(m,n%m);}
+uint64_t choose( uint64_t n, uint64_t k);
+uint64_t gcd(uint64_t n,uint64_t m){return m==0?n:gcd(m,n%m);}
 
-uint64_t choose( int n, int k)
+uint64_t choose( uint64_t n, uint64_t k)
 {
   uint64_t result = 1;
   for (uint64_t d = 1; d <= k; d++)
@@ -116,9 +116,9 @@ void FermionBasis::PrintIndices2()const
   for ( auto &b1 : Basis[1] ){
     for ( auto &b0 : Basis[0] ){
       INFO(std::fixed << std::setw(8) <<
-        "   Up: " << std::setw(4) << b0 << " " << std::setw(4) << Index[0][b0] << std::setw(8) <<
-        " Down: " << std::setw(4) << b1 << " " << std::setw(4) << Index[1][b1] << std::setw(8) <<
-        "Index: " << std::setw(6) << Indices[cnt]);
+        "   Up: " << std::setw(5) << b0 << " " << std::setw(5) << Index[0][b0] << std::setw(8) <<
+        " Down: " << std::setw(5) << b1 << " " << std::setw(5) << Index[1][b1] << std::setw(8) <<
+        "Index: " << std::setw(10) << Indices[cnt]);
       cnt += 1;
     }
   }

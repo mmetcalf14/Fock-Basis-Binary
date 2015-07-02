@@ -25,7 +25,7 @@ int main(int argc, char const *argv[]) {
     }
   }
 
-  RealMatrixType dense = RealMatrixType(mat);
+  // RealMatrixType dense = RealMatrixType(mat);
   INFO(mat);
   return 0;
 }

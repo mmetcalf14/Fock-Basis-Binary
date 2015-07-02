@@ -1,9 +1,10 @@
 #include "fermion/hamiltonian.h"
 #include "fermion/bitwise.h"
 // #include "fermion/search.h"
+#include "lanczos/lanczos.h"
 
 #ifndef DEBUG
-#define DEBUG 6
+#define DEBUG 3
 #endif
 
 template<typename Tnum>
@@ -211,10 +212,25 @@ template<typename Tnum>
 void FermiHubbard<Tnum>::ConstructTotalHamiltonian()
 {
   Htot = H0 + HOne + HTwo;
+  if (DEBUG > 5) {
+    INFO(Htot);
+  }
 }
 
 template<typename Tnum>
-void FermiHubbard<Tnum>::eigh()const{}
+void FermiHubbard<Tnum>::eigh()const
+{
+  VectorType Vec = RealVectorType::Random( getTotalHilbertSpace() );
+  RealType Val = 0.0e0;
+  size_t max_iter = 200;
+  double err_tol = 1.0E-7;
+  if ( LanczosEV( getTotalHilbertSpace(), Htot, Vec, Val, max_iter, err_tol) ){
+    INFO("Eigenvalue = " << Val);
+  }
+  else{
+    INFO("Lanczos is not converged!");
+  }
+}
 
 template class FermiHubbard<RealType>;
 template class FermiHubbard<ComplexType>;

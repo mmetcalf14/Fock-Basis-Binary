@@ -8,6 +8,7 @@
 template<typename Tnum>
 class FermiHubbard: public FermionBasis{
 public:
+  typedef Eigen::Matrix<Tnum, Eigen::Dynamic, 1, Eigen::AutoAlign> VectorType;
   typedef Eigen::Matrix<Tnum, Eigen::Dynamic, Eigen::Dynamic, Eigen::AutoAlign|Eigen::RowMajor> MatrixType;
   typedef Eigen::SparseMatrix<Tnum, Eigen::AutoAlign|Eigen::RowMajor> SparseMatrixType;
   typedef Eigen::Triplet<Tnum> MatrixElemT;
@@ -31,7 +32,6 @@ private:
   SparseMatrixType HOne;
   SparseMatrixType HTwo;
   SparseMatrixType Htot;
-
 };
 
 #endif// __HAMILTONIAN_H__
