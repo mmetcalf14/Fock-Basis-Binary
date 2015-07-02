@@ -195,6 +195,7 @@ void FermiHubbard<Tnum>::BuildTwoBodyTerms( const Tnum U )
           tripletList.push_back(MatrixElemT(id, id, U));
           if (DEBUG > 5){
             INFO(i << " " << IndexUup.at(i).at(up) << " " << IndexUdn.at(i).at(dn));
+            INFO(Basis[0].at(IndexUup.at(i).at(up)) << " " << Basis[1].at(IndexUdn.at(i).at(dn)));
             INFO("4 " << id << " " << id << " " << U);
           }
         }
