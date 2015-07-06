@@ -5,6 +5,7 @@
 #include "fermion/basis.h"
 #include "fermion/bitwise.h"
 
+<<<<<<< HEAD
 #ifndef DEBUG
 #define DEBUG 3
 #endif
