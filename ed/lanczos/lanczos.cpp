@@ -13,13 +13,13 @@
 
 bool LanczosEV(const size_t N, const ComplexSparseMatrixType A,
   ComplexVectorType &Vec, RealType &Val,
-  size_t max_iter, double err_tol)
+  size_t &max_iter, double err_tol)
 {
   RUNTIME_ERROR("Lanczos on complex<double> is not supported yet!");
 }
 
 bool LanczosEV(const size_t N, const RealSparseMatrixType A,
-  RealVectorType &Vec, RealType &Val, size_t max_iter, double err_tol)
+  RealVectorType &Vec, RealType &Val, size_t &max_iter, double err_tol)
 {
   const int min_iter = 2;
   const RealType beta_err = 1E-14;

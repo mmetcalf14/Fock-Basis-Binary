@@ -8,7 +8,7 @@ int main (int argc, char const *argv[])
   size_t Ndn = 6;
   FermiHubbard<RealType> FHM(L, Nup, Ndn);
   // FermiHubbard<ComplexType> FHM(L, Nup, Ndn);
-  RealType U = 1.0;
+  RealType U = 0.0;
   FHM.BuildTwoBodyTerms(U);
   FHM.ConstructTotalHamiltonian();
   FHM.eigh();

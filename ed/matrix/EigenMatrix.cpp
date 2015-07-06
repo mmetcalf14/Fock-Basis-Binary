@@ -6,10 +6,10 @@
 /*NOTE: This is an example to initialize sparse matrix.*/
 
 int main(int argc, char const *argv[]) {
-  size_t rows = 10, cols = 10;
+  size_t rows = 24, cols = 24;
   std::vector<RealTriplet> tripletList;
   tripletList.reserve(20);
-  for (size_t cnt = 0; cnt < 9; cnt++) {
+  for (size_t cnt = 0; cnt < rows-1; cnt++) {
     tripletList.push_back(RealTriplet(cnt, cnt+1, -1.0));
     tripletList.push_back(RealTriplet(cnt+1, cnt, -1.0));
     // tripletList.push_back(RealTriplet(cnt+1, cnt, -2.0));
@@ -25,7 +25,9 @@ int main(int argc, char const *argv[]) {
     }
   }
 
-  // RealMatrixType dense = RealMatrixType(mat);
-  INFO(mat);
+  RealMatrixType dense = RealMatrixType(mat);
+  INFO(dense);
+  Eigen::SelfAdjointEigenSolver<RealMatrixType> es(dense);
+  INFO( es.eigenvalues() );
   return 0;
 }

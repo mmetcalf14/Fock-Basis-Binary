@@ -5,6 +5,10 @@
 #include "fermion/basis.h"
 #include "fermion/bitwise.h"
 
+#ifndef DEBUG
+#define DEBUG 3
+#endif
+
 uint64_t choose( uint64_t n, uint64_t k);
 uint64_t gcd(uint64_t n,uint64_t m){return m==0?n:gcd(m,n%m);}
 
@@ -37,7 +41,7 @@ FermionBasis::FermionBasis(size_t L, size_t Nup, size_t Ndn)
     CalculateHilbertSpace();
     BuildBasis();
     BuildIndices2();
-    PrintIndices2();
+    if ( DEBUG > 5 ) PrintIndices2();
 }
 
 FermionBasis::~FermionBasis()

@@ -22,6 +22,7 @@ public:
   void BuildTwoBodyTerms( const Tnum U );
   void ConstructTotalHamiltonian();
   void eigh()const;
+  void LanczosExpH(const size_t Order)const;
 
 private:
   Tnum t = 1.0;

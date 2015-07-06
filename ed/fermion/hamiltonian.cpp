@@ -225,12 +225,16 @@ void FermiHubbard<Tnum>::eigh()const
   size_t max_iter = 200;
   double err_tol = 1.0E-7;
   if ( LanczosEV( getTotalHilbertSpace(), Htot, Vec, Val, max_iter, err_tol) ){
-    INFO("Eigenvalue = " << Val);
+    INFO("Eigenvalue = " << Val << " takes " << max_iter << " iterations.");
   }
   else{
     INFO("Lanczos is not converged!");
   }
 }
+
+template<typename Tnum>
+void FermiHubbard<Tnum>::LanczosExpH(const size_t Order)const
+{}
 
 template class FermiHubbard<RealType>;
 template class FermiHubbard<ComplexType>;
