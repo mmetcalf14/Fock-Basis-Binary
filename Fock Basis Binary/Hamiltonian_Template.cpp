@@ -137,27 +137,7 @@ void Hamiltonian::Matrix_Build()
 }
 
 
-//Binary Function algorithm
-size_t MY_bittest(size_t m, size_t n)// m -> basis integer, n -> site
-{
-    size_t Eval = 0;
-    Eval = (m & (1 << n));
-    return Eval;
-}
 
-size_t MY_bitclr(size_t m,  size_t n) // set nth bit to zero
-{
-    size_t Clr_bit = 0;
-    Clr_bit = m & ~(1 << n);
-    return Clr_bit;
-}
-
-size_t MY_bitset(size_t m,  size_t n)
-{
-    size_t New_State = 0;
-    New_State = m | (1 << n);
-    return New_State;
-}
 
 
 

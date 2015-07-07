@@ -39,6 +39,7 @@ int main(int argc, const char * argv[])
     ham.Set_tbar(tbar);
     ham.Set_Mat_Dim();
     ham.BuildHopHam_up();
+    ham.Matrix_Build();
     
     
 
