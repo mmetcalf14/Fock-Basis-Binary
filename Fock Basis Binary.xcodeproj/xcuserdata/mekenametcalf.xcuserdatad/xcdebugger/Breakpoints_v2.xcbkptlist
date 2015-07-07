@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fock Basis Binary/main.cpp"
-            timestampString = "457477507.682939"
+            timestampString = "457985281.867968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "main(int argc, const char * argv[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fock Basis Binary/Hamiltonian_Template.cpp"
-            timestampString = "457477976.994597"
+            timestampString = "457985281.867968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "Hamiltonian::BuildHopHam_up()"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fock Basis Binary/Hamiltonian_Template.cpp"
-            timestampString = "457481153.278065"
+            timestampString = "457985281.867968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "Hamiltonian::Set_Mat_Dim()"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fock Basis Binary/Hamiltonian_Template.cpp"
-            timestampString = "457481342.264331"
+            timestampString = "457985281.867968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "Hamiltonian::Set_Mat_Dim()"
             landmarkType = "5">
          </BreakpointContent>
@@ -70,23 +70,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Fock Basis Binary/Hamiltonian_Template.cpp"
-            timestampString = "457482156.840537"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
-            landmarkName = "Hamiltonian::Set_tbar(int _tbar)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fock Basis Binary/Hamiltonian_Template.cpp"
@@ -94,15 +78,13 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "13"
-            endingLineNumber = "13"
-            landmarkName = "Hamiltonian::Set_tbar(int _tbar)"
-            landmarkType = "5">
+            endingLineNumber = "13">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fock Basis Binary/Hamiltonian_Template.cpp"
@@ -113,12 +95,44 @@
             endingLineNumber = "14"
             landmarkName = "Basis::Basis(size_t _L, size_t _Nup, size_t _Ndn)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Basis::Basis(unsigned long, unsigned long, unsigned long)"
+                  moduleName = "Fock Basis Binary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mekenametcalf/Dropbox/Topological%20Insulators/Codes/Fock%20Basis%20Binary/Fock%20Basis%20Binary/Hamiltonian_Template.cpp"
+                  timestampString = "457985288.702488"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "46">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Basis::Basis(unsigned long, unsigned long, unsigned long)"
+                  moduleName = "Fock Basis Binary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mekenametcalf/Dropbox/Topological%20Insulators/Codes/Fock%20Basis%20Binary/Fock%20Basis%20Binary/Hamiltonian_Template.cpp"
+                  timestampString = "457985288.7027"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fock Basis Binary/Hamiltonian_Template.cpp"
@@ -129,6 +143,38 @@
             endingLineNumber = "15"
             landmarkName = "Basis::Basis(size_t _L, size_t _Nup, size_t _Ndn)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Basis::Basis(unsigned long, unsigned long, unsigned long)"
+                  moduleName = "Fock Basis Binary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mekenametcalf/Dropbox/Topological%20Insulators/Codes/Fock%20Basis%20Binary/Fock%20Basis%20Binary/Hamiltonian_Template.cpp"
+                  timestampString = "457985288.703208"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "46">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Basis::Basis(unsigned long, unsigned long, unsigned long)"
+                  moduleName = "Fock Basis Binary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mekenametcalf/Dropbox/Topological%20Insulators/Codes/Fock%20Basis%20Binary/Fock%20Basis%20Binary/Hamiltonian_Template.cpp"
+                  timestampString = "457985288.703749"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -138,11 +184,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Fock Basis Binary/main.cpp"
-            timestampString = "457547771.700144"
+            timestampString = "457985281.867968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "main(int argc, const char * argv[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -161,6 +207,22 @@
             endingLineNumber = "125"
             landmarkName = "Hamiltonian::Set_Mat_Dim()"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Fock Basis Binary/Hamiltonian_Template.cpp"
+            timestampString = "457985224.947694"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "MY_bittest(size_t m, size_t n)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

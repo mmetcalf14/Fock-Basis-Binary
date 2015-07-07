@@ -9,8 +9,8 @@
 #include <stdio.h>
 #include "Hamiltonian_Template.h"
 
-void Hamiltonian::Set_tbar(int _tbar)
-{ tbar = _tbar;}
+//void Hamiltonian::Set_tbar(int _tbar)
+//{ tbar = _tbar;}
 
 Basis::Basis(size_t _L, size_t _Nup, size_t _Ndn)
 //:L(_L), Nup(_Nup), Ndn(_Ndn)
@@ -40,9 +40,9 @@ void Basis::BuildBasis()
     for (size_t i = minrange_up; i <= maxrange_up; i++) //create spin up basis and vectors
     {
         int nbit = 0;
-        for(int j = 0; j < L; j++)
-        {
-            if (testbit(i,j))
+        for(size_t j = 0; j < L; j++)
+        {std::cout << "When does it break? \n";
+            if (MY_bittest(i,j))
             {
                 nbit++;
             }
@@ -62,9 +62,9 @@ void Basis::BuildBasis()
     for (size_t i = minrange_down; i <= maxrange_down; i++) //create spin down basis and index
     {
         int nbit = 0;
-        for(int j = 0; j < L; j++)
+        for(size_t j = 0; j < L; j++)
         {
-            if (testbit(i,j))
+            if (MY_bittest(i,j))
             {
                 nbit++;
             }
@@ -90,9 +90,9 @@ void Hamiltonian::BuildHopHam_up()
             size_t p_bas = basis_up[bs];
             size_t p_ind = index_up[p_bas];
             //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
-            for(int i = 0; i < (L-1); i++)
+            for(size_t i = 0; i < (L-1); i++)
             {
-                size_t l_bas = ibtset(bitclr(p_bas,i),i+1);
+                size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
                 size_t l_ind = index_up[l_bas];
     
                 if(l_bas != p_bas && l_ind != 0)
@@ -101,11 +101,11 @@ void Hamiltonian::BuildHopHam_up()
     
                 if(count_dn > 0 )
                 {
-                    for(int k = 1; k <= count_dn; k++)
+                    for(size_t k = 1; k <= count_dn; k++)
                     {
                         size_t r = ((k-1)*count_up) + p_ind;
                         size_t s = ((k-1)*count_up) + l_ind;
-                        size_t val = -tbar * pow(-1,testbit(k,i));
+                        size_t val = -tbar ;//* pow(-1,testbit(k,i));
                         TL_up.push_back(Tp((r-1),(s-1),val));
     
                     }
@@ -137,6 +137,27 @@ void Hamiltonian::Matrix_Build()
 }
 
 
+//Binary Function algorithm
+size_t MY_bittest(size_t m, size_t n)// m -> basis integer, n -> site
+{
+    size_t Eval = 0;
+    Eval = (m & (1 << n));
+    return Eval;
+}
+
+size_t MY_bitclr(size_t m,  size_t n) // set nth bit to zero
+{
+    size_t Clr_bit = 0;
+    Clr_bit = m & ~(1 << n);
+    return Clr_bit;
+}
+
+size_t MY_bitset(size_t m,  size_t n)
+{
+    size_t New_State = 0;
+    New_State = m | (1 << n);
+    return New_State;
+}
 
 
 
