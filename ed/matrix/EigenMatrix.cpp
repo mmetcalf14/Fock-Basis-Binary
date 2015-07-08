@@ -6,7 +6,7 @@
 /*NOTE: This is an example to initialize sparse matrix.*/
 
 int main(int argc, char const *argv[]) {
-  size_t rows = 24, cols = 24;
+  size_t rows = 700, cols = 700;
   std::vector<RealTriplet> tripletList;
   tripletList.reserve(20);
   for (size_t cnt = 0; cnt < rows-1; cnt++) {
