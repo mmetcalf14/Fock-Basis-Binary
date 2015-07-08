@@ -55,7 +55,9 @@ private:
     SpMat HopHam_down;
 public:
     Hamiltonian( size_t _L, size_t _Nup, size_t _Ndn ):Basis(_L, _Nup, _Ndn){};
-    void Set_tbar(int _tbar);
+    
+    //Hamiltonian Functions
+    inline void Set_tbar(int _tbar){ tbar = _tbar;};
     void Set_Mat_Dim();
     void BuildHopHam_up();
     void BuildHopHam_dn();
@@ -65,25 +67,28 @@ public:
 };
 
 
-//Bitewise functions used on Fock states
-size_t testbit(size_t m, int n)// m -> basis integer, n -> site
+//Bitewise functions definitions used on Fock states
+//Binary Function algorithm
+inline size_t MY_bittest(size_t m, size_t n)// m -> basis integer, n -> site
 {
-    size_t Eval;
+    size_t Eval; //if Eval is size_t I get a totally wrong number compared to int
+    //seg fault occurring regardless of whether return value is correct or incorrect
     Eval = (m & (1 << n));
     return Eval;
 }
 
-size_t bitclr(size_t m,  int n) // set nth bit to zero
+inline size_t MY_bitclr(size_t m,  size_t n) // set nth bit to zero
 {
     size_t Clr_bit;
     Clr_bit = m & ~(1 << n);
     return Clr_bit;
 }
 
-size_t ibtset(size_t m,  int n)
+inline size_t MY_bitset(size_t m,  size_t n)
 {
     size_t New_State;
     New_State = m | (1 << n);
     return New_State;
 }
+
 #endif

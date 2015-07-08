@@ -22,20 +22,33 @@ int main(int argc, const char * argv[])
 {
     using namespace std;
     using namespace Eigen;
+    
+    
+
     int Nup = 2;
     int Ndown = 1;
     int Nsite = 3;
     double tbar = 1.0;
-
-
-
+    
+    
+    
     //Build basis and pass to Hamiltonian class through inheritance
     Hamiltonian ham(Nsite, Nup, Ndown);
-
+    
     //set tbar
     ham.Set_tbar(tbar);
     ham.Set_Mat_Dim();
     ham.BuildHopHam_up();
+    ham.Matrix_Build();
+    
+    
+
+    
 
     return 0;
 }
+
+
+
+
+
