@@ -30,13 +30,13 @@ void Hamiltonian::Set_Const(double _tbar, double _U)
 void Basis::BuildBasis()
 {
 //    std::cout << L << " " << Nup << " " << Ndn << std::endl;
-    size_t minrange_up, maxrange_up;
-    size_t minrange_down, maxrange_down;
+    size_t minrange_up = 0, maxrange_up = 0;
+    size_t minrange_down = 0, maxrange_down = 0;
     for (int i = 1; i <= Nup; i++)
     {  minrange_up += pow(2,(i-1));
         maxrange_up += pow(2,(L-i));
     }
-    
+
     for (int i = 1; i <= Ndn; i++)
     {  minrange_down += pow(2,(i-1));
         maxrange_down += pow(2,(L-i));
@@ -55,25 +55,25 @@ void Basis::BuildBasis()
                 nbit++;
             }
         }
-        
+
         if (nbit == Nup)
         {
             count_up++;
             basis_up.push_back(i);
             work.at(i) = count_up;
-            //cout << i << " " << work[i] << endl;
+            cout << i << " " << work[i] << endl;
         }
-        
+
     }
     index_up = work;
-    
+
 //    cout << "Index up \n";
 //    for(int i = 0; i < maxrange_up; i++)
 //    { cout << index_up[i]<<endl;}
-    
-    
+
+
     std::cout << "End of basis up allocation \n";
-    
+
     index_dn.reserve(maxrange_down+1);
     std::vector<size_t> nowork (maxrange_down+1, 0);
     count_dn = 0;
@@ -89,7 +89,7 @@ void Basis::BuildBasis()
                 nbit++;
             }
         }
-        
+
         if (nbit == Ndn && Ndn != 0)
         {
             count_dn++;
@@ -99,7 +99,7 @@ void Basis::BuildBasis()
             nowork.at(i) = count_dn;
             cout << i << " " << nowork[i] << endl;
         }
-        
+
     }
     index_dn = nowork;
     cout << "Basis down \n";
@@ -118,14 +118,14 @@ void Hamiltonian::BuildHopHam_up()
         for(size_t bs = 0; bs < count_up; bs++)
         {
             size_t p_bas = basis_up[bs];
-            
+
             size_t p_ind = index_up[p_bas];
             //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
             for(size_t i = 0; i < (L-1); i++)
             {
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
                 size_t l_ind = index_up[l_bas]; //going outside array dimension for bs
-                
+
                 if(p_ind == (count_up) && l_bas > p_bas)// if l_ind is outside memory of index_up: CRASH!
                 {
                     l_ind = 0;
@@ -134,8 +134,8 @@ void Hamiltonian::BuildHopHam_up()
                 if(l_bas != p_bas && l_ind != 0 )
                 {
                     //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
-                    
-    
+
+
                 if(count_dn > 0 )
                 {
                     for(size_t k = 1; k <= count_dn; k++)
@@ -145,18 +145,18 @@ void Hamiltonian::BuildHopHam_up()
                         //cout << r << " " << s << endl;
                         double val = -tbar ;//* pow(-1,testbit(k,i));
                         TL_up.push_back(Tp((r),(s),val));
-    
+
                     }
                 }
                 else
                 {   double val = -tbar;
                     TL_up.push_back(Tp(p_ind-1,l_ind-1, val ));
-                   
+
                 }
                 }
             }
         }
- 
+
 }
 
 void Hamiltonian::BuildHopHam_dn()
@@ -170,41 +170,41 @@ void Hamiltonian::BuildHopHam_dn()
         {
             size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
             size_t l_ind = index_dn[l_bas];
-            
-            
+
+
             if(p_ind == (count_dn) && l_bas > p_bas) // if l_ind is outside memory of index_dn: CRASH!
             {
                 l_ind = 0;
             }
-            
-            
+
+
             //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
             if(l_bas != p_bas && l_ind != 0)
             {//cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
                 //cout << "The hopping term gives the new state: " << l_bas << " With index: " << l_ind <<endl;
-                
-                
+
+
                 if(count_up > 0 )
                 {
                     for(size_t k = 1; k <= count_up; k++)
                     {
                         int r = ((p_ind-1)*count_up) + k;
                         int s = ((l_ind-1)*count_up) + k;
-                        
+
                         double val = -tbar ;//* pow(-1,testbit(k,i));
                         TL_down.push_back(Tp((r-1),(s-1),val));
-                        
+
                     }
                 }
                 else
                 {   double val = -tbar;
                     TL_down.push_back(Tp(p_ind-1,l_ind-1, val ));
-                    
+
                 }
             }
         }
     }
-    
+
 }
 
 void Hamiltonian::Interaction_Index()
@@ -223,7 +223,7 @@ void Hamiltonian::Interaction_Index()
                     ++point_up;
                     IndexU_up(i,point_up-1) = j+1;
                     //std::cout << point_up << std::endl;
-                    
+
                     if(Nup == Ndn)
                     {
                         point_dn = point_up;
@@ -237,7 +237,7 @@ void Hamiltonian::Interaction_Index()
                 {
                     ++point_up;
                     IndexU_up(i,point_up-1) = j+1;
-                    
+
                     if(Nup == Ndn)
                     {
                         point_dn = point_up;
@@ -247,7 +247,7 @@ void Hamiltonian::Interaction_Index()
             }
         }
     }
-    
+
     if(Nup != Ndn)
     {
         for(size_t i = 0; i < L ; i++)
@@ -261,9 +261,9 @@ void Hamiltonian::Interaction_Index()
                     if(MY_bittest(j_bas,i)) //testing if site is occupied
                     {
                         ++point_dn;
-                        
+
                         IndexU_dn(i,point_dn-1) = j+1;
-                        
+
                     }
                 }
                 else //testing if site is unoccupied, Nup + Ndn > L
@@ -272,14 +272,14 @@ void Hamiltonian::Interaction_Index()
                     {
                         ++point_dn;
                         IndexU_dn(i,point_dn-1) = j+1;
-                        
+
                     }
                 }
             }
         }
-   
+
     }
-    
+
     std::cout << "The spin up Index matrix is: \n" << IndexU_up << std::endl;
     std::cout << "The spin down Index matrix is: \n" << IndexU_dn << std::endl;
 }
@@ -290,14 +290,14 @@ void Hamiltonian::BaseInteraction()
     if((Nup + Ndn) > L)
     {
          g = U*(Nup + Ndn -L);
-        
+
         for(size_t i = 0; i < Tot_base; i++)
         {
             TL_Ubase.push_back(Tp(i,i, g ));//do I need to have two different Hamiltonians?
         }
-        
+
     }
-    
+
     if(Nup == Ndn)
     {
         if( (Nup+Ndn) <= L)
@@ -355,11 +355,11 @@ void Hamiltonian::Set_Mat_Dim()
     HopHam_down.resize(Tot_base, Tot_base);
     HopHam_up.resize(Tot_base, Tot_base);
     Ham_Interact.resize(Tot_base,Tot_base);
-    
+
     IndexU_up.resize(L,count_up);
     IndexU_dn.resize(L,count_dn);
     //std::cout << "dimesnion set \n";
-    
+
 }
 
 void Hamiltonian::HopMatrix_Build()
@@ -376,11 +376,5 @@ void Hamiltonian::IntMatrix_Build()
 {
     Ham_Interact.setFromTriplets(TL_Ubase.begin(), TL_Ubase.end());
     cout << "No problem building interaction Ham \n";
-    //std::cout << "The Base Interaction Hamiltonian is: \n" << Ham_Interact  << std::endl;
+    std::cout << "The Base Interaction Hamiltonian is: \n" << Ham_Interact  << std::endl;
 }
-
-
-
-
-
-

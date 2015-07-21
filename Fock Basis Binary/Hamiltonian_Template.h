@@ -5,18 +5,18 @@
 //  Created by mekena McGrew on 6/29/15.
 //  Copyright (c) 2015 Mekena Metcalf. All rights reserved.
 //
-
+#include "Eigen/Sparse"
 #include <iostream>
 #include <vector>
-#include "/usr/include/Eigen/Eigen"
-#include "/usr/include/Eigen/Sparse"
+// #include "/usr/include/Eigen/Eigen"
+// #include "/usr/include/Eigen/Sparse"
 
 #ifndef Fock_Basis_Binary_Hamiltonian_Template_h
 #define Fock_Basis_Binary_Hamiltonian_Template_h
  class Basis //declare class for basis creation
 {
 private:  //have to talk to values through constructor function
-    
+
 
 protected:
     std::vector<size_t> basis_up;
@@ -32,40 +32,40 @@ public:
     void BuildBasis();
     inline size_t getNsite()const{return L;};
     inline void changeNsite(size_t New_L){L = New_L;};
-    
+
 };
 
 //template <class T>
 class Hamiltonian :public Basis //declare class for Hamiltonian matrices
 {
 private:
-    
+
     double tbar;
     double U;
-    
+
     int Tot_base;
-    
+
     typedef Eigen::SparseMatrix<double> SpMat;
 
     typedef Eigen::Triplet<double> Tp;
-    
+
     std::vector<Tp> TL_up;
     std::vector<Tp> TL_down;
     std::vector<Tp> TL_Ubase;
     //    TL_up.reserve(3); //put this in the function
 //    TL_down.reserve(3);
-    
+
     //Interaction Index Matrices
     Eigen::MatrixXd IndexU_up;
     Eigen::MatrixXd IndexU_dn;
     int point_up;
     int point_dn;
-    
+
     //Declaring Matrices
     SpMat HopHam_up;//declare dimension in function
     SpMat HopHam_down;
     SpMat Ham_Interact;
-    
+
 public:
     Hamiltonian( size_t _L, size_t _Nup, size_t _Ndn ):Basis(_L, _Nup, _Ndn){};
     //Hamiltonian Functions
@@ -75,7 +75,7 @@ public:
     void Interaction_Index();
     void Build_Interactions();
     void BaseInteraction();
-    
+
     void HopMatrix_Build();
     void IntMatrix_Build();
     void Set_Const(double _tbar, double _U);
