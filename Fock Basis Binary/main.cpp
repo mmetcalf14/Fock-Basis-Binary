@@ -35,6 +35,8 @@ int main(int argc, const char * argv[])
     
     //Build basis and pass to Hamiltonian class through inheritance
     Hamiltonian ham(Nsite, Nup, Ndown);
+    
+ 
     //set tbar
     ham.Set_Const(tbar, U);
 
@@ -48,6 +50,13 @@ int main(int argc, const char * argv[])
     ham.BaseInteraction();
     ham.IntMatrix_Build();
     ham.Build_Interactions();
+    ham.Total_Ham();
+    
+    Lanczos_Diag Diagonalize(ham);//how to I do this constructor
+    
+    //create random matrix
+    Diagonalize.Random_Vector();
+    
     
     cout << "Code is Done! \n";
 

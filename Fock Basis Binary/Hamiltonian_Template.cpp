@@ -30,18 +30,21 @@ void Hamiltonian::Set_Const(double _tbar, double _U)
 void Basis::BuildBasis()
 {
 //    std::cout << L << " " << Nup << " " << Ndn << std::endl;
-    size_t minrange_up, maxrange_up;
-    size_t minrange_down, maxrange_down;
+    size_t minrange_up, maxrange_up = 0;
+    size_t minrange_down, maxrange_down = 0;
     for (int i = 1; i <= Nup; i++)
-    {  minrange_up += pow(2,(i-1));
+    {
+         cout << "min up " << minrange_up << "max up " << maxrange_up << endl;
+        minrange_up += pow(2,(i-1));
         maxrange_up += pow(2,(L-i));
+       
     }
     
     for (int i = 1; i <= Ndn; i++)
     {  minrange_down += pow(2,(i-1));
         maxrange_down += pow(2,(L-i));
     }
-   // cout << "Ranges down" << minrange_down << " " << maxrange_down <<endl;
+    //cout << "Ranges down" << minrange_down << " " << maxrange_down <<endl;
     index_up.reserve(maxrange_up+1);
     std::vector<size_t> work (maxrange_up+1, 0);
     count_up = 0;
@@ -67,6 +70,9 @@ void Basis::BuildBasis()
     }
     index_up = work;
     
+//    cout << "Basis up \n";
+//        for(int i = 0; i < maxrange_down; i++)
+//        { cout << basis_down[i]<<endl;}
 //    cout << "Index up \n";
 //    for(int i = 0; i < maxrange_up; i++)
 //    { cout << index_up[i]<<endl;}
@@ -102,7 +108,7 @@ void Basis::BuildBasis()
         
     }
     index_dn = nowork;
-    cout << "Basis down \n";
+//    cout << "Basis down \n";
 //    for(int i = 0; i < maxrange_down; i++)
 //    { cout << basis_down[i]<<endl;}
 //    cout << "Index down \n";
@@ -120,7 +126,7 @@ void Hamiltonian::BuildHopHam_up()
             size_t p_bas = basis_up[bs];
             
             size_t p_ind = index_up[p_bas];
-            //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
+            cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
             for(size_t i = 0; i < (L-1); i++)
             {
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
@@ -133,7 +139,7 @@ void Hamiltonian::BuildHopHam_up()
                 //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
                 if(l_bas != p_bas && l_ind != 0 )
                 {
-                    //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
+                    cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
                     
     
                 if(count_dn > 0 )
@@ -338,7 +344,6 @@ void Hamiltonian::Build_Interactions()
                 else
                 {
                 r = ((IndexU_dn(i,l)-1)*count_up) + IndexU_up(i,k);
-                    cout << i << " " << k <<" " << l <<" " << r <<endl;
                     Ham_Interact.coeffRef(r, r) += U;
                 }
             }
@@ -377,6 +382,13 @@ void Hamiltonian::IntMatrix_Build()
     Ham_Interact.setFromTriplets(TL_Ubase.begin(), TL_Ubase.end());
     cout << "No problem building interaction Ham \n";
     //std::cout << "The Base Interaction Hamiltonian is: \n" << Ham_Interact  << std::endl;
+}
+
+void Hamiltonian::Total_Ham()
+{
+    Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
+    
+    //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
 
 

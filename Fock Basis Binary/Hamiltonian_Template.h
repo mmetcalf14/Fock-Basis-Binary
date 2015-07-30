@@ -10,9 +10,14 @@
 #include <vector>
 #include "/usr/include/Eigen/Eigen"
 #include "/usr/include/Eigen/Sparse"
+#include "/usr/include/Eigen/Core"
 
 #ifndef Fock_Basis_Binary_Hamiltonian_Template_h
 #define Fock_Basis_Binary_Hamiltonian_Template_h
+
+
+//using namespace Eigen;
+
  class Basis //declare class for basis creation
 {
 private:  //have to talk to values through constructor function
@@ -38,12 +43,13 @@ public:
 //template <class T>
 class Hamiltonian :public Basis //declare class for Hamiltonian matrices
 {
+    friend class Lanczos_Diag;
 private:
     
     double tbar;
     double U;
     
-    int Tot_base;
+    
     
     typedef Eigen::SparseMatrix<double> SpMat;
 
@@ -61,13 +67,17 @@ private:
     int point_up;
     int point_dn;
     
+
+protected:
+    int Tot_base;
     //Declaring Matrices
     SpMat HopHam_up;//declare dimension in function
     SpMat HopHam_down;
     SpMat Ham_Interact;
+    SpMat Ham_Tot;
     
 public:
-    Hamiltonian( size_t _L, size_t _Nup, size_t _Ndn ):Basis(_L, _Nup, _Ndn){};
+    Hamiltonian( size_t _L, size_t _Nup, size_t _Ndn ):Basis(_L, _Nup, _Ndn){};//is this costructor or
     //Hamiltonian Functions
     void Set_Mat_Dim();
     void BuildHopHam_up();
@@ -80,6 +90,36 @@ public:
     void IntMatrix_Build();
     void Set_Const(double _tbar, double _U);
     void Save_Ham();//input can be filename from main cpp
+    void Total_Ham();
+};
+
+class Lanczos_Diag //:public Hamiltonian
+{
+private:
+    
+    //typedef Eigen::SparseMatrix<double> SpMat;
+    
+    Eigen::MatrixXd TriDiag;
+    Eigen::MatrixXd K_Mat;
+    Eigen::VectorXd Lanczos_Vec;
+    Eigen::VectorXd Lanczos_Vec_Temp;
+    Eigen::VectorXd r_vec;
+    
+    double alpha;
+    double beta;
+    
+public:
+    
+    Lanczos_Diag(const Hamiltonian){};//Program not accepting this constructor::SEE ERROR
+    void Set_Mat_Dim_LA(int Tot_base);
+    void Random_Vector();
+    
+    template <typename Derived>
+    void Diagonalize(const Eigen::SparseMatrixBase<Derived> &Ham_Tot);
+    //why isn't it recognizing the template?
+    void Get_Gstate();
+    
+    
 };
 
 
