@@ -30,15 +30,19 @@ void Hamiltonian::Set_Const(double _tbar, double _U)
 void Basis::BuildBasis()
 {
 //    std::cout << L << " " << Nup << " " << Ndn << std::endl;
-    size_t minrange_up, maxrange_up = 0;
-    size_t minrange_down, maxrange_down = 0;
+    size_t minrange_up = 0, maxrange_up = 0;
+    size_t minrange_down = 0, maxrange_down = 0;
+    
+    //cout << "min up preloop " << minrange_up << " max up " << maxrange_up << endl;
+    
     for (int i = 1; i <= Nup; i++)
     {
-         cout << "min up " << minrange_up << "max up " << maxrange_up << endl;
+        
         minrange_up += pow(2,(i-1));
         maxrange_up += pow(2,(L-i));
        
     }
+   // cout << "min up " << minrange_up << " max up " << maxrange_up << endl;
     
     for (int i = 1; i <= Ndn; i++)
     {  minrange_down += pow(2,(i-1));
@@ -52,7 +56,7 @@ void Basis::BuildBasis()
     {
         int nbit = 0;
         for(size_t j = 0; j < L; j++)
-        {//std::cout << "When does it break? \n";
+        {std::cout << "When does it break? \n" << i << " " << j << endl;
             if (MY_bittest(i,j))
             {
                 nbit++;
@@ -70,12 +74,12 @@ void Basis::BuildBasis()
     }
     index_up = work;
     
-//    cout << "Basis up \n";
-//        for(int i = 0; i < maxrange_down; i++)
-//        { cout << basis_down[i]<<endl;}
-//    cout << "Index up \n";
-//    for(int i = 0; i < maxrange_up; i++)
-//    { cout << index_up[i]<<endl;}
+    cout << "Basis up \n";
+        for(int i = 0; i < maxrange_down; i++)
+        { cout << basis_down[i]<<endl;}
+    cout << "Index up \n";
+    for(int i = 0; i < maxrange_up; i++)
+    { cout << index_up[i]<<endl;}
     
     
     std::cout << "End of basis up allocation \n";
@@ -84,7 +88,7 @@ void Basis::BuildBasis()
     std::vector<size_t> nowork (maxrange_down+1, 0);
     count_dn = 0;
     //program quitting right here
-    cout << "Testing basis down vector\n";
+   // cout << "Testing basis down vector\n";
     for (size_t i = minrange_down; i <= maxrange_down; i++) //create spin down basis and index
     {
         int nbit = 0;
@@ -103,7 +107,7 @@ void Basis::BuildBasis()
             basis_down.push_back(i);
             //cout << i << " " << basis_down[] << endl;//below are all wrong?? but it worked before?
             nowork.at(i) = count_dn;
-            cout << i << " " << nowork[i] << endl;
+            //cout << i << " " << nowork[i] << endl;
         }
         
     }
@@ -126,7 +130,7 @@ void Hamiltonian::BuildHopHam_up()
             size_t p_bas = basis_up[bs];
             
             size_t p_ind = index_up[p_bas];
-            cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
+            //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
             for(size_t i = 0; i < (L-1); i++)
             {
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
@@ -139,7 +143,7 @@ void Hamiltonian::BuildHopHam_up()
                 //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
                 if(l_bas != p_bas && l_ind != 0 )
                 {
-                    cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
+                    //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
                     
     
                 if(count_dn > 0 )
@@ -171,7 +175,7 @@ void Hamiltonian::BuildHopHam_dn()
     {
         size_t p_bas = basis_down[bs];
         size_t p_ind = index_dn[p_bas];
-        cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
+       // cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
         for(size_t i = 0; i < (L-1); i++)
         {
             size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
@@ -286,8 +290,8 @@ void Hamiltonian::Interaction_Index()
    
     }
     
-    std::cout << "The spin up Index matrix is: \n" << IndexU_up << std::endl;
-    std::cout << "The spin down Index matrix is: \n" << IndexU_dn << std::endl;
+//    std::cout << "The spin up Index matrix is: \n" << IndexU_up << std::endl;
+//    std::cout << "The spin down Index matrix is: \n" << IndexU_dn << std::endl;
 }
 
 void Hamiltonian::BaseInteraction()

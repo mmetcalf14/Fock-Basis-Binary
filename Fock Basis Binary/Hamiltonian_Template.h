@@ -66,9 +66,6 @@ private:
     Eigen::MatrixXd IndexU_dn;
     int point_up;
     int point_dn;
-    
-
-protected:
     int Tot_base;
     //Declaring Matrices
     SpMat HopHam_up;//declare dimension in function
@@ -76,8 +73,20 @@ protected:
     SpMat Ham_Interact;
     SpMat Ham_Tot;
     
+
+protected:
+//    int Tot_base;
+//    //Declaring Matrices
+//    SpMat HopHam_up;//declare dimension in function
+//    SpMat HopHam_down;
+//    SpMat Ham_Interact;
+//    SpMat Ham_Tot;
+    
 public:
+    
     Hamiltonian( size_t _L, size_t _Nup, size_t _Ndn ):Basis(_L, _Nup, _Ndn){};//is this costructor or
+    
+    //making public because too difficult to pass as friend object
     //Hamiltonian Functions
     void Set_Mat_Dim();
     void BuildHopHam_up();
@@ -100,7 +109,7 @@ private:
     //typedef Eigen::SparseMatrix<double> SpMat;
     
     Eigen::MatrixXd TriDiag;
-    Eigen::MatrixXd K_Mat;
+    std::vector<Eigen::VectorXd> K_Mat;
     Eigen::VectorXd Lanczos_Vec;
     Eigen::VectorXd Lanczos_Vec_Temp;
     Eigen::VectorXd r_vec;
@@ -111,11 +120,11 @@ private:
 public:
     
     Lanczos_Diag(const Hamiltonian){};//Program not accepting this constructor::SEE ERROR
-    void Set_Mat_Dim_LA(int Tot_base);
-    void Random_Vector();
+    void Set_Mat_Dim_LA(Hamiltonian& );//int Tot_base
+   // void Random_Vector();
     
-    template <typename Derived>
-    void Diagonalize(const Eigen::SparseMatrixBase<Derived> &Ham_Tot);
+   // template <typename Derived>
+    void Diagonalize(const Hamiltonian &Ham);
     //why isn't it recognizing the template?
     void Get_Gstate();
     
@@ -127,8 +136,9 @@ public:
 //Binary Function algorithm
 inline size_t MY_bittest(size_t m, size_t n)// m -> basis integer, n -> site
 {
-    size_t Eval; //if Eval is size_t I get a totally wrong number compared to int
+    size_t Eval;//if Eval is size_t I get a totally wrong number compared to int
     //seg fault occurring regardless of whether return value is correct or incorrect
+    //std::cout << m << " " << n << std::endl;
     Eval = (m & (1 << n));
     return Eval;
 }

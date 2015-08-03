@@ -52,10 +52,14 @@ int main(int argc, const char * argv[])
     ham.Build_Interactions();
     ham.Total_Ham();
     
-    Lanczos_Diag Diagonalize(ham);//how to I do this constructor
+    Lanczos_Diag Diag(ham);//how to I do this constructor
     
+    
+    //set Lanczos vector dimensions
+    Diag.Set_Mat_Dim_LA(ham);
     //create random matrix
-    Diagonalize.Random_Vector();
+    //Diagonalize.Random_Vector(); done in dimension algorithm
+    Diag.Diagonalize(ham);
     
     
     cout << "Code is Done! \n";
