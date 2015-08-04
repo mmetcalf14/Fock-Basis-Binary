@@ -124,7 +124,7 @@ public:
    // void Random_Vector();
     
    // template <typename Derived>
-    void Diagonalize(const Hamiltonian &Ham);
+    void Diagonalize(const Hamiltonian &Ham, Hamiltonian&);
     //why isn't it recognizing the template?
     void Get_Gstate();
     
@@ -139,7 +139,7 @@ inline size_t MY_bittest(size_t m, size_t n)// m -> basis integer, n -> site
     size_t Eval;//if Eval is size_t I get a totally wrong number compared to int
     //seg fault occurring regardless of whether return value is correct or incorrect
     //std::cout << m << " " << n << std::endl;
-    Eval = (m & (1 << n));
+    Eval = (m & (1 << n));//I haven't changed anything why not working all of a sudden?
     return Eval;
 }
 

@@ -76,7 +76,7 @@ void Basis::BuildBasis()
     
     cout << "Basis up \n";
         for(int i = 0; i < maxrange_down; i++)
-        { cout << basis_down[i]<<endl;}
+        { cout << basis_up[i]<<endl;}
     cout << "Index up \n";
     for(int i = 0; i < maxrange_up; i++)
     { cout << index_up[i]<<endl;}
@@ -231,6 +231,7 @@ void Hamiltonian::Interaction_Index()
                 if(MY_bittest(j_bas,i)) //testing if site is occupied
                 {
                     ++point_up;
+                    //cout << i << " " << j_bas << " " << MY_bittest(j_bas,i) << endl;
                     IndexU_up(i,point_up-1) = j+1;
                     //std::cout << point_up << std::endl;
                     
@@ -243,15 +244,16 @@ void Hamiltonian::Interaction_Index()
             }
             else //testing if site is unoccupied, Nup + Ndn > L
             {
-                if(~MY_bittest(j_bas,i)) //testing if site is unoccupied
+                if(!(MY_bittest(j_bas,i))) //testing if site is unoccupied ALG NOT WORKING
                 {
                     ++point_up;
+                    //cout << i << " " << j_bas << " " << ~MY_bittest(j_bas,i) << endl;
                     IndexU_up(i,point_up-1) = j+1;
                     
                     if(Nup == Ndn)
                     {
                         point_dn = point_up;
-                        IndexU_up(i,point_dn-1) = j+1;
+                        IndexU_dn(i,point_dn-1) = j+1;
                     }
                 }
             }
@@ -278,7 +280,7 @@ void Hamiltonian::Interaction_Index()
                 }
                 else //testing if site is unoccupied, Nup + Ndn > L
                 {
-                    if(~MY_bittest(j_bas,i)) //testing if site is unoccupied
+                    if(!(MY_bittest(j_bas,i))) //testing if site is unoccupied
                     {
                         ++point_dn;
                         IndexU_dn(i,point_dn-1) = j+1;
@@ -290,14 +292,14 @@ void Hamiltonian::Interaction_Index()
    
     }
     
-//    std::cout << "The spin up Index matrix is: \n" << IndexU_up << std::endl;
-//    std::cout << "The spin down Index matrix is: \n" << IndexU_dn << std::endl;
+    //std::cout << "The spin up Index matrix is: \n" << IndexU_up << std::endl;
+   // std::cout << "The spin down Index matrix is: \n" << IndexU_dn << std::endl;
 }
 
 void Hamiltonian::BaseInteraction()
 {
     int g;
-    if((Nup + Ndn) > L)
+    if((Nup + Ndn) > L)//
     {
          g = U*(Nup + Ndn -L);
         
@@ -316,13 +318,14 @@ void Hamiltonian::BaseInteraction()
         }
         else
         {
-            g = U*(L-Nup);
+            g = U*(L-Nup);//should I do this on top of other build with g?
+           
         }
         for(size_t i = 1; i <= count_up; i++)
         {
             size_t k = (count_up +1)*i - count_up;//added a -1 because for loop starts at 1
             TL_Ubase.push_back(Tp(k-1,k-1, g ));//do I need to have two different Hamiltonians?
-            //conduct an element by element insert on sparse matrix after doing batch construction here
+           
         }
     }
     //end function algorithm

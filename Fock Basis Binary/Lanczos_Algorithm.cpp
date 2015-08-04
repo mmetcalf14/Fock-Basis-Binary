@@ -12,52 +12,49 @@
 using namespace std;
 
 
-
-//void Lanczos_Diag::Random_Vector()
-//{
-//
-//    //Lanczos_Vec_Temp.setRandom();//do I need another vector for
-//    //First Col of K_Mat
-//    cout << Lanczos_Vec_Temp << endl;//is it ok if decimal point?
-//    
-//}
-
 void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
 {
     TriDiag.resize(tb.Tot_base, tb.Tot_base);//set a max iteration dim limit
     //K_Mat.resize(tb.Tot_base, tb.Tot_base);//vector class with Eigen inside
     Lanczos_Vec = Eigen::VectorXd::Random(tb.Tot_base);
-    cout <<"Before normalization: \n"<< Lanczos_Vec << endl;
+    cout <<"Before normalization: \n"<< Lanczos_Vec <<endl << Lanczos_Vec.norm()<< endl;
     r_vec.resize(tb.Tot_base);
 }
 
 //template <typename Derived>//why did I have to put this template twice?
-void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham)//const Eigen::SparseMatrixBase<Derived>
+void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)//const Eigen::SparseMatrixBase<Derived>
 {
-    bool Converged = false;//used to exit while loop should I set it to false here?
+    bool Converged = false; //used to exit while loop should I set it to false here?
     
-//    Lanczos_Vec = Lanczos_Vec_Temp;//should I use dot for inner prod?
-    Lanczos_Vec.normalize(); //check if the new vector is normalized
-    cout <<"A normalization: \n"<< Lanczos_Vec << endl;
+    Lanczos_Vec.normalize(); //check if the new vector is normalized...it is
+
+    
+    cout <<"After normalization: \n"<< Lanczos_Vec <<" " << Lanczos_Vec.norm()<< endl;
     K_Mat.push_back(Lanczos_Vec);
+    cout << "First vector placed in K Mat " << K_Mat[0] << endl;
     
     int it = 0;
     int itmax = 200;
-    
 
- do
+    do
     {
         if(it == 0)
         {
             r_vec = Ham.Ham_Tot*K_Mat[it];
+//            cout << "Hamiltonian: \n:"<< Ham.Ham_Tot << endl;
+//            cout << "K vector: \n "<< K_Mat[it] << endl;
+//            cout << "r vector: \n "<< r_vec << endl;
+            
         }
         else{
-            r_vec = Ham.Ham_Tot*K_Mat[it]-(alpha*K_Mat[it-1]);
+            r_vec = Ham.Ham_Tot*K_Mat[it]-(beta*K_Mat[it-1]);
+            //cout << "Second Hamiltonian No Fail on " << it << "iteration \n";
+            cout << "Beta is: " << beta << endl;
         }
+       // cout << K_Mat[it] << " " << K_Mat[it].adjoint() << endl;
+        alpha = K_Mat[it].adjoint()*r_vec;//this is correct
         
-        alpha = K_Mat[it].adjoint()*r_vec;
-        
-        r_vec = r_vec-(alpha*K_Mat[it]);
+        r_vec -= (alpha*K_Mat[it]); //= r_vec changed to -=
         beta = r_vec.norm();
         TriDiag(it,it) = alpha;
         TriDiag(it+1,it)=beta;
@@ -68,6 +65,11 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham)//const Eigen::SparseMatri
            {
                Converged = true;
            }
+        if(it == (tb.Tot_base-2))
+        {
+            cout << "Not Converged \n";
+            Converged = true;
+        }
         
         it++;
         
@@ -78,3 +80,14 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham)//const Eigen::SparseMatri
     
     
 }
+
+
+
+//void Lanczos_Diag::Random_Vector()
+//{
+//
+//    //Lanczos_Vec_Temp.setRandom();//do I need another vector for
+//    //First Col of K_Mat
+//    cout << Lanczos_Vec_Temp << endl;//is it ok if decimal point?
+//
+//}

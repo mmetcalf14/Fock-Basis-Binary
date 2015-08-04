@@ -26,8 +26,8 @@ int main(int argc, const char * argv[])
     
 
     int Nup = 2;
-    int Ndown = 1;
-    int Nsite = 4;
+    int Ndown = 2;
+    int Nsite = 3;
     double tbar = 1.0;
     double U = 1.0;
     
@@ -59,7 +59,7 @@ int main(int argc, const char * argv[])
     Diag.Set_Mat_Dim_LA(ham);
     //create random matrix
     //Diagonalize.Random_Vector(); done in dimension algorithm
-    Diag.Diagonalize(ham);
+    Diag.Diagonalize(ham, ham);
     
     
     cout << "Code is Done! \n";
