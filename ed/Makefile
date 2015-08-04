@@ -28,6 +28,9 @@ fed.app:fmain.o fbasis.o fhamiltonian.o lanczos.o
 fmain.o: fermion/main.cpp
 	$(CC) -c -o $@ $<
 
+node.o: LinkedList/node.cpp
+	$(CC) -c -o $@ $<
+
 fbasis.o: fermion/basis.cpp
 	$(CC) -c -o $@ $<
 
