@@ -113,6 +113,10 @@ private:
     Eigen::VectorXd Lanczos_Vec;
     Eigen::VectorXd Lanczos_Vec_Temp;
     Eigen::VectorXd r_vec;
+    Eigen::Matrix4d Test_Ham;
+    Eigen::Vector4d Test_Lanczos;
+    Eigen::MatrixXd Evec;
+    Eigen::VectorXd G_state;
     
     double alpha;
     double beta;
@@ -120,13 +124,17 @@ private:
 public:
     
     Lanczos_Diag(const Hamiltonian){};//Program not accepting this constructor::SEE ERROR
+    //construct new,simple matrix to test algorithm and eigen values
+    //and set Lanz vec to be one from analytical example
+    void Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos);
     void Set_Mat_Dim_LA(Hamiltonian& );//int Tot_base
    // void Random_Vector();
     
    // template <typename Derived>
     void Diagonalize(const Hamiltonian &Ham, Hamiltonian&);
     //why isn't it recognizing the template?
-    void Get_Gstate();
+    void Get_Gstate(Hamiltonian&);
+    void Test_Tri();
     
     
 };

@@ -29,8 +29,14 @@ int main(int argc, const char * argv[])
     int Ndown = 2;
     int Nsite = 3;
     double tbar = 1.0;
-    double U = 1.0;
-    
+    double U = 0.0;
+    Matrix4d Test_Ham;
+    Vector4d Test_Lanczos;
+    Test_Ham << 0, -1, 0, 0,
+               -1,0,-1,0,
+                0,-1,0,-1,
+                0,0,-1,0;
+    Test_Lanczos << 0.5,0.5,0.5,0.5;
     
     
     //Build basis and pass to Hamiltonian class through inheritance
@@ -54,12 +60,13 @@ int main(int argc, const char * argv[])
     
     Lanczos_Diag Diag(ham);//how to I do this constructor
     
-    
+    Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
     //set Lanczos vector dimensions
     Diag.Set_Mat_Dim_LA(ham);
     //create random matrix
     //Diagonalize.Random_Vector(); done in dimension algorithm
     Diag.Diagonalize(ham, ham);
+    //Diag.Test_Tri();
     
     
     cout << "Code is Done! \n";

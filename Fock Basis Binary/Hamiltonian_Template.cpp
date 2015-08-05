@@ -155,13 +155,14 @@ void Hamiltonian::BuildHopHam_up()
                         //cout << r << " " << s << endl;
                         double val = -tbar ;//* pow(-1,testbit(k,i));
                         TL_up.push_back(Tp((r),(s),val));
+                        TL_up.push_back(Tp((s),(r),val));
     
                     }
                 }
                 else
                 {   double val = -tbar;
                     TL_up.push_back(Tp(p_ind-1,l_ind-1, val ));
-                   
+                    TL_up.push_back(Tp(l_ind-1,p_ind-1, val ));
                 }
                 }
             }
@@ -203,13 +204,13 @@ void Hamiltonian::BuildHopHam_dn()
                         
                         double val = -tbar ;//* pow(-1,testbit(k,i));
                         TL_down.push_back(Tp((r-1),(s-1),val));
-                        
+                        TL_down.push_back(Tp((s-1),(r-1),val));
                     }
                 }
                 else
                 {   double val = -tbar;
                     TL_down.push_back(Tp(p_ind-1,l_ind-1, val ));
-                    
+                    TL_down.push_back(Tp(l_ind-1,p_ind-1, val ));
                 }
             }
         }
