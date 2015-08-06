@@ -1,4 +1,4 @@
-
+site
 ifeq "$(ARCH)" ""
 ARCH = x86_64
 endif
@@ -28,7 +28,7 @@ fed.app:fmain.o fbasis.o fhamiltonian.o lanczos.o
 fmain.o: fermion/main.cpp
 	$(CC) -c -o $@ $<
 
-node.o: LinkedList/node.cpp
+site.o: LinkedList/site.cpp
 	$(CC) -c -o $@ $<
 
 fbasis.o: fermion/basis.cpp

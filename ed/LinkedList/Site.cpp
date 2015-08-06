@@ -6,22 +6,27 @@ int Site<Tnum, T>::NumSites = 0;
 template<typename Tnum, class T>
 Site<Tnum, T>::Site()
 {
-  this->data = NumSites;
-  NumSites++;
+  // this->data = NumSites;
+  this->NumLinks = 0;
+  this->NumSites++;
 }
 
 template<typename Tnum, class T>
 Site<Tnum, T>::~Site(){}
 
-//  This constructor is just to set next pointer of a Site and the data contained.
 template<typename Tnum, class T>
-Site<Tnum, T>::Site(const T& item, Site<Tnum, T>* p)
+Site<Tnum, T>::Site(const T& item, Site<Tnum, T>* p, Tnum J)
 {
-  NumSites++;
+  this->NumLinks = 0;
+  this->NumSites++;
   this->data = item;
   if ( p != NULL ){
     this->NumLinks++;
     this->Neighbor.push_back(p);
+    this->Jval.push_back(J);
+    p->NumLinks++;
+    p->Neighbor.push_back(this);
+    p->Jval.push_back(J);
   }
 }
 
@@ -31,6 +36,9 @@ void Site<Tnum, T>::LinkTo(Site<Tnum, T>* p, Tnum J)
   this->NumLinks++;
   this->Neighbor.push_back(p);
   this->Jval.push_back(J);
+  p->NumLinks++;
+  p->Neighbor.push_back(this);
+  p->Jval.push_back(J);
 }
 
 // //  This methods inserts a Site just after the Site that the method belongs to
