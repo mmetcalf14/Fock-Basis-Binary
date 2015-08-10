@@ -293,8 +293,8 @@ void Hamiltonian::Interaction_Index()
    
     }
     
-    //std::cout << "The spin up Index matrix is: \n" << IndexU_up << std::endl;
-   // std::cout << "The spin down Index matrix is: \n" << IndexU_dn << std::endl;
+//    std::cout << "The spin up Index matrix is: \n" << IndexU_up << std::endl;
+//    std::cout << "The spin down Index matrix is: \n" << IndexU_dn << std::endl;
 }
 
 void Hamiltonian::BaseInteraction()
@@ -342,17 +342,19 @@ void Hamiltonian::Build_Interactions()
             for(int l = 0; l < point_dn; l++)//Currently I'm not adding in the if statement because
             {  int r;
                 if(Nup == Ndn)
-                {
+                { cout << "k: " << k << " l: " << l << endl;
                     if( l != k)
                     {
+                        
                     r = ((IndexU_dn(i,l)-1)*count_up) + IndexU_up(i,k);
-                    Ham_Interact.coeffRef(r, r) += U;
+                        cout << "r: " << r << endl;
+                    Ham_Interact.coeffRef((r-1), (r-1)) += U;//do we need a -1? double check here
                     }
                 }
                 else
                 {
                 r = ((IndexU_dn(i,l)-1)*count_up) + IndexU_up(i,k);
-                    Ham_Interact.coeffRef(r, r) += U;
+                    Ham_Interact.coeffRef((r-1), (r-1)) += U;
                 }
             }
         }
@@ -389,7 +391,7 @@ void Hamiltonian::IntMatrix_Build()
 {
     Ham_Interact.setFromTriplets(TL_Ubase.begin(), TL_Ubase.end());
     cout << "No problem building interaction Ham \n";
-    //std::cout << "The Base Interaction Hamiltonian is: \n" << Ham_Interact  << std::endl;
+//    std::cout << "The Base Interaction Hamiltonian is: \n" << Ham_Interact  << std::endl;
 }
 
 void Hamiltonian::Total_Ham()

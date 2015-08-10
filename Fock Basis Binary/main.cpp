@@ -26,10 +26,10 @@ int main(int argc, const char * argv[])
     
 
     int Nup = 2;
-    int Ndown = 2;
-    int Nsite = 3;
+    int Ndown = 3;
+    int Nsite = 4;
     double tbar = 1.0;
-    double U = 0.0;
+    double U = 1.0;
     Matrix4d Test_Ham;
     Vector4d Test_Lanczos;
     Test_Ham << 0, -1, 0, 0,
@@ -67,6 +67,8 @@ int main(int argc, const char * argv[])
     //Diagonalize.Random_Vector(); done in dimension algorithm
     Diag.Diagonalize(ham, ham);
     //Diag.Test_Tri();
+    Diag.Get_Gstate();
+    Diag.Gstate_RealSpace(ham, ham, ham, ham, ham, ham);
     
     
     cout << "Code is Done! \n";

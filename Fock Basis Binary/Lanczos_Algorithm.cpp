@@ -16,8 +16,8 @@ void Lanczos_Diag::Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::
 {
     Test_Ham = _Test_Ham;
     Test_Lanczos = _Test_Lanczos;
-    cout << "Test Ham: \n" << Test_Ham << endl;
-    cout << "Test Lanczos: \n" << Test_Lanczos << endl;
+//    cout << "Test Ham: \n" << Test_Ham << endl;
+//    cout << "Test Lanczos: \n" << Test_Lanczos << endl;
 }
 
 void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
@@ -25,7 +25,7 @@ void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
     TriDiag = Eigen::MatrixXd::Zero(tb.Tot_base, tb.Tot_base);//set a max iteration dim limit
     
     Lanczos_Vec = Eigen::VectorXd::Random(tb.Tot_base);
-    G_state = Eigen::MatrixXd::Zero(tb.Tot_base);
+    G_state = Eigen::VectorXd::Zero(tb.Tot_base);
     
     r_vec.resize(tb.Tot_base);
 }
@@ -96,7 +96,7 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
             //cout <<"Work mat: \n" << Work_Mat << endl;
             Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Mat);
             Eval = DiagMe.eigenvalues();
-            Evec = DiagMe.eigenvectors();
+            Evec_Mat = DiagMe.eigenvectors();
             //cout << "Eigenvalues on " << it << " iteration /n" << Eval << endl;
             if(it > 2)
             {
@@ -125,26 +125,58 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
         
     }while(!(Converged));
  
-    
-    
+    cnt = it;
+    Evec.resize(cnt);
+    Evec = Evec_Mat.col(0);
+    //cout << "We have Eigenvectors \n" << Evec_Mat << endl;
 }
 
-void Lanczos_Diag::Get_Gstate(Hamiltonian& tb)
+void Lanczos_Diag::Get_Gstate()
 {
-    //how to multiply k_mat by eigen vec?
-    Eigen::VectorXd Temp = K_Mat[0];
-    cout << Temp.row(1) << " Now matrix: "<< K_Mat[0] << endl; //this doesn't work
+
+    for(int i = 0; i < cnt; i++)
+    {
+        G_state += K_Mat[i]*Evec.row(i);//Evec.row(i)**K_Mat[i]
+    }
     
-//    for(int i = 0; i < K_Mat.size(); i++)
+    
+//    cout << "This is the eigen vector: \n" << Evec <<endl;
+//    cout << "K_MAT \n";
+//    for(int i = 0; i < cnt; i++)
 //    {
-//        G_state(i) = 0.;
-//        for(int j = 0; j < tb.Tot_base; i++)
-//        {
-//            Eigen::VectorXd Temp = K_Mat[j];
-//            G_state(i) += Temp.row(i)*Evec(j,1);//help on this algorithm with mixed classes
-//        //ALSO ASK HOW TO CONSTRUCT MAKEFILE
-//        }
+//        cout << K_Mat[i] << "\t";
 //    }
+    //cout << endl << "This is the ground state in Fock Basis: \n"<< G_state << endl;
+}
+
+
+void Lanczos_Diag::Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& p_up, Hamiltonian& p_dn, Hamiltonian& Nsite, const Hamiltonian& Imat_up,const Hamiltonian& Imat_dn)
+{
+    G_state_realspace = Eigen::VectorXd::Zero(Nsite.L);
+    
+    
+    int Temp_pt_up = p_up.point_up;
+    int Temp_pt_dn = p_dn.point_dn;
+    cout << "Point up: " << Temp_pt_up << " point dn: " << Temp_pt_dn << endl;
+
+    
+    for(int i = 0; i < Nsite.L; i++)
+    {
+        for(int k = 0; k < Temp_pt_up; k++) //why is this running past the value Temp_pt_up
+        {
+            for(int l =0; l < Temp_pt_dn; l++)
+            {
+                int r = ((Imat_dn.IndexU_dn(i,l)-1)*ct_up.count_up) + Imat_up.IndexU_up(i,k);
+                //r is converting everything to Fock basis index
+                //Does this method work when counting unoccupied sites for indexU?
+                //cout << i << " " << k << " " << l << " " << r << endl;
+                G_state_realspace(i) += G_state(r-1)*G_state(r-1);//when complex change to G_state(r).conj()*G_state(r)
+            }
+        }
+    }
+    cout << endl << "This is the ground state in site Basis: \n"<< G_state_realspace << endl;
+
+    
     
 }
 
