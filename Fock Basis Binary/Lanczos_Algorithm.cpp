@@ -16,8 +16,8 @@ void Lanczos_Diag::Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::
 {
     Test_Ham = _Test_Ham;
     Test_Lanczos = _Test_Lanczos;
-    cout << "Test Ham: \n" << Test_Ham << endl;
-    cout << "Test Lanczos: \n" << Test_Lanczos << endl;
+//    cout << "Test Ham: \n" << Test_Ham << endl;
+//    cout << "Test Lanczos: \n" << Test_Lanczos << endl;
 }
 
 void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
@@ -128,7 +128,7 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
     cnt = it;
     Evec.resize(cnt);
     Evec = Evec_Mat.col(0);
-    cout << "We have Eigenvectors \n" << Evec_Mat << endl;
+    //cout << "We have Eigenvectors \n" << Evec_Mat << endl;
 }
 
 void Lanczos_Diag::Get_Gstate()
@@ -146,12 +146,37 @@ void Lanczos_Diag::Get_Gstate()
 //    {
 //        cout << K_Mat[i] << "\t";
 //    }
-//    cout << endl << "This is the ground state: \n"<< G_state << endl;
+    //cout << endl << "This is the ground state in Fock Basis: \n"<< G_state << endl;
 }
 
 
-void Lanczos_Diag::Gstate_RealSpace()
+void Lanczos_Diag::Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& p_up, Hamiltonian& p_dn, Hamiltonian& Nsite, const Hamiltonian& Imat_up,const Hamiltonian& Imat_dn)
 {
+    G_state_realspace = Eigen::VectorXd::Zero(Nsite.L);
+    
+    
+    int Temp_pt_up = p_up.point_up;
+    int Temp_pt_dn = p_dn.point_dn;
+    cout << "Point up: " << Temp_pt_up << " point dn: " << Temp_pt_dn << endl;
+
+    
+    for(int i = 0; i < Nsite.L; i++)
+    {
+        for(int k = 0; k < Temp_pt_up; k++) //why is this running past the value Temp_pt_up
+        {
+            for(int l =0; l < Temp_pt_dn; k++)
+            {
+                int r = ((Imat_dn.IndexU_dn(i,l)-1)*ct_up.count_up) + Imat_up.IndexU_up(i,k);
+                //r is converting everything to Fock basis index
+                //Does this method work when counting unoccupied sites for indexU?
+                cout << i << " " << k << " " << l << " " << r << endl;
+                G_state_realspace(i) = G_state(r-1)*G_state(r-1);//when complex change to G_state(r).conj()*G_state(r)
+            }
+        }
+    }
+    cout << endl << "This is the ground state in site Basis: \n"<< G_state_realspace << endl;
+
+    
     
 }
 
