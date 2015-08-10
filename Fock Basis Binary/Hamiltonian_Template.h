@@ -115,11 +115,13 @@ private:
     Eigen::VectorXd r_vec;
     Eigen::Matrix4d Test_Ham;
     Eigen::Vector4d Test_Lanczos;
-    Eigen::MatrixXd Evec;
+    Eigen::MatrixXd Evec_Mat;
     Eigen::VectorXd G_state;
+    Eigen::VectorXd Evec;
     
     double alpha;
     double beta;
+    int cnt;
     
 public:
     
@@ -133,8 +135,9 @@ public:
    // template <typename Derived>
     void Diagonalize(const Hamiltonian &Ham, Hamiltonian&);
     //why isn't it recognizing the template?
-    void Get_Gstate(Hamiltonian&);
-    void Test_Tri();
+    void Get_Gstate();
+    //void Test_Tri();
+    void Gstate_RealSpace();
     
     
 };

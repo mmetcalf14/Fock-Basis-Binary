@@ -67,6 +67,7 @@ int main(int argc, const char * argv[])
     //Diagonalize.Random_Vector(); done in dimension algorithm
     Diag.Diagonalize(ham, ham);
     //Diag.Test_Tri();
+    Diag.Get_Gstate();
     
     
     cout << "Code is Done! \n";
