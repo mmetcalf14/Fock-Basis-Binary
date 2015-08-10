@@ -164,13 +164,13 @@ void Lanczos_Diag::Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& p_up, Hamil
     {
         for(int k = 0; k < Temp_pt_up; k++) //why is this running past the value Temp_pt_up
         {
-            for(int l =0; l < Temp_pt_dn; k++)
+            for(int l =0; l < Temp_pt_dn; l++)
             {
                 int r = ((Imat_dn.IndexU_dn(i,l)-1)*ct_up.count_up) + Imat_up.IndexU_up(i,k);
                 //r is converting everything to Fock basis index
                 //Does this method work when counting unoccupied sites for indexU?
-                cout << i << " " << k << " " << l << " " << r << endl;
-                G_state_realspace(i) = G_state(r-1)*G_state(r-1);//when complex change to G_state(r).conj()*G_state(r)
+                //cout << i << " " << k << " " << l << " " << r << endl;
+                G_state_realspace(i) += G_state(r-1)*G_state(r-1);//when complex change to G_state(r).conj()*G_state(r)
             }
         }
     }
