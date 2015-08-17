@@ -46,7 +46,9 @@ class Hamiltonian :public Basis //declare class for Hamiltonian matrices
     friend class Lanczos_Diag;
 private:
     
-    double tbar;
+    double J1; //A-B hopping
+    double J2; //B-A hopping
+    
     double U;
     
     
@@ -97,7 +99,7 @@ public:
     
     void HopMatrix_Build();
     void IntMatrix_Build();
-    void Set_Const(double _tbar, double _U);
+    void Set_Const(double t_1, double t_2, double _U);
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();
 };
@@ -118,13 +120,18 @@ private:
     Eigen::MatrixXd Evec_Mat;
     Eigen::VectorXd G_state;
     Eigen::VectorXd Evec;
-    Eigen::VectorXd G_state_realspace;
+    //Eigen::VectorXd G_state_realspace;
+    
+
     
     double alpha;
     double beta;
     int cnt;
     
 public:
+    
+    std::vector<double> n_up;//public so they can be used in main program to write the file
+    std::vector<double> n_dn;
     
     Lanczos_Diag(const Hamiltonian){};//Program not accepting this constructor::SEE ERROR
     //construct new,simple matrix to test algorithm and eigen values
@@ -138,7 +145,7 @@ public:
     //why isn't it recognizing the template?
     void Get_Gstate();
     //void Test_Tri();
-    void Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& p_up, Hamiltonian& p_dn, Hamiltonian& Nsite,const Hamiltonian& Imat_up,const Hamiltonian& Imat_dn);
+    void Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& Nsite,const Hamiltonian& basis_up,const Hamiltonian& basis_dn);
     
     
 };

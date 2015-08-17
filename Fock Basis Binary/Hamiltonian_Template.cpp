@@ -21,9 +21,11 @@ Basis::Basis(size_t _L, size_t _Nup, size_t _Ndn)
     BuildBasis();
 }
 
-void Hamiltonian::Set_Const(double _tbar, double _U)
+void Hamiltonian::Set_Const(double t_1, double t_2, double _U)
 {
-    tbar = _tbar;
+    J1 = t_1;
+    J2 = t_2;
+    //cout << J1 << " " << J2 << endl;
     U = _U;
 }
 
@@ -56,7 +58,8 @@ void Basis::BuildBasis()
     {
         int nbit = 0;
         for(size_t j = 0; j < L; j++)
-        {std::cout << "When does it break? \n" << i << " " << j << endl;
+        {
+            
             if (MY_bittest(i,j))
             {
                 nbit++;
@@ -74,12 +77,12 @@ void Basis::BuildBasis()
     }
     index_up = work;
     
-    cout << "Basis up \n";
-        for(int i = 0; i < maxrange_down; i++)
-        { cout << basis_up[i]<<endl;}
-    cout << "Index up \n";
-    for(int i = 0; i < maxrange_up; i++)
-    { cout << index_up[i]<<endl;}
+//    cout << "Basis up \n";
+//        for(int i = 0; i < maxrange_down; i++)
+//        { cout << basis_up[i]<<endl;}
+//    cout << "Index up \n";
+//    for(int i = 0; i < maxrange_up; i++)
+//    { cout << index_up[i]<<endl;}
     
     
     std::cout << "End of basis up allocation \n";
@@ -136,6 +139,10 @@ void Hamiltonian::BuildHopHam_up()
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
                 size_t l_ind = index_up[l_bas]; //going outside array dimension for bs
                 
+                if( l_bas >= index_up.size())
+                {
+                   l_ind = 0;
+                }
                 if(p_ind == (count_up) && l_bas > p_bas)// if l_ind is outside memory of index_up: CRASH!
                 {
                     l_ind = 0;
@@ -145,22 +152,43 @@ void Hamiltonian::BuildHopHam_up()
                 {
                     //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
                     
-    
+                double val;
+                    
                 if(count_dn > 0 )
                 {
                     for(size_t k = 1; k <= count_dn; k++)
                     {
+                        
+                        
                         int r = ((k-1)*count_up) + p_ind-1;
                         int s = ((k-1)*count_up) + l_ind-1;
                         //cout << r << " " << s << endl;
-                        double val = -tbar ;//* pow(-1,testbit(k,i));
+                        
+                        if((i%2) == 0)//even number sites have J1 hop to nn (A)
+                        {
+                            val = -J1 ;
+                        }
+                        else //odd number sites have J2 (B)
+                        {
+                            val = -J2;
+                        }
+                        
                         TL_up.push_back(Tp((r),(s),val));
                         TL_up.push_back(Tp((s),(r),val));
     
                     }
                 }
                 else
-                {   double val = -tbar;
+                {
+                    if((i%2) == 0)
+                    {
+                        val = -J1 ;
+                    }
+                    else
+                    {
+                        val = -J2;
+                    }
+                    
                     TL_up.push_back(Tp(p_ind-1,l_ind-1, val ));
                     TL_up.push_back(Tp(l_ind-1,p_ind-1, val ));
                 }
@@ -182,7 +210,10 @@ void Hamiltonian::BuildHopHam_dn()
             size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
             size_t l_ind = index_dn[l_bas];
             
-            
+            if( l_bas >= index_dn.size())
+            {
+                l_ind = 0;
+            }
             if(p_ind == (count_dn) && l_bas > p_bas) // if l_ind is outside memory of index_dn: CRASH!
             {
                 l_ind = 0;
@@ -191,9 +222,10 @@ void Hamiltonian::BuildHopHam_dn()
             
             //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
             if(l_bas != p_bas && l_ind != 0)
-            {//cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
+            {
+                //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
                 //cout << "The hopping term gives the new state: " << l_bas << " With index: " << l_ind <<endl;
-                
+                double val;
                 
                 if(count_up > 0 )
                 {
@@ -202,13 +234,29 @@ void Hamiltonian::BuildHopHam_dn()
                         int r = ((p_ind-1)*count_up) + k;
                         int s = ((l_ind-1)*count_up) + k;
                         
-                        double val = -tbar ;//* pow(-1,testbit(k,i));
+                        if((i%2) == 0)
+                        {
+                            val = -J1 ;
+                        }
+                        else
+                        {
+                            val = -J2;
+                        }
                         TL_down.push_back(Tp((r-1),(s-1),val));
                         TL_down.push_back(Tp((s-1),(r-1),val));
                     }
                 }
                 else
-                {   double val = -tbar;
+                {
+                    if((i%2) == 0)
+                    {
+                        val = -J1 ;
+                    }
+                    else
+                    {
+                        val = -J2;
+                    }
+                    
                     TL_down.push_back(Tp(p_ind-1,l_ind-1, val ));
                     TL_down.push_back(Tp(l_ind-1,p_ind-1, val ));
                 }
@@ -384,7 +432,7 @@ void Hamiltonian::HopMatrix_Build()
     std::cout << "No problem after up spin\n";
     HopHam_down.setFromTriplets(TL_down.begin(), TL_down.end());
     std::cout << "No problem after down spin\n";
-    //std::cout << "The Base Interaction Hamiltonian is: \n" << HopHam_down  << std::endl;
+   // std::cout << "The Hopping Hamiltonian up is: \n" << HopHam_up  << std::endl;
 }
 
 void Hamiltonian::IntMatrix_Build()
