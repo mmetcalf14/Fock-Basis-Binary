@@ -19,7 +19,7 @@ else ifeq ("$(OS)", "Linux")
 	CC = icpc -O3 -Wall -std=c++11 -I./ -I$(HDF5ROOT)/include -DMKL
 endif
 
-LIB := Hamiltonian_Template.o
+LIB := Hamiltonian_Template.o Lanczos_Algorithm.o
 
 all: ed.app
 
@@ -30,6 +30,9 @@ main.o: main.cpp
 	$(CC) -c -o $@ $<
 
 Hamiltonian_Template.o: Hamiltonian_Template.cpp
+	$(CC) -c -o $@ $<
+
+Lanczos_Algorithm.o: Lanczos_Algorithm.cpp
 	$(CC) -c -o $@ $<
 
 .PHONY: clean
