@@ -150,32 +150,49 @@ void Lanczos_Diag::Get_Gstate()
 }
 
 
-void Lanczos_Diag::Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& p_up, Hamiltonian& p_dn, Hamiltonian& Nsite, const Hamiltonian& Imat_up,const Hamiltonian& Imat_dn)
+void Lanczos_Diag::Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& Nsite, const Hamiltonian& basis_up, const Hamiltonian& basis_dn)
 {
-    G_state_realspace = Eigen::VectorXd::Zero(Nsite.L);
+    n_up.resize(Nsite.L,0.0);
+    n_dn.resize(Nsite.L,0.0);
+    cout << "count up is " << ct_up.count_up <<endl;
+    cout << "count down is " << ct_dn.count_dn <<endl;
     
-    
-    int Temp_pt_up = p_up.point_up;
-    int Temp_pt_dn = p_dn.point_dn;
-    cout << "Point up: " << Temp_pt_up << " point dn: " << Temp_pt_dn << endl;
-
-    
-    for(int i = 0; i < Nsite.L; i++)
+    for(size_t i = 1; i <= ct_up.count_up; i++)//have to start at 1 change all appropriatly
     {
-        for(int k = 0; k < Temp_pt_up; k++) //why is this running past the value Temp_pt_up
+        for(size_t j= 1; j <= ct_dn.count_dn; j++)
         {
-            for(int l =0; l < Temp_pt_dn; l++)
+            size_t ind = ((j-1)*ct_up.count_up)+i; //finding appropriate Fock state
+            //cout << "Index: "<< ind << endl;
+            
+            double cf = G_state(ind-1)*G_state(ind-1);
+            
+            for(int n = 0; n < Nsite.L; n++)
             {
-                int r = ((Imat_dn.IndexU_dn(i,l)-1)*ct_up.count_up) + Imat_up.IndexU_up(i,k);
-                //r is converting everything to Fock basis index
-                //Does this method work when counting unoccupied sites for indexU?
-                //cout << i << " " << k << " " << l << " " << r << endl;
-                G_state_realspace(i) += G_state(r-1)*G_state(r-1);//when complex change to G_state(r).conj()*G_state(r)
+                size_t bas_up = basis_up.basis_up[i-1];
+                size_t bas_dn = basis_dn.basis_down[j-1];
+                
+                if(MY_bittest(bas_up, n))//testing if up particle in Fock state on site n
+                {
+                    n_up.at(n) += cf;
+                }
+                if(MY_bittest(bas_dn, n))//testing if down particle in Fock state on site n
+                {
+                    n_dn.at(n) += cf;
+                }
             }
         }
     }
-    cout << endl << "This is the ground state in site Basis: \n"<< G_state_realspace << endl;
-
+    
+    cout << "Here is the ground state for up spin: \n";
+    for(int i = 0; i < Nsite.L; i++)
+    {
+        cout << n_up[i] << endl;
+    }
+    cout << "Here is the ground state for down spin: \n";
+    for(int i = 0; i < Nsite.L; i++)
+    {
+        cout << n_dn[i] << endl;
+    }
     
     
 }
