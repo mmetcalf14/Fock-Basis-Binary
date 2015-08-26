@@ -93,8 +93,8 @@ int main(int argc, const char * argv[])
     ham.Interaction_Index();
     //build interaction matrix
     ham.BaseInteraction();
-    ham.IntMatrix_Build();
     ham.Build_Interactions();
+    ham.IntMatrix_Build();
     
     //add together all three matrices for total Ham
     ham.Total_Ham();

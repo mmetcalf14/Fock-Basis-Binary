@@ -22,7 +22,7 @@ void Lanczos_Diag::Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::
 
 void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
 {
-    TriDiag = Eigen::MatrixXd::Zero(tb.Tot_base, tb.Tot_base);//set a max iteration dim limit
+    TriDiag = Eigen::MatrixXd::Zero(itmax, itmax);//set a max iteration dim limit
     
     Lanczos_Vec = Eigen::VectorXd::Random(tb.Tot_base);
     G_state = Eigen::VectorXd::Zero(tb.Tot_base);
@@ -51,7 +51,7 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
     //cout << "First vector placed in K Mat " << K_Mat[0] << endl;
     
     int it = 0;
-    int itmax = 200;
+    
 
     do
     {

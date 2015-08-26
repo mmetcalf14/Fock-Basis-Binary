@@ -396,13 +396,13 @@ void Hamiltonian::Build_Interactions()
                         
                     r = ((IndexU_dn(i,l)-1)*count_up) + IndexU_up(i,k);
                         cout << "r: " << r << endl;
-                    Ham_Interact.coeffRef((r-1), (r-1)) += U;//do we need a -1? double check here
+                    TL_Ubase.push_back(Tp(r-1,r-1, U ));//do we need a -1? double check here
                     }
                 }
                 else
                 {
                 r = ((IndexU_dn(i,l)-1)*count_up) + IndexU_up(i,k);
-                    Ham_Interact.coeffRef((r-1), (r-1)) += U;
+                    TL_Ubase.push_back(Tp(r-1,r-1, U ));
                 }
             }
         }
@@ -414,7 +414,7 @@ void Hamiltonian::Build_Interactions()
 void Hamiltonian::Set_Mat_Dim()
 {
     //std::cout << "Entering dimension alg \n";
-    Tot_base = count_up*count_dn+1; //should this be size t or int for matrix dim
+    Tot_base = count_up*count_dn; //should this be size t or int for matrix dim
     HopHam_down.resize(Tot_base, Tot_base);
     HopHam_up.resize(Tot_base, Tot_base);
     Ham_Interact.resize(Tot_base,Tot_base);

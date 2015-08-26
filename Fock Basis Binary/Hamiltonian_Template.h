@@ -107,7 +107,7 @@ public:
 class Lanczos_Diag //:public Hamiltonian
 {
 private:
-    
+    int itmax = 200;
     //typedef Eigen::SparseMatrix<double> SpMat;
     
     Eigen::MatrixXd TriDiag;
