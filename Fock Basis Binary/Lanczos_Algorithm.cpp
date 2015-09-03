@@ -12,6 +12,16 @@
 using namespace std;
 #define TESTMAT
 
+void Lanczos_Diag::TimeEvoCoeff()
+{
+    I.real(0.0);
+    I.imag(1.0);
+    dt = .01;
+    t = 0.;
+    T_f = 1;
+    hbar = 1.;
+}
+
 void Lanczos_Diag::Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos)
 {
     Test_Ham = _Test_Ham;
@@ -25,7 +35,7 @@ void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
     TriDiag = Eigen::MatrixXd::Zero(itmax, itmax);//set a max iteration dim limit
     
     Lanczos_Vec = Eigen::VectorXd::Random(tb.Tot_base);
-    G_state = Eigen::VectorXd::Zero(tb.Tot_base);
+    G_state = Eigen::VectorXcd::Zero(tb.Tot_base);
     
     r_vec.resize(tb.Tot_base);
 }
@@ -33,9 +43,9 @@ void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
 void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
 {
     bool Converged = false; //used to exit while loop should I set it to false here?
-    Eigen::MatrixXd Work_Mat;
-    Eigen::VectorXd Eval;
-    Eigen::VectorXd Eval_P;
+    Eigen::MatrixXcd Work_Mat;
+    //Eigen::VectorXd Eval;
+    Eigen::VectorXcd Eval_P;
     
     
 //#ifdef TESTMAT
@@ -44,7 +54,7 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
 //#endif
     
     Lanczos_Vec.normalize(); //check if the new vector is normalized...it is
-
+    //when iterating with time evolution use Lanczos_Vec = G_state
     
    // cout <<"After normalization: \n"<< Lanczos_Vec <<" " << Lanczos_Vec.norm()<< endl;
     K_Mat.push_back(Lanczos_Vec);
@@ -77,7 +87,8 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
             //cout << "Beta is: " << beta << endl;
         }
        // cout << K_Mat[it] << " " << K_Mat[it].adjoint() << endl;
-        alpha = K_Mat[it].adjoint().dot( r_vec );//this is correct
+        alpha = K_Mat[it].adjoint().dot( r_vec );//alpha is real, but the computer won't accept it
+        //when equating with complex values
         
         r_vec -= (alpha*K_Mat[it]); //= r_vec changed to -=
         beta = r_vec.norm();
@@ -100,9 +111,9 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
             //cout << "Eigenvalues on " << it << " iteration /n" << Eval << endl;
             if(it > 2)
             {
-                double Eval_Dif = Eval_P(0) - Eval(0);
+                complex<double> Eval_Dif = Eval_P(0) - Eval(0);
                 
-                if(Eval_Dif < .0000000000001)
+                if(Eval_Dif.real() < .0000000000001)
                 {
                  cout << "Dif of Eval is zero \n";
                     Converged = true;
@@ -164,7 +175,7 @@ void Lanczos_Diag::Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hami
             size_t ind = ((j-1)*ct_up.count_up)+i; //finding appropriate Fock state
             //cout << "Index: "<< ind << endl;
             
-            double cf = G_state(ind-1)*G_state(ind-1);
+            double cf = G_state(ind-1).real()*G_state(ind-1).real();
             
             for(int n = 0; n < Nsite.L; n++)
             {
@@ -193,6 +204,27 @@ void Lanczos_Diag::Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hami
     {
         cout << n_dn[i] << endl;
     }
+    
+    ResetLanczos();
+}
+
+void Lanczos_Diag::ResetLanczos()
+{
+    Lanczos_Vec = G_state;
+    Diagonalize(ham, ham);//how do I do this with the object input?
+    
+}
+
+void Lanczos_Diag::GetExponential()
+{
+    Eigen::VectorXcd D;
+    
+    for(int i = 0; i < 20; i++)
+    {
+        D(i) = exp((I*dt*Eval(i))/hbar);
+    }
+    
+    D_Mat = D.asDiagonal();
     
     
 }

@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
+#include <complex>
 #include "/usr/include/Eigen/Eigen"
 #include "/usr/include/Eigen/Sparse"
 #include "/usr/include/Eigen/Core"
@@ -102,7 +104,7 @@ public:
     void Set_Const(double t_1, double t_2, double _U);
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();
-};
+} ham;
 
 class Lanczos_Diag //:public Hamiltonian
 {
@@ -111,21 +113,29 @@ private:
     //typedef Eigen::SparseMatrix<double> SpMat;
     
     Eigen::MatrixXd TriDiag;
-    std::vector<Eigen::VectorXd> K_Mat;
-    Eigen::VectorXd Lanczos_Vec;
-    Eigen::VectorXd Lanczos_Vec_Temp;
-    Eigen::VectorXd r_vec;
+    std::vector<Eigen::VectorXcd> K_Mat;
+    Eigen::VectorXcd Lanczos_Vec;
+    Eigen::VectorXcd Lanczos_Vec_Temp;
+    Eigen::VectorXcd r_vec;
     Eigen::Matrix4d Test_Ham;
     Eigen::Vector4d Test_Lanczos;
-    Eigen::MatrixXd Evec_Mat;
-    Eigen::VectorXd G_state;
-    Eigen::VectorXd Evec;
+    Eigen::MatrixXcd Evec_Mat;
+    Eigen::MatrixXcd D_Mat;
+    Eigen::VectorXcd G_state;
+    Eigen::VectorXcd Evec;
+    Eigen::VectorXcd Eval;
     //Eigen::VectorXd G_state_realspace;
     
+    //time evolution constants
+    std::complex<double> I;
+    double dt;
+    double t;
+    int T_f;
+    double hbar;
 
     
-    double alpha;
-    double beta;
+    double alpha;//alpha can be complex
+    double beta; //beta is real because a modulus is always real
     int cnt;
     
 public:
@@ -134,6 +144,7 @@ public:
     std::vector<double> n_dn;
     
     Lanczos_Diag(const Hamiltonian){};//Program not accepting this constructor::SEE ERROR
+    void TimeEvoCoeff();
     //construct new,simple matrix to test algorithm and eigen values
     //and set Lanz vec to be one from analytical example
     void Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos);
@@ -146,6 +157,9 @@ public:
     void Get_Gstate();
     //void Test_Tri();
     void Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& Nsite,const Hamiltonian& basis_up,const Hamiltonian& basis_dn);
+    void ResetLanczos();
+    void GetExponential();
+    void TimeEvolve();
     
     
 };

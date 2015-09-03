@@ -67,6 +67,7 @@ int main(int argc, const char * argv[])
     cout << U << endl;
     cout << output << endl;
     
+    
     ofstream fout(output);
     assert(fout.is_open());
     
@@ -115,7 +116,7 @@ int main(int argc, const char * argv[])
     //seperate |G> states for nup and ndn
     Diag.Gstate_RealSpace(ham, ham, ham, ham, ham);
     
-    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite); //can I put this function in source file?
     
     fout.close();
     cout << "Code is Done! \n";
