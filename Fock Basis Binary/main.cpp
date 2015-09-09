@@ -34,6 +34,8 @@ int main(int argc, const char * argv[])
     double t_1;
     double t_2;
     double U;
+    int T_f;
+    double dt = 0.01;
     char output[60];
     Matrix4d Test_Ham;
     Vector4d Test_Lanczos;
@@ -57,6 +59,7 @@ int main(int argc, const char * argv[])
     ReadFile >> t_1;
     ReadFile >> t_2;
     ReadFile >> U;
+    ReadFile >> T_f;
     ReadFile >> output;
     
     cout << Nup << endl;
@@ -66,6 +69,8 @@ int main(int argc, const char * argv[])
     cout << t_2 << endl;
     cout << U << endl;
     cout << output << endl;
+    
+    int T_tot = T_f/dt;
     
     
     ofstream fout(output);
@@ -79,7 +84,7 @@ int main(int argc, const char * argv[])
     
  
     //set hopping and interaction coefficients
-    ham.Set_Const(t_1, t_2, U);
+    ham.Set_Const(t_1, t_2);//U=0 until |G> is found for t=0
 
     //Set Dimensions for all matrices in Ham class
     ham.Set_Mat_Dim();
@@ -106,17 +111,55 @@ int main(int argc, const char * argv[])
     //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
     
     //set Lanczos vector dimensions
+    //cout << "Setting LA Dim \n";
     Diag.Set_Mat_Dim_LA(ham);
-    //create random matrix
-    //Diagonalize.Random_Vector(); done in dimension algorithm
+    
+    //cout << "Diagonalizing \n";
+    //Diagonalization of t=0 Hamiltonian
     Diag.Diagonalize(ham, ham);
+    
+    //cout << "Get G_state \n";
     //Diag.Test_Tri();
     Diag.Get_Gstate();
+    
     //convert |G> from Fock basis to onsite basis
     //seperate |G> states for nup and ndn
-    Diag.Gstate_RealSpace(ham, ham, ham, ham, ham);
+    //cout << "Getting Density\n";
+    Diag.Density(ham, ham, ham, ham, ham);//before interaction turned on
+//    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
     
-    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite); //can I put this function in source file?
+    //Triplets removed to redo Interaction matrix after quenching
+    // and all non-zero elemenst of Total Ham and Ham_U are set to zero
+    ham.ClearTriplet();
+    
+    //K_Mat no longer need and requires insane amount of memory
+    Diag.ClearK();
+    
+    //Interactions turned on after intial ground state found
+    //if U=0 there is no need to build interaction ham until after ground state is found
+    ham.QuenchU(U);
+    ham.BaseInteraction();//redo interaction Ham and reconstruct Total Ham
+    ham.Build_Interactions();
+    ham.IntMatrix_Build();
+    ham.Total_Ham();
+    
+    
+    //Time Evolve
+//    int NN = T_tot/10;
+//    int Nflag = 0;
+//    for(int t = 0; t < T_tot; t++)
+//    {
+//        Diag.Dynamics(ham);
+//        
+//        if(Nflag == NN)
+//        {
+//           Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+//            Nflag = 0;
+//        }
+//        
+//        Nflag++;
+//    }
+    
     
     fout.close();
     cout << "Code is Done! \n";
@@ -129,7 +172,12 @@ void Write_Density(ofstream &fout, vector<double> &n_up, vector<double> &n_dn, i
     for(int i = 0; i < L; i++)
     {
         fout << i << " " << n_up[i] << " " << n_dn[i] << endl;
+        cout << i << " " << n_up[i] << " " << n_dn[i] << endl;
     }
+    fout << endl;
+    cout << endl;
+    
+    
 }
 
 

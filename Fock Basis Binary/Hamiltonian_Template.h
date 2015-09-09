@@ -99,12 +99,15 @@ public:
     void Build_Interactions();
     void BaseInteraction();
     
+    void ClearTriplet();
+    void QuenchU(double _Uquench);
+    
     void HopMatrix_Build();
     void IntMatrix_Build();
-    void Set_Const(double t_1, double t_2, double _U);
+    void Set_Const(double t_1, double t_2);
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();
-} ham;
+};
 
 class Lanczos_Diag //:public Hamiltonian
 {
@@ -113,28 +116,31 @@ private:
     //typedef Eigen::SparseMatrix<double> SpMat;
     
     Eigen::MatrixXd TriDiag;
-    std::vector<Eigen::VectorXcd> K_Mat;
-    Eigen::VectorXcd Lanczos_Vec;
-    Eigen::VectorXcd Lanczos_Vec_Temp;
-    Eigen::VectorXcd r_vec;
+    std::vector<Eigen::VectorXd> K_Mat;
+    Eigen::VectorXd Lanczos_Vec;
+    Eigen::VectorXd Lanczos_Vec_Temp;
+    Eigen::VectorXcd rc_vec;
+    Eigen::VectorXd r_vec;
+    
+    Eigen::MatrixXcd D_Mat;
+    Eigen::MatrixXcd Q_Mat;
+    Eigen::VectorXcd G_state;
+    //Eigen::VectorXcd Temp_G_state;
+    Eigen::MatrixXd Evec_Mat;
+    Eigen::VectorXd Evec;
+    Eigen::VectorXd Eval;
+    //Eigen::VectorXd G_state_realspace;
+    //Test matrices
     Eigen::Matrix4d Test_Ham;
     Eigen::Vector4d Test_Lanczos;
-    Eigen::MatrixXcd Evec_Mat;
-    Eigen::MatrixXcd D_Mat;
-    Eigen::VectorXcd G_state;
-    Eigen::VectorXcd Evec;
-    Eigen::VectorXcd Eval;
-    //Eigen::VectorXd G_state_realspace;
     
     //time evolution constants
     std::complex<double> I;
-    double dt;
-    double t;
-    int T_f;
+    double dt;//construct?
     double hbar;
 
     
-    double alpha;//alpha can be complex
+    std::complex<double> alpha;//alpha can be complex
     double beta; //beta is real because a modulus is always real
     int cnt;
     
@@ -155,10 +161,12 @@ public:
     void Diagonalize(const Hamiltonian &Ham, Hamiltonian&);
     //why isn't it recognizing the template?
     void Get_Gstate();
+    void ClearK();
     //void Test_Tri();
-    void Gstate_RealSpace(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& Nsite,const Hamiltonian& basis_up,const Hamiltonian& basis_dn);
+    void Density(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& Nsite,const Hamiltonian& basis_up,const Hamiltonian& basis_dn);
     void ResetLanczos();
     void GetExponential();
+    void Dynamics(Hamiltonian &ham);
     void TimeEvolve();
     
     

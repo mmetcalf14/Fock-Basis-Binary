@@ -21,14 +21,18 @@ Basis::Basis(size_t _L, size_t _Nup, size_t _Ndn)
     BuildBasis();
 }
 
-void Hamiltonian::Set_Const(double t_1, double t_2, double _U)
+void Hamiltonian::Set_Const(double t_1, double t_2)
 {
     J1 = t_1;
     J2 = t_2;
     //cout << J1 << " " << J2 << endl;
-    U = _U;
+    U = 0;
 }
 
+void Hamiltonian::QuenchU(double _Uquench)
+{
+    U = _Uquench;
+}
 void Basis::BuildBasis()
 {
 //    std::cout << L << " " << Nup << " " << Ndn << std::endl;
@@ -390,7 +394,7 @@ void Hamiltonian::Build_Interactions()
             for(int l = 0; l < point_dn; l++)//Currently I'm not adding in the if statement because
             {  int r;
                 if(Nup == Ndn)
-                { cout << "k: " << k << " l: " << l << endl;
+                { //cout << "k: " << k << " l: " << l << endl;
                     if( l != k)
                     {
                         
@@ -439,7 +443,7 @@ void Hamiltonian::IntMatrix_Build()
 {
     Ham_Interact.setFromTriplets(TL_Ubase.begin(), TL_Ubase.end());
     cout << "No problem building interaction Ham \n";
-//    std::cout << "The Base Interaction Hamiltonian is: \n" << Ham_Interact  << std::endl;
+    //std::cout << "The Interaction Hamiltonian is: \n" << Ham_Interact  << std::endl;
 }
 
 void Hamiltonian::Total_Ham()
@@ -447,6 +451,14 @@ void Hamiltonian::Total_Ham()
     Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
     
     //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
+}
+
+void Hamiltonian::ClearTriplet()
+{
+    TL_Ubase.clear();
+    //cout << "Is triplet set to 0? " << TL_Ubase.size() << endl;
+    Ham_Interact.setZero();
+    Ham_Tot.setZero();
 }
 
 
