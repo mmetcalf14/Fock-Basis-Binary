@@ -145,20 +145,23 @@ int main(int argc, const char * argv[])
     
     
     //Time Evolve
-//    int NN = T_tot/10;
-//    int Nflag = 0;
-//    for(int t = 0; t < T_tot; t++)
-//    {
-//        Diag.Dynamics(ham);
-//        
-//        if(Nflag == NN)
-//        {
-//           Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-//            Nflag = 0;
-//        }
-//        
-//        Nflag++;
-//    }
+    Diag.TimeEvoCoeff();
+    
+    int NN = T_tot/10;
+    int Nflag = 0;
+    for(int t = 0; t < T_tot; t++)
+    {
+        cout << "iteration: "<< t << endl;
+        Diag.Dynamics(ham);
+        
+        if(Nflag == NN)
+        {
+           Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+            Nflag = 0;
+        }
+        
+        Nflag++;
+    }
     
     
     fout.close();
