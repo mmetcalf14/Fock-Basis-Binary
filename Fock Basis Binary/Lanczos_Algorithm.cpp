@@ -225,7 +225,7 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham)
 //            cout << "2st rvec set. it:" << it << endl;
         }
 
-        alpha = Q_Mat.col(it).adjoint().dot( rc_vec );
+        alpha = Q_Mat.col(it).conjugate().dot( rc_vec );
         cout << "alpha: "<< alpha<<endl;
         rc_vec -= (alpha*Q_Mat.col(it));
 //        cout << "2st rvec set\n";
@@ -258,7 +258,7 @@ void Lanczos_Diag::GetExponential()
 {
     Eigen::VectorXcd D(10);
     //exponant has been proved numerically correct
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 9; i++)
     {
         //cout << exp(I*Eval(i)) << endl;
         D(i) = exp(-1.*(I*dt*Eval(i))/hbar);//cos((dt*Eval(i))/hbar)
