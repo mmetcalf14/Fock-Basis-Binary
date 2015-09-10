@@ -205,8 +205,10 @@ void Lanczos_Diag::Density(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& 
 void Lanczos_Diag::Dynamics(Hamiltonian &ham)
 {
     //cout << "Beginning Dynamics\n";
-    Q_Mat.col(0) = G_state;//this won't work since K_Mat is filled
+    Q_Mat.col(0) = G_state;//G_state input correctly
 //    cout << "First col of q set\n";
+    //cout << "|G>\n" << G_state << endl;
+    //cout << "Hamiltonian \n" << ham.Ham_Tot << endl; Hamiltonian is correct
     for(int it = 0; it < 9; it++)
     {
 //        cout << "it: "<< it << endl;
@@ -224,11 +226,11 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham)
         }
 
         alpha = Q_Mat.col(it).adjoint().dot( rc_vec );
-        //cout << "alpha: "<< alpha<<endl;
+        cout << "alpha: "<< alpha<<endl;
         rc_vec -= (alpha*Q_Mat.col(it));
 //        cout << "2st rvec set\n";
-        beta = rc_vec.norm();
-//        cout << "Got Beta\n";
+        beta = rc_vec.norm();//beta converges to zero but the iteration keeps going
+        cout << "Got Beta" << beta << endl;
         TriDiag(it,it) = alpha.real();
         TriDiag(it+1,it)=beta; //self adjoint eigensolver only uses lower triangle
 //        cout << "TriDiag set\n";
@@ -242,7 +244,9 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham)
     Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
     Evec_Mat = DiagMe.eigenvectors();
     //cout << "Q mat: \n" << Q_Mat << endl;
-
+//    cout << "Evec: \n" << Evec_Mat << endl;
+//    cout << "Q mat adjoint: \n" << Q_Mat.adjoint() << endl;
+//    cout << "Evec adjoint: \n" << Evec_Mat.adjoint() << endl;
     //cout << "Beginning Exponential\n";
     GetExponential();
     
@@ -271,11 +275,10 @@ void Lanczos_Diag::TimeEvolve()
 {
     
     Eigen::VectorXcd Temp_Gstate;
-    
 
     
         Temp_Gstate = Q_Mat*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Q_Mat.adjoint()*G_state;
-//    cout << "Temp G_state: \n" << Temp_Gstate << endl;//I don't think this is correct
+    //cout << "Temp G_state: \n" << Temp_Gstate << endl;//multiplication correct
 //    cout << "G_state: \n" << G_state << endl;
         G_state = Temp_Gstate;
     
