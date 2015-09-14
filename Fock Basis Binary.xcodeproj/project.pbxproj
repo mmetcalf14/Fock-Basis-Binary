@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3110E011B2F65F900363281 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3110E001B2F65F900363281 /* main.cpp */; };
+		D3110E011B2F65F900363281 /* main_dynamic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3110E001B2F65F900363281 /* main_dynamic.cpp */; };
 		D3B73C7C1B68047B00DD3BF8 /* Lanczos_Algorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3B73C7B1B68047B00DD3BF8 /* Lanczos_Algorithm.cpp */; };
 		D3E192D71B43083D008B1764 /* Hamiltonian_Template.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3E192D61B43083D008B1764 /* Hamiltonian_Template.cpp */; };
 /* End PBXBuildFile section */
@@ -27,7 +27,7 @@
 /* Begin PBXFileReference section */
 		671C05841B3DE7C100D96150 /* ed */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ed; sourceTree = "<group>"; };
 		D3110DFD1B2F65F900363281 /* Fock Basis Binary */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Fock Basis Binary"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D3110E001B2F65F900363281 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D3110E001B2F65F900363281 /* main_dynamic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main_dynamic.cpp; sourceTree = "<group>"; };
 		D3B73C7B1B68047B00DD3BF8 /* Lanczos_Algorithm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lanczos_Algorithm.cpp; sourceTree = "<group>"; };
 		D3E192D61B43083D008B1764 /* Hamiltonian_Template.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hamiltonian_Template.cpp; sourceTree = "<group>"; };
 		D3E722F51B41A37900D99F48 /* Hamiltonian_Template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hamiltonian_Template.h; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 		D3110DFF1B2F65F900363281 /* Fock Basis Binary */ = {
 			isa = PBXGroup;
 			children = (
-				D3110E001B2F65F900363281 /* main.cpp */,
+				D3110E001B2F65F900363281 /* main_dynamic.cpp */,
 				D3E722F51B41A37900D99F48 /* Hamiltonian_Template.h */,
 				D3E192D61B43083D008B1764 /* Hamiltonian_Template.cpp */,
 				D3B73C7B1B68047B00DD3BF8 /* Lanczos_Algorithm.cpp */,
@@ -130,7 +130,7 @@
 			files = (
 				D3E192D71B43083D008B1764 /* Hamiltonian_Template.cpp in Sources */,
 				D3B73C7C1B68047B00DD3BF8 /* Lanczos_Algorithm.cpp in Sources */,
-				D3110E011B2F65F900363281 /* main.cpp in Sources */,
+				D3110E011B2F65F900363281 /* main_dynamic.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
