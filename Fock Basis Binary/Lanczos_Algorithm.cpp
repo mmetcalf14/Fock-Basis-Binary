@@ -214,8 +214,11 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
     int it = 0;
     Eigen::MatrixXd Work_Tri;
     Eigen::MatrixXcd Work_Q;
+    //D_Mat = Eigen::MatrixXcd::Zero(imax, imax);
     
+    cout << "G_state before norm\n" << G_state << endl;
     G_state.normalize();
+    //cout << "G_state after norm\n" << G_state << endl;
     Q_Mat.col(0) = G_state;//G_state input correctly
 
     
@@ -273,6 +276,7 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Tri);
     Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
     Evec_Mat = DiagMe.eigenvectors();
+    cout << "New Eigenvalues: " << Eval << endl;
 
     GetExponential(Eval, it);
     
@@ -299,6 +303,10 @@ void Lanczos_Diag::GetExponential(const Eigen::VectorXd& vec, int max_it)
     }
 
     D_Mat = D.asDiagonal();
+    
+    //cout << "itmax: " << max_it << endl;
+    //cout << Eval.size()  << endl;
+    //cout << "D_Mat: \n" << D_Mat << endl;//these values are not changing with each iteration
 
     //return D_Mat;//this may cause problems since D_Mat is defined in class
 }
