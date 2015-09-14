@@ -52,6 +52,11 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
     Eigen::VectorXd Eval_P;
     std::vector<Eigen::VectorXd> K_Mat;
     
+    Eigen::MatrixXd Evec_Mat;
+    Eigen::VectorXd Eval;
+    
+    Eigen::VectorXd Evec;
+    
     
 //#ifdef TESTMAT
 //    Lanczos_Vec = Test_Lanczos;
@@ -214,9 +219,11 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
     int it = 0;
     Eigen::MatrixXd Work_Tri;
     Eigen::MatrixXcd Work_Q;
+    Eigen::MatrixXd Evec_Mat;
+    Eigen::VectorXd Eval;
     //D_Mat = Eigen::MatrixXcd::Zero(imax, imax);
     
-    cout << "G_state before norm\n" << G_state << endl;
+    //cout << "G_state before norm\n" << G_state << endl;
     G_state.normalize();
     //cout << "G_state after norm\n" << G_state << endl;
     Q_Mat.col(0) = G_state;//G_state input correctly
@@ -240,12 +247,13 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
         }
 
         alpha = Q_Mat.col(it).dot( rc_vec );//this shouldn't be giving complex
+        //cout << "alpha: "<<alpha << endl;
         TriDiag(it,it) = alpha.real();
         
         rc_vec -= (alpha*Q_Mat.col(it));
 
         beta = rc_vec.norm();//beta converges to zero but the iteration keeps going
-
+        //cout << "beta: "<<beta << endl;
         
         TriDiag(it+1,it)=beta; //self adjoint eigensolver only uses lower triangle
 
@@ -269,7 +277,7 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
     Work_Q = Q_Mat.block(0,0,tb.Tot_base,it);
     
 //    cout <<"Tri Matrix: \n" << TriDiag << endl;
-//    cout <<"Block Tri Matrix: \n" << Work_Tri << endl;
+    cout <<"Block Tri Matrix: \n" << Work_Tri << endl;
     //cout << "Q_Mat:\n" << Work_Q << endl;
     //Work Tri looks good now when beta =0 and when it =imax
     

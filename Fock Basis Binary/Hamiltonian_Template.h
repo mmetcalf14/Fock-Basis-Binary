@@ -126,9 +126,7 @@ private:
     Eigen::MatrixXcd Q_Mat;
     Eigen::VectorXcd G_state;
     //Eigen::VectorXcd Temp_G_state;
-    Eigen::MatrixXd Evec_Mat;
-    Eigen::VectorXd Evec;
-    Eigen::VectorXd Eval;
+
     //Eigen::VectorXd G_state_realspace;
     //Test matrices
     Eigen::Matrix4d Test_Ham;
