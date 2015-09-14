@@ -116,7 +116,7 @@ private:
     //typedef Eigen::SparseMatrix<double> SpMat;
     
     Eigen::MatrixXd TriDiag;
-    std::vector<Eigen::VectorXd> K_Mat;
+    
     Eigen::VectorXd Lanczos_Vec;
     Eigen::VectorXd Lanczos_Vec_Temp;
     Eigen::VectorXcd rc_vec;
@@ -150,7 +150,7 @@ public:
     std::vector<double> n_dn;
     
     Lanczos_Diag(const Hamiltonian){};//Program not accepting this constructor::SEE ERROR
-    void TimeEvoCoeff();
+    void TimeEvoCoeff(const double &_dt);
     //construct new,simple matrix to test algorithm and eigen values
     //and set Lanz vec to be one from analytical example
     void Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos);
@@ -160,14 +160,14 @@ public:
    // template <typename Derived>
     void Diagonalize(const Hamiltonian &Ham, Hamiltonian&);
     //why isn't it recognizing the template?
-    void Get_Gstate();
-    void ClearK();
+    
+    
     //void Test_Tri();
-    void Density(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& Nsite,const Hamiltonian& basis_up,const Hamiltonian& basis_dn);
+    void Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, Hamiltonian& Nsite,const Hamiltonian& basis_up,const Hamiltonian& basis_dn);
     void ResetLanczos();
-    void GetExponential();
-    void Dynamics(Hamiltonian &ham);
-    void TimeEvolve();
+    void GetExponential(const Eigen::VectorXd& vec, int max_it);
+    void Dynamics(Hamiltonian &ham, Hamiltonian &tb);
+    
     
     
 };

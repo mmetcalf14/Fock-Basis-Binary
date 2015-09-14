@@ -12,12 +12,12 @@
 using namespace std;
 #define TESTMAT
 
-void Lanczos_Diag::TimeEvoCoeff()
+void Lanczos_Diag::TimeEvoCoeff(const double &_dt)
 {
     I.real(0.0);
     I.imag(1.0);
     cout << "I: " << I << endl;
-    dt = .01;
+    dt = _dt;
     hbar = 1.;
 }
 
@@ -50,6 +50,7 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
     Eigen::MatrixXd Work_Mat;
     //Eigen::VectorXd Eval;
     Eigen::VectorXd Eval_P;
+    std::vector<Eigen::VectorXd> K_Mat;
     
     
 //#ifdef TESTMAT
@@ -87,12 +88,13 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
             //cout << "Beta is: " << beta << endl;
         }
         // cout << K_Mat[it] << " " << K_Mat[it].adjoint() << endl;
-        alpha = K_Mat[it].adjoint().dot( r_vec );//this is correct
+        alpha = K_Mat[it].dot( r_vec );//this is correct
         
         r_vec -= (alpha.real()*K_Mat[it]); //= r_vec changed to -=
         beta = r_vec.norm();
         TriDiag(it,it) = alpha.real();
         TriDiag(it+1,it)=beta; //self adjoint eigensolver only uses lower triangle
+        TriDiag(it,it+1)=beta;
         r_vec.normalize(); //this is the new Lanczos Vector
         K_Mat.push_back(r_vec);
         
@@ -140,26 +142,23 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
     Evec = Evec_Mat.col(0);
     TriDiag.resize(10,10);
     //cout << "We have Eigenvectors \n" << Evec_Mat << endl;
-}
-
-void Lanczos_Diag::Get_Gstate()
-{
-
+    
     for(int i = 0; i < cnt; i++)
     {
         G_state.real() += K_Mat[i]*Evec.row(i);//Evec.row(i)**K_Mat[i]
     }
-    
-    
 }
 
 
-void Lanczos_Diag::Density(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& Nsite, const Hamiltonian& basis_up, const Hamiltonian& basis_dn)
+
+
+void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, Hamiltonian& Nsite, const Hamiltonian& basis_up, const Hamiltonian& basis_dn)
 {
     n_up.resize(Nsite.L,0.0);
     n_dn.resize(Nsite.L,0.0);
-//    cout << "count up is " << ct_up.count_up <<endl;
-//    cout << "count down is " << ct_dn.count_dn <<endl;
+
+    cout << "G_state:\n" << G_state << endl;//a couple values over 1 with time
+                                            //this can't be true since the sum can only be one
     
     for(size_t i = 1; i <= ct_up.count_up; i++)//have to start at 1 change all appropriatly
     {
@@ -170,6 +169,7 @@ void Lanczos_Diag::Density(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& 
             
             complex<double> cf = conj(G_state(ind-1))*G_state(ind-1);
             
+            
             for(int n = 0; n < Nsite.L; n++)
             {
                 size_t bas_up = basis_up.basis_up[i-1];
@@ -177,6 +177,10 @@ void Lanczos_Diag::Density(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& 
                 
                 if(MY_bittest(bas_up, n))//testing if up particle in Fock state on site n
                 {
+                    //cout << ind << " " << n << " " << bas_up << endl;
+                    //the above are consistent with each iteration
+                    //no large values for G_state
+                    //cout << "cf: " << cf << endl; cf is fully real
                     n_up.at(n) += cf.real();
                 }
                 if(MY_bittest(bas_dn, n))//testing if down particle in Fock state on site n
@@ -202,93 +206,101 @@ void Lanczos_Diag::Density(Hamiltonian& ct_up, Hamiltonian& ct_dn, Hamiltonian& 
 }
 
 
-void Lanczos_Diag::Dynamics(Hamiltonian &ham)
+void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
 {
     //cout << "Beginning Dynamics\n";
+    
+    int imax = 9;
+    int it = 0;
+    Eigen::MatrixXd Work_Tri;
+    Eigen::MatrixXcd Work_Q;
+    
+    G_state.normalize();
     Q_Mat.col(0) = G_state;//G_state input correctly
-//    cout << "First col of q set\n";
-    //cout << "|G>\n" << G_state << endl;
-    //cout << "Hamiltonian \n" << ham.Ham_Tot << endl; Hamiltonian is correct
-    for(int it = 0; it < 9; it++)
+
+    
+    
+    do
     {
-//        cout << "it: "<< it << endl;
+        
         if(it == 0)
         {
             
             rc_vec = ham.Ham_Tot*Q_Mat.col(it);
-//            cout << "1st rvec set\n";
+
         }
         else
         {
             
             rc_vec = ham.Ham_Tot*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
-//            cout << "2st rvec set. it:" << it << endl;
+
         }
 
-        alpha = Q_Mat.col(it).conjugate().dot( rc_vec );
-        cout << "alpha: "<< alpha<<endl;
-        rc_vec -= (alpha*Q_Mat.col(it));
-//        cout << "2st rvec set\n";
-        beta = rc_vec.norm();//beta converges to zero but the iteration keeps going
-        cout << "Got Beta" << beta << endl;
+        alpha = Q_Mat.col(it).dot( rc_vec );//this shouldn't be giving complex
         TriDiag(it,it) = alpha.real();
+        
+        rc_vec -= (alpha*Q_Mat.col(it));
+
+        beta = rc_vec.norm();//beta converges to zero but the iteration keeps going
+
+        
         TriDiag(it+1,it)=beta; //self adjoint eigensolver only uses lower triangle
-//        cout << "TriDiag set\n";
+
+        TriDiag(it,it+1)=beta;
         rc_vec.normalize(); //this is the new Lanczos Vector
-//        cout << "Next q col set\n";
+
         Q_Mat.col(it+1) = rc_vec;//it+1 since we aren't using pushback
-    }
+        
+        it++;
+    }while((it < imax) && (beta > .0000000001));
+    
+    //testing by adding another alpha and taking full matrix. Theorem may not prove true without
+    //beta=0 elements
+    rc_vec = ham.Ham_Tot*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
+    alpha = Q_Mat.col(it).dot( rc_vec );//this shouldn't be giving complex
+    TriDiag(it,it) = alpha.real();
+    it++;
     
     
-    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(TriDiag);
+    Work_Tri = TriDiag.block(0,0,it,it);//do I need to include zero for beta
+    Work_Q = Q_Mat.block(0,0,tb.Tot_base,it);
+    
+//    cout <<"Tri Matrix: \n" << TriDiag << endl;
+//    cout <<"Block Tri Matrix: \n" << Work_Tri << endl;
+    //cout << "Q_Mat:\n" << Work_Q << endl;
+    //Work Tri looks good now when beta =0 and when it =imax
+    
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Tri);
     Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
     Evec_Mat = DiagMe.eigenvectors();
-    //cout << "Q mat: \n" << Q_Mat << endl;
-//    cout << "Evec: \n" << Evec_Mat << endl;
-//    cout << "Q mat adjoint: \n" << Q_Mat.adjoint() << endl;
-//    cout << "Evec adjoint: \n" << Evec_Mat.adjoint() << endl;
-    //cout << "Beginning Exponential\n";
-    GetExponential();
-    
-    
-}
 
-
-void Lanczos_Diag::GetExponential()
-{
-    Eigen::VectorXcd D(10);
-    //exponant has been proved numerically correct
-    for(int i = 0; i < 9; i++)
-    {
-        //cout << exp(I*Eval(i)) << endl;
-        D(i) = exp(-1.*(I*dt*Eval(i))/hbar);//cos((dt*Eval(i))/hbar)
-    }
-
-    D_Mat = D.asDiagonal();
-   // cout << "D_Mat: \n" << D_Mat << endl;
-    
-    //cout << "Beginning Time Evolution\n";
-    TimeEvolve();
-}
-
-void Lanczos_Diag::TimeEvolve()
-{
+    GetExponential(Eval, it);
     
     Eigen::VectorXcd Temp_Gstate;
 
     
-        Temp_Gstate = Q_Mat*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Q_Mat.adjoint()*G_state;
-    //cout << "Temp G_state: \n" << Temp_Gstate << endl;//multiplication correct
-//    cout << "G_state: \n" << G_state << endl;
-        G_state = Temp_Gstate;
+    Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;
+    //cout << "Got the new ground state\n";
+    G_state = Temp_Gstate;
     
     
 }
 
-void Lanczos_Diag::ClearK()
+
+void Lanczos_Diag::GetExponential(const Eigen::VectorXd& vec, int max_it)
 {
-    K_Mat.clear();
-    //cout << "Is K_Mat set to 0? " << K_Mat.size() << endl;
+    //int it = max_it-1;
+    Eigen::VectorXcd D(max_it);//max_it is the number of iteration done in Dynamics (it)
+
+    for(int i = 0; i < max_it; i++)
+    {
+        
+        D(i) = exp(-1.*(I*dt*vec(i))/hbar);//cos((dt*Eval(i))/hbar)
+    }
+
+    D_Mat = D.asDiagonal();
+
+    //return D_Mat;//this may cause problems since D_Mat is defined in class
 }
 
 
