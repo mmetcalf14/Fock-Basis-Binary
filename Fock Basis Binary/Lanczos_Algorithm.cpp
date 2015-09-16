@@ -59,11 +59,12 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
     
     
 //#ifdef TESTMAT
-//    Lanczos_Vec = Test_Lanczos;
+    //Lanczos_Vec = Test_Lanczos;
 //    Eigen::Tridiagonalization<Eigen::MatrixXd> triOfHam(Test_Ham);
 //#endif
-    
+    //cout << "Lanczos not norm: " << Lanczos_Vec << endl;
     Lanczos_Vec.normalize();
+    //cout << "Lanczos norm: " << Lanczos_Vec << endl;
 
     K_Mat.push_back(Lanczos_Vec);//error here
     int it = 0;
@@ -77,7 +78,7 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
             r_vec = Ham.Ham_Tot*K_Mat[it]; //how can I use ifdef here?
             
             //#ifdef TESTMAT
-            //           r_vec = Test_Ham*K_Mat[it];
+                       //r_vec = Test_Ham*K_Mat[it];
             //#endif
             
         }
@@ -87,16 +88,17 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
             r_vec = Ham.Ham_Tot*K_Mat[it]-(beta*K_Mat[it-1]);
             
             //            #ifdef TESTMAT
-            //            r_vec = Test_Ham*K_Mat[it]-(beta*K_Mat[it-1]);
+              //          r_vec = Test_Ham*K_Mat[it]-(beta*K_Mat[it-1]);
             //            #endif
             
             //cout << "Beta is: " << beta << endl;
         }
         // cout << K_Mat[it] << " " << K_Mat[it].adjoint() << endl;
         alpha = K_Mat[it].dot( r_vec );//this is correct
-        
+        //cout << "alpha: " << alpha << endl;
         r_vec -= (alpha.real()*K_Mat[it]); //= r_vec changed to -=
         beta = r_vec.norm();
+        //cout << "Beta: " << beta << endl;
         TriDiag(it,it) = alpha.real();
         TriDiag(it+1,it)=beta; //self adjoint eigensolver only uses lower triangle
         TriDiag(it,it+1)=beta;
@@ -142,6 +144,7 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
         
     }while(!(Converged));
     
+    //cout << "T mat: " << TriDiag << endl;
     cnt = it;
     Evec.resize(cnt);
     Evec = Evec_Mat.col(0);
@@ -159,11 +162,18 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
 
 void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, Hamiltonian& Nsite, const Hamiltonian& basis_up, const Hamiltonian& basis_dn)
 {
-    n_up.resize(Nsite.L,0.0);
-    n_dn.resize(Nsite.L,0.0);
-
-    cout << "G_state:\n" << G_state << endl;//a couple values over 1 with time
+    n_up.resize(Nsite.L);
+    n_dn.resize(Nsite.L);
+    for(auto &j : n_up){
+        j = 0.0;
+    }
+    for(auto &j : n_dn){
+        j = 0.0;
+    }
+    //cout << "G_state:\n" << G_state << endl;//a couple values over 1 with time
                                             //this can't be true since the sum can only be one
+    double sum = 0;
+    
     
     for(size_t i = 1; i <= ct_up.count_up; i++)//have to start at 1 change all appropriatly
     {
@@ -171,9 +181,9 @@ void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, H
         {
             size_t ind = ((j-1)*ct_up.count_up)+i; //finding appropriate Fock state
             //cout << "Index: "<< ind << endl;
-            
+            // cout << "Normalized? " << G_state.dot(G_state) << endl;
             complex<double> cf = conj(G_state(ind-1))*G_state(ind-1);
-            
+            sum += cf.real();
             
             for(int n = 0; n < Nsite.L; n++)
             {
@@ -182,7 +192,7 @@ void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, H
                 
                 if(MY_bittest(bas_up, n))//testing if up particle in Fock state on site n
                 {
-                    //cout << ind << " " << n << " " << bas_up << endl;
+                    //cout << ind << " " << n << " " << bas_up << " " << cf << endl;
                     //the above are consistent with each iteration
                     //no large values for G_state
                     //cout << "cf: " << cf << endl; cf is fully real
@@ -195,6 +205,8 @@ void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, H
             }
         }
     }
+    
+    cout << "Sum: "<< sum;
     
     cout << "Here is the ground state for up spin: \n";
     for(int i = 0; i < Nsite.L; i++)
@@ -213,7 +225,7 @@ void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, H
 
 void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
 {
-    //cout << "Beginning Dynamics\n";
+    cout << "Beginning Dynamics\n";
     
     int imax = 9;
     int it = 0;
@@ -221,11 +233,14 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
     Eigen::MatrixXcd Work_Q;
     Eigen::MatrixXd Evec_Mat;
     Eigen::VectorXd Eval;
+    //G_state = Eigen::VectorXcd::Zero(tb.Tot_base);
     //D_Mat = Eigen::MatrixXcd::Zero(imax, imax);
     
-    //cout << "G_state before norm\n" << G_state << endl;
-    G_state.normalize();
-    //cout << "G_state after norm\n" << G_state << endl;
+    //DEGUG
+    cout << "Assigning Gstate\n";
+    //G_state.real() = Test_Lanczos;
+    
+    
     Q_Mat.col(0) = G_state;//G_state input correctly
 
     
@@ -237,12 +252,13 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
         {
             
             rc_vec = ham.Ham_Tot*Q_Mat.col(it);
-
+            //rc_vec = Test_Ham*Q_Mat.col(it);
         }
         else
         {
             
             rc_vec = ham.Ham_Tot*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
+            //rc_vec = Test_Ham*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
 
         }
 
@@ -277,14 +293,14 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
     Work_Q = Q_Mat.block(0,0,tb.Tot_base,it);
     
 //    cout <<"Tri Matrix: \n" << TriDiag << endl;
-    cout <<"Block Tri Matrix: \n" << Work_Tri << endl;
+    //cout <<"Block Tri Matrix: \n" << Work_Tri << endl;
     //cout << "Q_Mat:\n" << Work_Q << endl;
     //Work Tri looks good now when beta =0 and when it =imax
     
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Tri);
     Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
     Evec_Mat = DiagMe.eigenvectors();
-    cout << "New Eigenvalues: " << Eval << endl;
+    //cout << "New Eigenvalues: " << Eval << endl;
 
     GetExponential(Eval, it);
     
@@ -294,6 +310,11 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
     Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;
     //cout << "Got the new ground state\n";
     G_state = Temp_Gstate;
+    
+    //cout << "G_state before norm\n" << G_state << endl;
+    G_state.normalize();
+    //cout << "G_state after norm\n" << G_state << endl;
+    
     
     
 }

@@ -108,7 +108,7 @@ int main(int argc, const char * argv[])
     //create object for diag class
     Lanczos_Diag Diag(ham);//how to I do this constructor
     
-    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
+    Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
     
     //set Lanczos vector dimensions
     //cout << "Setting LA Dim \n";
@@ -139,8 +139,10 @@ int main(int argc, const char * argv[])
     ham.Total_Ham();
     
     
+    
     //Time Evolve
     Diag.TimeEvoCoeff(dt);
+   // Diag.Dynamics(ham, ham);
     
     int NN = T_tot/10;
     int Nflag = 0;
