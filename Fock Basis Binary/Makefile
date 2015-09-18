@@ -54,7 +54,7 @@ all: ed.app
 ed.app: main.o $(LIB)
 	$(CC) -o $@ $< $(LIB)
 
-main.o: main.cpp
+main.o: main_static.cpp
 	$(CC) -c -o $@ $<
 
 Hamiltonian_Template.o: Hamiltonian_Template.cpp

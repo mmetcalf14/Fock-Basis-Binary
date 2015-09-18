@@ -10,9 +10,13 @@
 #include <vector>
 #include <cmath>
 #include <complex>
-#include "/usr/include/Eigen/Eigen"
-#include "/usr/include/Eigen/Sparse"
-#include "/usr/include/Eigen/Core"
+#include "Eigen/Eigen"
+// #include "Eigen/Dense"
+// #include "Eigen/Sparse"
+// #include "Eigen/Eigenvalues"
+// #include "/usr/include/Eigen/Eigen"
+// #include "/usr/include/Eigen/Sparse"
+// #include "/usr/include/Eigen/Core"
 
 #ifndef Fock_Basis_Binary_Hamiltonian_Template_h
 #define Fock_Basis_Binary_Hamiltonian_Template_h
@@ -23,7 +27,7 @@
  class Basis //declare class for basis creation
 {
 private:  //have to talk to values through constructor function
-    
+
 
 protected:
     std::vector<size_t> basis_up;
@@ -39,7 +43,7 @@ public:
     void BuildBasis();
     inline size_t getNsite()const{return L;};
     inline void changeNsite(size_t New_L){L = New_L;};
-    
+
 };
 
 //template <class T>
@@ -47,24 +51,24 @@ class Hamiltonian :public Basis //declare class for Hamiltonian matrices
 {
     friend class Lanczos_Diag;
 private:
-    
+
     double J1; //A-B hopping
     double J2; //B-A hopping
-    
+
     double U;
-    
-    
-    
+
+
+
     typedef Eigen::SparseMatrix<double> SpMat;
 
     typedef Eigen::Triplet<double> Tp;
-    
+
     std::vector<Tp> TL_up;
     std::vector<Tp> TL_down;
     std::vector<Tp> TL_Ubase;
     //    TL_up.reserve(3); //put this in the function
 //    TL_down.reserve(3);
-    
+
     //Interaction Index Matrices
     Eigen::MatrixXd IndexU_up;
     Eigen::MatrixXd IndexU_dn;
@@ -76,7 +80,7 @@ private:
     SpMat HopHam_down;
     SpMat Ham_Interact;
     SpMat Ham_Tot;
-    
+
 
 protected:
 //    int Tot_base;
@@ -85,11 +89,11 @@ protected:
 //    SpMat HopHam_down;
 //    SpMat Ham_Interact;
 //    SpMat Ham_Tot;
-    
+
 public:
-    
+
     Hamiltonian( size_t _L, size_t _Nup, size_t _Ndn ):Basis(_L, _Nup, _Ndn){};//is this costructor or
-    
+
     //making public because too difficult to pass as friend object
     //Hamiltonian Functions
     void Set_Mat_Dim();
@@ -98,10 +102,10 @@ public:
     void Interaction_Index();
     void Build_Interactions();
     void BaseInteraction();
-    
+
     void ClearTriplet();
     void QuenchU(double _Uquench);
-    
+
     void HopMatrix_Build();
     void IntMatrix_Build();
     void Set_Const(double t_1, double t_2);
@@ -114,14 +118,14 @@ class Lanczos_Diag //:public Hamiltonian
 private:
     int itmax = 200;
     //typedef Eigen::SparseMatrix<double> SpMat;
-    
+
     Eigen::MatrixXd TriDiag;
-    
+
     Eigen::VectorXd Lanczos_Vec;
     Eigen::VectorXd Lanczos_Vec_Temp;
     Eigen::VectorXcd rc_vec;
     Eigen::VectorXd r_vec;
-    
+
     Eigen::MatrixXcd D_Mat;
     Eigen::MatrixXcd Q_Mat;
     Eigen::VectorXcd G_state;
@@ -131,22 +135,22 @@ private:
     //Test matrices
     Eigen::Matrix4d Test_Ham;
     Eigen::Vector4d Test_Lanczos;
-    
+
     //time evolution constants
     std::complex<double> I;
     double dt;//construct?
     double hbar;
 
-    
+
     std::complex<double> alpha;//alpha can be complex
     double beta; //beta is real because a modulus is always real
     int cnt;
-    
+
 public:
-    
+
     std::vector<double> n_up;//public so they can be used in main program to write the file
     std::vector<double> n_dn;
-    
+
     Lanczos_Diag(const Hamiltonian){};//Program not accepting this constructor::SEE ERROR
     void TimeEvoCoeff(const double &_dt);
     //construct new,simple matrix to test algorithm and eigen values
@@ -154,20 +158,20 @@ public:
     void Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos);
     void Set_Mat_Dim_LA(Hamiltonian& );//int Tot_base
    // void Random_Vector();
-    
+
    // template <typename Derived>
     void Diagonalize(const Hamiltonian &Ham, Hamiltonian&);
     //why isn't it recognizing the template?
-    
-    
+
+
     //void Test_Tri();
     void Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, Hamiltonian& Nsite,const Hamiltonian& basis_up,const Hamiltonian& basis_dn);
     void ResetLanczos();
     void GetExponential(const Eigen::VectorXd& vec, int max_it);
     void Dynamics(Hamiltonian &ham, Hamiltonian &tb);
-    
-    
-    
+
+
+
 };
 
 
