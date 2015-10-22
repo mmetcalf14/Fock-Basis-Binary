@@ -43,7 +43,7 @@ int main(int argc, const char * argv[])
                 0,0,-1,0;
     Test_Lanczos << 0.5,0.5,0.5,0.5;
     
-    ifstream ReadFile("ED_J1J2_DataInput.cfg");
+    ifstream ReadFile("ED_J1J2_Static_DataInput.cfg");
     assert(ReadFile.is_open());
     if (!ReadFile.is_open())
     {
@@ -69,6 +69,9 @@ int main(int argc, const char * argv[])
     
     ofstream fout(output);
     assert(fout.is_open());
+    
+//    ofstream EVout("ED_J1-1_J2-2_U100_Nu1_Nd2_L3_EV_101315.dat");
+//    assert(fout.is_open());
     
     fout.setf(ios::scientific);
     fout.precision(11);
@@ -98,6 +101,7 @@ int main(int argc, const char * argv[])
     
     //add together all three matrices for total Ham
     ham.Total_Ham();
+    //ham.Check_Degeneracy(EVout);
     
     //create object for diag class
     Lanczos_Diag Diag(ham);//how to I do this constructor
@@ -118,6 +122,7 @@ int main(int argc, const char * argv[])
     Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
     
     fout.close();
+    //EVout.close();
     cout << "Code is Done! \n";
 
     return 0;

@@ -390,12 +390,12 @@ void Hamiltonian::Build_Interactions()
             for(int l = 0; l < point_dn; l++)//Currently I'm not adding in the if statement because
             {  int r;
                 if(Nup == Ndn)
-                { cout << "k: " << k << " l: " << l << endl;
+                { //cout << "k: " << k << " l: " << l << endl;
                     if( l != k)
                     {
                         
                     r = ((IndexU_dn(i,l)-1)*count_up) + IndexU_up(i,k);
-                        cout << "r: " << r << endl;
+                        //cout << "r: " << r << endl;
                     Ham_Interact.coeffRef((r-1), (r-1)) += U;//do we need a -1? double check here
                     }
                 }
@@ -414,7 +414,7 @@ void Hamiltonian::Build_Interactions()
 void Hamiltonian::Set_Mat_Dim()
 {
     //std::cout << "Entering dimension alg \n";
-    Tot_base = count_up*count_dn+1; //should this be size t or int for matrix dim
+    Tot_base = count_up*count_dn; //should this be size t or int for matrix dim
     HopHam_down.resize(Tot_base, Tot_base);
     HopHam_up.resize(Tot_base, Tot_base);
     Ham_Interact.resize(Tot_base,Tot_base);
@@ -449,6 +449,22 @@ void Hamiltonian::Total_Ham()
     //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
 
+void Hamiltonian::Check_Degeneracy(ofstream &EVout)
+{
+    Eigen::VectorXd Eval;
+    Eigen::MatrixXd Evec_q;
+    Eigen:: MatrixXd Temp_Ham;
+    Temp_Ham = Eigen::MatrixXd(Ham_Tot);
+    
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Temp_Ham);
+    Eval = DiagMe.eigenvalues();
+    //Evec_q = DiagMe.eigenvectors();
+    cout << "Full Hamiltonian Eigenvalues: \n" << Eval << endl;
+    for(int i = 0; i < Eval.size(); i++)
+    {
+        EVout << i << " " << Eval(i) << endl;
+    }
+}
 
 
 

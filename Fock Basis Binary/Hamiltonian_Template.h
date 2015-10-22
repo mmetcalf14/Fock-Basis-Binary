@@ -7,6 +7,7 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include "/usr/include/Eigen/Eigen"
 #include "/usr/include/Eigen/Sparse"
@@ -102,6 +103,8 @@ public:
     void Set_Const(double t_1, double t_2, double _U);
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();
+    
+    void Check_Degeneracy(std::ofstream &EVout);
 };
 
 class Lanczos_Diag //:public Hamiltonian

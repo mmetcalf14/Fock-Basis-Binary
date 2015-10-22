@@ -124,6 +124,9 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
         
         
     }while(!(Converged));
+    
+    //cout << "Lanczos Eval: " << Eval(0) << " " << Eval(1) << endl;
+    cout << "Energy gap: " << Eval(1)- Eval(0) << endl;
  
     cnt = it;
     Evec.resize(cnt);
