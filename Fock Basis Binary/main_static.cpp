@@ -15,10 +15,10 @@
 //#include "/usr/local/include/c++/4.9.2/Eigen/Eigen"
 //#include "/usr/local/include/c++/4.9.2/Eigen/Dense"
 //#include "/usr/local/include/c++/4.9.2/Eigen/Eigenvalues"
-// #include "/usr/include/Eigen/Sparse"
 #include "Eigen/Sparse"
 //#include "/usr/local/include/c++/4.9.2/Eigen/StdVector"
-#include "Hamiltonian_Template.h"
+#include "Hamiltonian.h"
+#include "Lanczos.h"
 using namespace std;
 using namespace Eigen;
 
@@ -84,22 +84,22 @@ int main(int argc, const char * argv[])
 
 
     //set hopping and interaction coefficients
-    ham.Set_Const(t_1, t_2);//U=0 until |G> is found for t=0
+    ham.Set_Const(t_1, t_2, 10.0);//U=0 until |G> is found for t=0
 
     //Set Dimensions for all matrices in Ham class
-    ham.Set_Mat_Dim();
+    // ham.Set_Mat_Dim();
 
     //building seperate hopping hamiltonian for up and down spin
-    ham.BuildHopHam_up();
-    ham.BuildHopHam_dn();
+    //ham.BuildHopHam_up();
+    //ham.BuildHopHam_dn();
     //set hamiltonian from triplets
     ham.HopMatrix_Build();
 
     //create indices in Fock basis
-    ham.Interaction_Index();
+    // ham.Interaction_Index();
     //build interaction matrix
-    ham.BaseInteraction();
-    ham.Build_Interactions();
+    // ham.BaseInteraction();
+    // ham.Build_Interactions();
     ham.IntMatrix_Build();
 
     //add together all three matrices for total Ham
@@ -114,7 +114,7 @@ int main(int argc, const char * argv[])
     //cout << "Setting LA Dim \n";
     Diag.Set_Mat_Dim_LA(ham);
 
-    cout << "Diagonalizing \n";
+    //cout << "Diagonalizing \n";
     //Diagonalization of t=0 Hamiltonian
     Diag.Diagonalize(ham, ham);
 

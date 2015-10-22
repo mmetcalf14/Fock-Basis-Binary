@@ -11,12 +11,10 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
-//#include "/usr/local/include/c++/4.9.2/Eigen/Eigen"
-//#include "/usr/local/include/c++/4.9.2/Eigen/Dense"
-//#include "/usr/local/include/c++/4.9.2/Eigen/Eigenvalues"
-#include "/usr/include/Eigen/Sparse"
-//#include "/usr/local/include/c++/4.9.2/Eigen/StdVector"
-#include "Hamiltonian_Template.h"
+#include </usr/include/Eigen/Sparse>
+#include "Hamiltonian.h"
+#include "Lanczos.h"
+
 using namespace std;
 using namespace Eigen;
 
@@ -108,7 +106,7 @@ int main(int argc, const char * argv[])
     //create object for diag class
     Lanczos_Diag Diag(ham);//how to I do this constructor
     
-    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
+    Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
     
     //set Lanczos vector dimensions
     //cout << "Setting LA Dim \n";
@@ -139,8 +137,10 @@ int main(int argc, const char * argv[])
     ham.Total_Ham();
     
     
+    
     //Time Evolve
     Diag.TimeEvoCoeff(dt);
+   // Diag.Dynamics(ham, ham);
     
     int NN = T_tot/10;
     int Nflag = 0;
