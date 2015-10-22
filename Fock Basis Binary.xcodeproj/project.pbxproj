@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3110E011B2F65F900363281 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3110E001B2F65F900363281 /* main.cpp */; };
-		D3E192D71B43083D008B1764 /* Hamiltonian_Template.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3E192D61B43083D008B1764 /* Hamiltonian_Template.cpp */; };
+		D3110E011B2F65F900363281 /* main_dynamic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3110E001B2F65F900363281 /* main_dynamic.cpp */; };
+		D34337D61BD9644B00F2FBD3 /* Basis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D34337D51BD9644B00F2FBD3 /* Basis.cpp */; settings = {ASSET_TAGS = (); }; };
+		D3B73C7C1B68047B00DD3BF8 /* Lanczos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3B73C7B1B68047B00DD3BF8 /* Lanczos.cpp */; };
+		D3E192D71B43083D008B1764 /* Hamiltonian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3E192D61B43083D008B1764 /* Hamiltonian.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,9 +28,14 @@
 /* Begin PBXFileReference section */
 		671C05841B3DE7C100D96150 /* ed */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ed; sourceTree = "<group>"; };
 		D3110DFD1B2F65F900363281 /* Fock Basis Binary */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Fock Basis Binary"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D3110E001B2F65F900363281 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		D3E192D61B43083D008B1764 /* Hamiltonian_Template.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hamiltonian_Template.cpp; sourceTree = "<group>"; };
-		D3E722F51B41A37900D99F48 /* Hamiltonian_Template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hamiltonian_Template.h; sourceTree = "<group>"; };
+		D3110E001B2F65F900363281 /* main_dynamic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main_dynamic.cpp; sourceTree = "<group>"; };
+		D34337D21BD962C600F2FBD3 /* Basis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Basis.h; sourceTree = "<group>"; };
+		D34337D31BD9637400F2FBD3 /* Lanczos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lanczos.h; sourceTree = "<group>"; };
+		D34337D41BD963D000F2FBD3 /* Bitwise_Functions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bitwise_Functions.h; sourceTree = "<group>"; };
+		D34337D51BD9644B00F2FBD3 /* Basis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Basis.cpp; sourceTree = "<group>"; };
+		D3B73C7B1B68047B00DD3BF8 /* Lanczos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lanczos.cpp; sourceTree = "<group>"; };
+		D3E192D61B43083D008B1764 /* Hamiltonian.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hamiltonian.cpp; sourceTree = "<group>"; };
+		D3E722F51B41A37900D99F48 /* Hamiltonian.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hamiltonian.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,9 +69,14 @@
 		D3110DFF1B2F65F900363281 /* Fock Basis Binary */ = {
 			isa = PBXGroup;
 			children = (
-				D3110E001B2F65F900363281 /* main.cpp */,
-				D3E722F51B41A37900D99F48 /* Hamiltonian_Template.h */,
-				D3E192D61B43083D008B1764 /* Hamiltonian_Template.cpp */,
+				D3110E001B2F65F900363281 /* main_dynamic.cpp */,
+				D3E722F51B41A37900D99F48 /* Hamiltonian.h */,
+				D3E192D61B43083D008B1764 /* Hamiltonian.cpp */,
+				D3B73C7B1B68047B00DD3BF8 /* Lanczos.cpp */,
+				D34337D21BD962C600F2FBD3 /* Basis.h */,
+				D34337D51BD9644B00F2FBD3 /* Basis.cpp */,
+				D34337D31BD9637400F2FBD3 /* Lanczos.h */,
+				D34337D41BD963D000F2FBD3 /* Bitwise_Functions.h */,
 			);
 			path = "Fock Basis Binary";
 			sourceTree = "<group>";
@@ -125,8 +137,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3E192D71B43083D008B1764 /* Hamiltonian_Template.cpp in Sources */,
-				D3110E011B2F65F900363281 /* main.cpp in Sources */,
+				D34337D61BD9644B00F2FBD3 /* Basis.cpp in Sources */,
+				D3E192D71B43083D008B1764 /* Hamiltonian.cpp in Sources */,
+				D3B73C7C1B68047B00DD3BF8 /* Lanczos.cpp in Sources */,
+				D3110E011B2F65F900363281 /* main_dynamic.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +227,10 @@
 		D3110E051B2F65F900363281 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					I/usr/local/Cellar/gsl/1.16/include,
+					"-I/usr/include/",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -220,6 +238,10 @@
 		D3110E061B2F65F900363281 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					I/usr/local/Cellar/gsl/1.16/include,
+					"-I/usr/include/",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
