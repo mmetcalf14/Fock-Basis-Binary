@@ -26,10 +26,10 @@ void Write_Density(ofstream &fout, vector<double> &n_up, vector<double> &n_dn, i
 
 int main(int argc, const char * argv[])
 {
-    
-    
-    
-    
+
+
+
+
     int Nup;
     int Ndown;
     int Nsite;
@@ -45,7 +45,7 @@ int main(int argc, const char * argv[])
     0,-1,0,-1,
     0,0,-1,0;
     Test_Lanczos << 0.5,0.5,0.5,0.5;
-    
+
     ifstream ReadFile("ED_J1J2_Static_DataInput.cfg");
     assert(ReadFile.is_open());
     if (!ReadFile.is_open())
@@ -53,7 +53,7 @@ int main(int argc, const char * argv[])
         cout<<"NOT OPEN"<<endl;
         exit (1);
     }
-    
+
     ReadFile >> Nup;
     ReadFile >> Ndown;
     ReadFile >> Nsite;
@@ -61,7 +61,7 @@ int main(int argc, const char * argv[])
     ReadFile >> t_2;
     ReadFile >> U;
     ReadFile >> output;
-    
+
     cout << Nup << endl;
     cout << Ndown << endl;
     cout << Nsite << endl;
@@ -69,69 +69,69 @@ int main(int argc, const char * argv[])
     cout << t_2 << endl;
     cout << U << endl;
     cout << output << endl;
-    
-    
-    
-    
+
+
+
+
     ofstream fout(output);
     assert(fout.is_open());
-    
+
     fout.setf(ios::scientific);
     fout.precision(11);
-    
+
     //Build basis and pass to Hamiltonian class through inheritance
     Hamiltonian ham(Nsite, Nup, Ndown);
-    
-    
+
+
     //set hopping and interaction coefficients
-    ham.Set_Const(t_1, t_2);//U=0 until |G> is found for t=0
-    
+    ham.Set_Const(t_1, t_2, 10.0);//U=0 until |G> is found for t=0
+
     //Set Dimensions for all matrices in Ham class
-    ham.Set_Mat_Dim();
-    
+    // ham.Set_Mat_Dim();
+
     //building seperate hopping hamiltonian for up and down spin
     //ham.BuildHopHam_up();
     //ham.BuildHopHam_dn();
     //set hamiltonian from triplets
     ham.HopMatrix_Build();
-    
+
     //create indices in Fock basis
-    ham.Interaction_Index();
+    // ham.Interaction_Index();
     //build interaction matrix
-    ham.BaseInteraction();
-    ham.Build_Interactions();
+    // ham.BaseInteraction();
+    // ham.Build_Interactions();
     ham.IntMatrix_Build();
-    
+
     //add together all three matrices for total Ham
     ham.Total_Ham();
-    
+
     //create object for diag class
     Lanczos_Diag Diag(ham);//how to I do this constructor
-    
+
     //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
-    
+
     //set Lanczos vector dimensions
     //cout << "Setting LA Dim \n";
     Diag.Set_Mat_Dim_LA(ham);
-    
+
     //cout << "Diagonalizing \n";
     //Diagonalization of t=0 Hamiltonian
     Diag.Diagonalize(ham, ham);
-    
-    
+
+
     //convert |G> from Fock basis to onsite basis
     //seperate |G> states for nup and ndn
     //cout << "Getting Density\n";
     Diag.Density(ham, ham, ham, ham, ham);//before interaction turned on
     Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-    
 
 
-    
-    
+
+
+
     fout.close();
     cout << "Code is Done! \n";
-    
+
     return 0;
 }
 
@@ -144,11 +144,6 @@ void Write_Density(ofstream &fout, vector<double> &n_up, vector<double> &n_dn, i
     }
     fout << endl;
     cout << endl;
-    
-    
+
+
 }
-
-
-
-
-
