@@ -18,5 +18,8 @@ all: ${TARGET}
 ED_Static.app: $(OBJS)
 	${CC} -o $@ $(OBJS)
 
+ED_Dynamic.app: $(OBJS)
+	${CC} -o $@ $(OBJS)
+
 clean:
 	rm *.o
