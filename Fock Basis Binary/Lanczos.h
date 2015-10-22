@@ -10,22 +10,25 @@
 #define Lanczos_h
 #include "Hamiltonian.h"
 
+template<typename Tnum>
 class Lanczos_Diag //:public Hamiltonian
 {
 private:
     int itmax = 200;
     //typedef Eigen::SparseMatrix<double> SpMat;
+    typedef Eigen::Matrix<Tnum, Eigen::Dynamic, Eigen::Dynamic> MatrixType;
+    typedef Eigen::Matrix<Tnum, Eigen::Dynamic, 1> VectorType;
+    MatrixType TriDiag;
+    //Eigen::MatrixXd TriDiag;
     
-    Eigen::MatrixXd TriDiag;
+    VectorType Lanczos_Vec;
+    VectorType Lanczos_Vec_Temp;
+    VectorType rc_vec;
+    VectorType r_vec;
     
-    Eigen::VectorXd Lanczos_Vec;
-    Eigen::VectorXd Lanczos_Vec_Temp;
-    Eigen::VectorXcd rc_vec;
-    Eigen::VectorXd r_vec;
-    
-    Eigen::MatrixXcd D_Mat;
-    Eigen::MatrixXcd Q_Mat;
-    Eigen::VectorXcd G_state;
+    MatrixType D_Mat;
+    MatrixType Q_Mat;
+    VectorType G_state;
     //Eigen::VectorXcd Temp_G_state;
     
     //Eigen::VectorXd G_state_realspace;
@@ -52,7 +55,7 @@ public:
     void TimeEvoCoeff(const double &_dt);
     //construct new,simple matrix to test algorithm and eigen values
     //and set Lanz vec to be one from analytical example
-    void Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos);
+    void Lanczos_TestM(const MatrixType& _Test_Ham, const VectorType& _Test_Lanczos);
     void Set_Mat_Dim_LA(Hamiltonian& );//int Tot_base
     // void Random_Vector();
     

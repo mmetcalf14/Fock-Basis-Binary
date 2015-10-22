@@ -342,22 +342,3 @@ void Lanczos_Diag::GetExponential(const Eigen::VectorXd& vec, int max_it)
 }
 
 
-//void Lanczos_Diag::Test_Tri() //Not the same as the Lanzcos algorithm
-//{
-// Eigen::Tridiagonalization<Eigen::MatrixXd> triOfHam(Test_Ham);
-//    TriDiag = triOfHam.matrixT();
-//    Eigen::MatrixXd Q = triOfHam.matrixQ();
-//    cout << "This is the tridiagonal matrix: \n" << TriDiag << endl;
-//    cout << "This is the corresponding K matrix: \n" << Q << endl;
-//}
-
-
-
-//void Lanczos_Diag::Random_Vector()
-//{
-//
-//    //Lanczos_Vec_Temp.setRandom();//do I need another vector for
-//    //First Col of K_Mat
-//    cout << Lanczos_Vec_Temp << endl;//is it ok if decimal point?
-//
-//}

@@ -26,18 +26,19 @@
 
 
 
-//template <class T>
+template <typename Tnum>
 class Hamiltonian :public Basis //declare class for Hamiltonian matrices
 {
+    template<typename T> //any type of Lanczos is friend of Hamiltonian class
     friend class Lanczos_Diag;
 private:
 
-    typedef Eigen::SparseMatrix<double> SpMat;
-    typedef Eigen::Triplet<double> Tp;
+    typedef Eigen::SparseMatrix<Tnum> SpMat;
+    typedef Eigen::Triplet<Tnum> Tp;
 
-    double J1; //A-B hopping
-    double J2; //B-A hopping
-    double U;
+    Tnum J1; //A-B hopping
+    Tnum J2; //B-A hopping
+    Tnum U;
     int Tot_base;
     //Declaring Matrices
     SpMat HopHam_up;//declare dimension in function
@@ -65,9 +66,9 @@ public:
     // void BaseInteraction();
 
     void ClearTriplet();
-    void QuenchU(double _Uquench);
+    void QuenchU(Tnum _Uquench);
 
-    void Set_Const(double t_1, double t_2, double _U = 0.0e0);
+    void Set_Const(Tnum t_1, Tnum t_2, Tnum _U = (Tnum)0.0e0);
     void HopMatrix_Build();
     void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
     void IntMatrix_Build();

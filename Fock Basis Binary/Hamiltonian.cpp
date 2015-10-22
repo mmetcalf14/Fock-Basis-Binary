@@ -13,20 +13,26 @@ using namespace std;
 //void Hamiltonian::Set_tbar(int _tbar)
 //{ tbar = _tbar;}
 
-
-void Hamiltonian::Set_Const(double t_1, double t_2, double _U)
+template<typename Tnum>
+void Hamiltonian<Tnum>::Set_Const(Tnum t_1, Tnum t_2, Tnum _U)
 {
     J1 = t_1;
     J2 = t_2;
     U = _U;
 }
 
-void Hamiltonian::QuenchU(double _Uquench)
+template<typename Tnum>
+void Hamiltonian<Tnum>::QuenchU(Tnum _Uquench)
 {
     U = _Uquench;
 }
 
-void Hamiltonian::BuildHopHam(int species, size_t count, size_t count_opp,
+//template<>
+//void Hamiltonian<int>::QuenchU(int _Uquench)
+//{}
+
+template<typename Tnum>
+void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
   vector<size_t> basis, vector<size_t> index, SpMat &HopHam)
 {
     std::vector<Tp> TL;
@@ -456,3 +462,7 @@ void Hamiltonian::ClearTriplet()
     Ham_Interact.setZero();
     Ham_Tot.setZero();
 }
+
+template class Hamiltonian<int>;
+template class Hamiltonian<double>;
+template class Hamiltonian<complex<double> >;

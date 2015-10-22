@@ -80,7 +80,7 @@ int main(int argc, const char * argv[])
     fout.precision(11);
 
     //Build basis and pass to Hamiltonian class through inheritance
-    Hamiltonian ham(Nsite, Nup, Ndown);
+    Hamiltonian<double> ham(Nsite, Nup, Ndown);
 
 
     //set hopping and interaction coefficients
