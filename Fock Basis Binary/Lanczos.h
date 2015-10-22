@@ -57,15 +57,15 @@ public:
     // void Random_Vector();
     
     // template <typename Derived>
-    void Diagonalize(const Hamiltonian &Ham, Hamiltonian&);
+    void Diagonalize(const Hamiltonian &Ham);//, Hamiltonian&);
     //why isn't it recognizing the template?
     
     
     //void Test_Tri();
-    void Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, Hamiltonian& Nsite,const Hamiltonian& basis_up,const Hamiltonian& basis_dn);
+    void Density(const Hamiltonian& Ham);
     void ResetLanczos();
     void GetExponential(const Eigen::VectorXd& vec, int max_it);
-    void Dynamics(Hamiltonian &ham, Hamiltonian &tb);
+    void Dynamics(Hamiltonian &ham);
     
     
     

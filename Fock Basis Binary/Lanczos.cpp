@@ -45,7 +45,7 @@ void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
     rc_vec.resize(tb.Tot_base);
 }
 
-void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
+void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham)//, Hamiltonian &tb)
 {
     bool Converged = false; //used to exit while loop should I set it to false here?
     Eigen::MatrixXd Work_Mat;
@@ -135,7 +135,7 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
             cout << "Beta is zero \n";
             Converged = true;
         }
-        if(it == (tb.Tot_base-2)|| it == itmax)
+        if(it == (Ham.Tot_base-2)|| it == itmax)
         {
             cout << "Not Converged \n";
             Converged = true;
@@ -161,10 +161,10 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham, Hamiltonian &tb)
 
 
 
-void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, Hamiltonian& Nsite, const Hamiltonian& basis_up, const Hamiltonian& basis_dn)
+void Lanczos_Diag::Density(const Hamiltonian& Ham)
 {
-    n_up.resize(Nsite.L);
-    n_dn.resize(Nsite.L);
+    n_up.resize(Ham.L);
+    n_dn.resize(Ham.L);
     for(auto &j : n_up){
         j = 0.0;
     }
@@ -176,20 +176,20 @@ void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, H
     double sum = 0;
 
 
-    for(size_t i = 0; i < ct_up.count_up; i++)//have to start at 1 change all appropriatly
+    for(size_t i = 0; i < Ham.count_up; i++)//have to start at 1 change all appropriatly
     {
-        for(size_t j= 0; j < ct_dn.count_dn; j++)
+        for(size_t j= 0; j < Ham.count_dn; j++)
         {
-            size_t ind = (j*ct_up.count_up)+i; //finding appropriate Fock state
+            size_t ind = (j*Ham.count_up)+i; //finding appropriate Fock state
             //cout << "Index: "<< ind << endl;
             // cout << "Normalized? " << G_state.dot(G_state) << endl;
             complex<double> cf = conj(G_state(ind))*G_state(ind);
             sum += cf.real();
 
-            for(int n = 0; n < Nsite.L; n++)
+            for(int n = 0; n < Ham.L; n++)
             {
-                size_t bas_up = basis_up.basis_up[i];
-                size_t bas_dn = basis_dn.basis_down[j];
+                size_t bas_up = Ham.basis_up[i];
+                size_t bas_dn = Ham.basis_down[j];
 
                 if(MY_bittest(bas_up, n))//testing if up particle in Fock state on site n
                 {
@@ -210,12 +210,12 @@ void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, H
     cout << "Sum: " << sum << endl;
 
     cout << "Here is the ground state for up spin: \n";
-    for(int i = 0; i < Nsite.L; i++)
+    for(int i = 0; i < Ham.L; i++)
     {
         cout << n_up[i] << endl;
     }
     cout << "Here is the ground state for down spin: \n";
-    for(int i = 0; i < Nsite.L; i++)
+    for(int i = 0; i < Ham.L; i++)
     {
         cout << n_dn[i] << endl;
     }
@@ -224,7 +224,7 @@ void Lanczos_Diag::Density(const Hamiltonian& ct_up, const Hamiltonian& ct_dn, H
 }
 
 
-void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
+void Lanczos_Diag::Dynamics(Hamiltonian &ham)
 {
     cout << "Beginning Dynamics\n";
 
@@ -291,7 +291,7 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham, Hamiltonian &tb)
 
 
     Work_Tri = TriDiag.block(0,0,it,it);//do I need to include zero for beta
-    Work_Q = Q_Mat.block(0,0,tb.Tot_base,it);
+    Work_Q = Q_Mat.block(0,0,ham.Tot_base,it);
 
 //    cout <<"Tri Matrix: \n" << TriDiag << endl;
     //cout <<"Block Tri Matrix: \n" << Work_Tri << endl;

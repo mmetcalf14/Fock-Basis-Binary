@@ -116,13 +116,13 @@ int main(int argc, const char * argv[])
 
     //cout << "Diagonalizing \n";
     //Diagonalization of t=0 Hamiltonian
-    Diag.Diagonalize(ham, ham);
+    Diag.Diagonalize(ham);
 
 
     //convert |G> from Fock basis to onsite basis
     //seperate |G> states for nup and ndn
     //cout << "Getting Density\n";
-    Diag.Density(ham, ham, ham, ham, ham);//before interaction turned on
+    Diag.Density(ham);//before interaction turned on
     Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
 
 

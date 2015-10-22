@@ -394,7 +394,7 @@ void Hamiltonian::IntMatrix_Build()
                     {
                       cout << i << " " << k << " " << l << endl;
                       cout << IndexU_dn(i,l) << " " << IndexU_up(i,k) << endl;
-                        r = (IndexU_dn(i,l) *count_up) + IndexU_up(i,k);
+                        r = (IndexU_dn(i,l) *count_up) + IndexU_up(i,k);//=TotalIndex(IndexU_up(i,k), IndexU_dn(i,l)
                         //cout << "r: " << r << endl;
                         TL_Ubase.push_back(Tp(r,r, U ));//do we need a -1? double check here
                         cout << r << " " << r << " " << U << endl;
