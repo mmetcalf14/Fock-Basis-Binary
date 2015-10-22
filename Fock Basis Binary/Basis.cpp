@@ -147,9 +147,10 @@ void Basis::CreateBasis(size_t N, size_t &count, std::vector<size_t> &basis, std
         
         if (nbit == N)
         {
-            count++;
+//            count++;
             basis.push_back(i);
             work.at(i) = count;
+            count++;
             //cout << i << " " << work[i] << endl;
         }
         

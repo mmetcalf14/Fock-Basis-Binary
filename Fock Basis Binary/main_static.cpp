@@ -90,8 +90,8 @@ int main(int argc, const char * argv[])
     ham.Set_Mat_Dim();
     
     //building seperate hopping hamiltonian for up and down spin
-    ham.BuildHopHam_up();
-    ham.BuildHopHam_dn();
+    //ham.BuildHopHam_up();
+    //ham.BuildHopHam_dn();
     //set hamiltonian from triplets
     ham.HopMatrix_Build();
     

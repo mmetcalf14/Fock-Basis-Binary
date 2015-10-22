@@ -74,6 +74,7 @@ public:
     //making public because too difficult to pass as friend object
     //Hamiltonian Functions
     void Set_Mat_Dim();
+    void BuildHopHam(size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
     void BuildHopHam_up();
     void BuildHopHam_dn();
     void Interaction_Index();

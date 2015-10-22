@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <cassert>
 #include "Hamiltonian.h"
 using namespace std;
 //void Hamiltonian::Set_tbar(int _tbar)
@@ -17,7 +18,6 @@ void Hamiltonian::Set_Const(double t_1, double t_2)
 {
     J1 = t_1;
     J2 = t_2;
-    //cout << J1 << " " << J2 << endl;
     U = 0;
 }
 
@@ -25,6 +25,87 @@ void Hamiltonian::QuenchU(double _Uquench)
 {
     U = _Uquench;
 }
+
+void Hamiltonian::BuildHopHam(size_t count, size_t count_opp, vector<size_t> basis, vector<size_t> index, SpMat &HopHam)
+{
+    std::vector<Tp> TL;
+    
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t p_bas = basis[bs];
+        
+        size_t p_ind = index[p_bas];
+        //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
+        for(size_t i = 0; i < (L-1); i++)
+        {
+            if ( MY_bittest(p_bas, i) && !(MY_bittest(p_bas, i+1)) ) {
+                size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
+                size_t l_ind = index[l_bas];
+                assert( l_bas != p_bas );
+//            size_t l_ind = index[l_bas]; //going outside array dimension for bs
+            
+//            if( l_bas >= index.size())
+//            {
+//                l_ind = 0;
+//            }
+//            if(p_ind == (count) && l_bas > p_bas)// if l_ind is outside memory of index_up: CRASH!
+//            {
+//                l_ind = 0;
+//            }
+            //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
+//            if(l_bas != p_bas && l_ind != 0 )
+//            {
+            
+                //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
+                
+                double val;
+                
+                if(count_opp > 0 )
+                {
+                    for(size_t k = 0; k < count_opp; k++)
+                    {
+                        
+                        
+                        int r = (k*count) + p_ind;
+                        int s = (k*count) + l_ind;
+                        //cout << r << " " << s << endl;
+                        
+                        if((i%2) == 0)//even number sites have J1 hop to nn (A)
+                        {
+                            val = -J1 ;
+                        }
+                        else //odd number sites have J2 (B)
+                        {
+                            val = -J2;
+                        }
+                        
+                        TL.push_back(Tp((r),(s),val));
+                        TL.push_back(Tp((s),(r),val));
+                        
+                    }
+                }
+                else
+                {
+                    if((i%2) == 0)
+                    {
+                        val = -J1 ;
+                    }
+                    else
+                    {
+                        val = -J2;
+                    }
+                    
+                    TL.push_back(Tp(p_ind,l_ind, val ));
+                    TL.push_back(Tp(l_ind,p_ind, val ));
+                }
+            }
+        }
+    }
+    
+    HopHam.setFromTriplets(TL.begin(), TL.end());
+    
+}
+
 
 void Hamiltonian::BuildHopHam_up()
 {
@@ -179,15 +260,16 @@ void Hamiltonian::Interaction_Index()
             {
                 if(MY_bittest(j_bas,i)) //testing if site is occupied
                 {
-                    ++point_up;
+//                    ++point_up;
                     //cout << i << " " << j_bas << " " << MY_bittest(j_bas,i) << endl;
-                    IndexU_up(i,point_up-1) = j+1;
+                    IndexU_up(i,point_up) = j;//was j+1
+                    point_up++;
                     //std::cout << point_up << std::endl;
                     
                     if(Nup == Ndn)
                     {
                         point_dn = point_up;
-                        IndexU_dn(i,point_dn-1) = j+1;
+                        IndexU_dn(i,point_dn) = j;//was j+1
                     }
                 }
             }
@@ -195,14 +277,15 @@ void Hamiltonian::Interaction_Index()
             {
                 if(!(MY_bittest(j_bas,i))) //testing if site is unoccupied ALG NOT WORKING
                 {
-                    ++point_up;
+//                    ++point_up;
                     //cout << i << " " << j_bas << " " << ~MY_bittest(j_bas,i) << endl;
-                    IndexU_up(i,point_up-1) = j+1;
+                    IndexU_up(i,point_up) = j;//was j+1
+                    point_up++;
                     
                     if(Nup == Ndn)
                     {
                         point_dn = point_up;
-                        IndexU_dn(i,point_dn-1) = j+1;
+                        IndexU_dn(i,point_dn) = j;//was j+1
                     }
                 }
             }
@@ -221,9 +304,10 @@ void Hamiltonian::Interaction_Index()
                 {
                     if(MY_bittest(j_bas,i)) //testing if site is occupied
                     {
-                        ++point_dn;
+//                        ++point_dn;
                         
-                        IndexU_dn(i,point_dn-1) = j+1;
+                        IndexU_dn(i,point_dn) = j;//was j+1
+                        point_dn++;
                         
                     }
                 }
@@ -231,8 +315,9 @@ void Hamiltonian::Interaction_Index()
                 {
                     if(!(MY_bittest(j_bas,i))) //testing if site is unoccupied
                     {
-                        ++point_dn;
-                        IndexU_dn(i,point_dn-1) = j+1;
+//                        ++point_dn;
+                        IndexU_dn(i,point_dn) = j;//j+1
+                        point_dn++;
                         
                     }
                 }
@@ -272,8 +357,9 @@ void Hamiltonian::BaseInteraction()
         }
         for(size_t i = 1; i <= count_up; i++)
         {
-            size_t k = (count_up +1)*i - count_up;//added a -1 because for loop starts at 1
-            TL_Ubase.push_back(Tp(k-1,k-1, g ));//do I need to have two different Hamiltonians?
+            size_t k = (count_up +1)*i - count_up - 1;//added a -1 because for loop starts at 1
+            TL_Ubase.push_back(Tp(k,k, g ));//do I need to have two different Hamiltonians?
+            cout << k << " " << k << " " << g << endl;
            
         }
     }
@@ -294,15 +380,16 @@ void Hamiltonian::Build_Interactions()
                     if( l != k)
                     {
                         
-                    r = ((IndexU_dn(i,l)-1)*count_up) + IndexU_up(i,k);
-                        cout << "r: " << r << endl;
-                    TL_Ubase.push_back(Tp(r-1,r-1, U ));//do we need a -1? double check here
+                    r = (IndexU_dn(i,l) *count_up) + IndexU_up(i,k);
+                        //cout << "r: " << r << endl;
+                        TL_Ubase.push_back(Tp(r,r, U ));//do we need a -1? double check here
+                        cout << r << " " << r << " " << U << endl;
                     }
                 }
                 else
                 {
-                r = ((IndexU_dn(i,l)-1)*count_up) + IndexU_up(i,k);
-                    TL_Ubase.push_back(Tp(r-1,r-1, U ));
+                r = (IndexU_dn(i,l)*count_up) + IndexU_up(i,k);
+                    TL_Ubase.push_back(Tp(r,r, U ));
                 }
             }
         }
@@ -328,10 +415,14 @@ void Hamiltonian::Set_Mat_Dim()
 void Hamiltonian::HopMatrix_Build()
 {
     std::cout << "No problem before setting Triplet\n";
-    HopHam_up.setFromTriplets(TL_up.begin(), TL_up.end());
+    BuildHopHam(count_up, count_dn, basis_up, index_up, HopHam_up);
     std::cout << "No problem after up spin\n";
-    HopHam_down.setFromTriplets(TL_down.begin(), TL_down.end());
-    std::cout << "No problem after down spin\n";
+    BuildHopHam(count_dn, count_up, basis_down, index_dn, HopHam_down);
+    std::cout << "No problem after down spin\n";    
+//    HopHam_up.setFromTriplets(TL_up.begin(), TL_up.end());
+
+//    HopHam_down.setFromTriplets(TL_down.begin(), TL_down.end());
+
    // std::cout << "The Hopping Hamiltonian up is: \n" << HopHam_up  << std::endl;
 }
 
@@ -346,7 +437,7 @@ void Hamiltonian::Total_Ham()
 {
     Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
     
-    //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
+    cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
 
 void Hamiltonian::ClearTriplet()
