@@ -2,7 +2,7 @@
 #Mekena Metcalf 081715
 
 #Macros
-OBJS =  main_static.o Hamiltonian_Template.o Lanczos_Algorithm.o
+OBJS =  main_static.o Hamiltonian.o Lanczos.o Basis.o
 TARGET = ED_Static.app
 # Compile Macros
 CC = g++ -g -I./

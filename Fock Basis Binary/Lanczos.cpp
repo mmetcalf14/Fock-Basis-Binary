@@ -7,7 +7,8 @@
 //
 
 #include <stdio.h>
-#include "Hamiltonian_Template.h"
+#include "Hamiltonian.h"
+#include "Lanczos.h"
 
 using namespace std;
 #define TESTMAT

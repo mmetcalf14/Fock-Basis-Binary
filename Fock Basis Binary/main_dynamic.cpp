@@ -11,12 +11,10 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
-//#include "/usr/local/include/c++/4.9.2/Eigen/Eigen"
-//#include "/usr/local/include/c++/4.9.2/Eigen/Dense"
-//#include "/usr/local/include/c++/4.9.2/Eigen/Eigenvalues"
-#include "/usr/include/Eigen/Sparse"
-//#include "/usr/local/include/c++/4.9.2/Eigen/StdVector"
-#include "Hamiltonian_Template.h"
+#include </usr/include/Eigen/Sparse>
+#include "Hamiltonian.h"
+#include "Lanczos.h"
+
 using namespace std;
 using namespace Eigen;
 
