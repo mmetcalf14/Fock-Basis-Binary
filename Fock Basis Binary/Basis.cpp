@@ -13,22 +13,22 @@
 
 
 Basis::Basis(size_t _L, size_t _Nup, size_t _Ndn)
-//:L(_L), Nup(_Nup), Ndn(_Ndn)
 {
     L = _L;
     Nup = _Nup;
     Ndn = _Ndn;
-    BuildBasis();
+    
+    CreateBasis(Nup, count_up, basis_up, index_up);
+    CreateBasis(Ndn, count_dn, basis_down, index_dn);
 }
 
 
 void Basis::BuildBasis()
 {
-    //    std::cout << L << " " << Nup << " " << Ndn << std::endl;
+
     size_t minrange_up = 0, maxrange_up = 0;
     size_t minrange_down = 0, maxrange_down = 0;
-    
-    //cout << "min up preloop " << minrange_up << " max up " << maxrange_up << endl;
+
     
     for (int i = 1; i <= Nup; i++)
     {
@@ -37,13 +37,12 @@ void Basis::BuildBasis()
         maxrange_up += pow(2,(L-i));
         
     }
-    // cout << "min up " << minrange_up << " max up " << maxrange_up << endl;
     
     for (int i = 1; i <= Ndn; i++)
     {  minrange_down += pow(2,(i-1));
         maxrange_down += pow(2,(L-i));
     }
-    //cout << "Ranges down" << minrange_down << " " << maxrange_down <<endl;
+
     index_up.reserve(maxrange_up+1);
     std::vector<size_t> work (maxrange_up+1, 0);
     count_up = 0;
@@ -116,5 +115,46 @@ void Basis::BuildBasis()
     //    { cout << index_dn[i]<<endl;}
     std::cout << "End of basis dn allocation \n";
     
+}
+
+void Basis::CreateBasis(size_t N, size_t &count, std::vector<size_t> &basis, std::vector<size_t> &index)
+{
+ 
+    size_t minrange = 0;
+    size_t maxrange = 0;
+    
+    
+    for (int i = 1; i <= N; i++)
+    {
+        minrange += pow(2,(i-1));
+        maxrange += pow(2,(L-i));
+    }
+    
+    index.reserve(maxrange+1);
+    std::vector<size_t> work (maxrange+1, 0);
+    count = 0;
+    for (size_t i = minrange; i <= maxrange; i++) //create basis and vectors
+    {
+        int nbit = 0;
+        for(size_t j = 0; j < L; j++)
+        {
+            
+            if (MY_bittest(i,j))
+            {
+                nbit++;
+            }
+        }
+        
+        if (nbit == N)
+        {
+            count++;
+            basis.push_back(i);
+            work.at(i) = count;
+            //cout << i << " " << work[i] << endl;
+        }
+        
+    }
+    index = work;
+
 }
 
