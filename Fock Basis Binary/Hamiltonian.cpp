@@ -65,7 +65,7 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
 
                 //cout << p_bas << " " << p_ind <<" " << l_bas << " " << l_ind << endl;
 
-                double val;
+                Tnum val;
 
                 if( count_opp )
                 {
@@ -261,7 +261,8 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
 // }
 
 // void Hamiltonian::Interaction_Index()
-void Hamiltonian::IntMatrix_Build()
+template<typename Tnum>
+void Hamiltonian<Tnum>::IntMatrix_Build()
 {
     //build interaction index for up spin
     size_t point_up = 0;
@@ -349,10 +350,14 @@ void Hamiltonian::IntMatrix_Build()
 // {
     cout << "Was Hamiltonian::BaseInteraction" << endl;
     std::vector<Tp> TL_Ubase;
-    int g;
+    Tnum g;
+    Tnum NNup = Nup;
+    Tnum NNdn = Ndn;
+    Tnum LL = L;
+    
     if((Nup + Ndn) > L)//
     {
-         g = U*(Nup + Ndn -L);
+         g = U*(NNup + NNdn -LL);
 
         for(size_t i = 0; i < Tot_base; i++)
         {
@@ -365,11 +370,11 @@ void Hamiltonian::IntMatrix_Build()
     {
         if( (Nup+Ndn) <= L)
         {
-            g = U*Nup;
+            g = U*NNup;
         }
         else
         {
-            g = U*(L-Nup);//should I do this on top of other build with g?
+            g = U*(LL-NNup);//should I do this on top of other build with g?
 
         }
         for(size_t i = 0; i < count_up; i++)
@@ -432,7 +437,8 @@ void Hamiltonian::IntMatrix_Build()
 //     IndexU_dn.resize(L,count_dn);
 // }
 
-void Hamiltonian::HopMatrix_Build()
+template<typename Tnum>
+void Hamiltonian<Tnum>::HopMatrix_Build()
 {
     std::cout << "No problem before setting Triplet\n";
     BuildHopHam(0, count_up, count_dn, basis_up, index_up, HopHam_up);
@@ -447,15 +453,15 @@ void Hamiltonian::HopMatrix_Build()
 //     cout << "No problem building interaction Ham \n";
 //     //std::cout << "The Interaction Hamiltonian is: \n" << Ham_Interact  << std::endl;
 // }
-
-void Hamiltonian::Total_Ham()
+template<typename Tnum>
+void Hamiltonian<Tnum>::Total_Ham()
 {
     Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
 
     // cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
-
-void Hamiltonian::ClearTriplet()
+template<typename Tnum>
+void Hamiltonian<Tnum>::ClearTriplet()
 {
     // TL_Ubase.clear();
     //cout << "Is triplet set to 0? " << TL_Ubase.size() << endl;
@@ -463,6 +469,6 @@ void Hamiltonian::ClearTriplet()
     Ham_Tot.setZero();
 }
 
-template class Hamiltonian<int>;
-template class Hamiltonian<double>;
+//template class Hamiltonian<int>;
+//template class Hamiltonian<double>;
 template class Hamiltonian<complex<double> >;

@@ -13,7 +13,8 @@
 using namespace std;
 #define TESTMAT
 
-void Lanczos_Diag::TimeEvoCoeff(const double &_dt)
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::TimeEvoCoeff(const double &_dt)
 {
     I.real(0.0);
     I.imag(1.0);
@@ -22,19 +23,20 @@ void Lanczos_Diag::TimeEvoCoeff(const double &_dt)
     hbar = 1.;
 }
 
-void Lanczos_Diag::Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos)
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos)
 {
     Test_Ham = _Test_Ham;
     Test_Lanczos = _Test_Lanczos;
 //    cout << "Test Ham: \n" << Test_Ham << endl;
 //    cout << "Test Lanczos: \n" << Test_Lanczos << endl;
 }
-
-void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::Set_Mat_Dim_LA(const Hamiltonian<Tnum> &tb)//int Tot_base
 {
     TriDiag = Eigen::MatrixXd::Zero(itmax, itmax);//set a max iteration dim limit
 
-    Lanczos_Vec = Eigen::VectorXd::Random(tb.Tot_base);
+    Lanczos_Vec = VectorType::Random(tb.Tot_base);
 
     G_state = Eigen::VectorXcd::Zero(tb.Tot_base);
 
@@ -44,8 +46,8 @@ void Lanczos_Diag::Set_Mat_Dim_LA(Hamiltonian& tb)//int Tot_base
     r_vec.resize(tb.Tot_base);
     rc_vec.resize(tb.Tot_base);
 }
-
-void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham)//, Hamiltonian &tb)
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonian &tb)
 {
     bool Converged = false; //used to exit while loop should I set it to false here?
     Eigen::MatrixXd Work_Mat;
@@ -160,8 +162,8 @@ void Lanczos_Diag::Diagonalize(const Hamiltonian &Ham)//, Hamiltonian &tb)
 
 
 
-
-void Lanczos_Diag::Density(const Hamiltonian& Ham)
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::Density(const Hamiltonian<Tnum> &Ham)
 {
     n_up.resize(Ham.L);
     n_dn.resize(Ham.L);
@@ -223,8 +225,8 @@ void Lanczos_Diag::Density(const Hamiltonian& Ham)
 
 }
 
-
-void Lanczos_Diag::Dynamics(Hamiltonian &ham)
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::Dynamics(Hamiltonian<Tnum> &ham)
 {
     cout << "Beginning Dynamics\n";
 
@@ -320,8 +322,8 @@ void Lanczos_Diag::Dynamics(Hamiltonian &ham)
 
 }
 
-
-void Lanczos_Diag::GetExponential(const Eigen::VectorXd& vec, int max_it)
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::GetExponential(const Eigen::VectorXd& vec, int max_it)
 {
     //int it = max_it-1;
     Eigen::VectorXcd D(max_it);//max_it is the number of iteration done in Dynamics (it)

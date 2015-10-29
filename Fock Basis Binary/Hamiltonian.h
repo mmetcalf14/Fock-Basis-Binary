@@ -13,9 +13,9 @@
 //#include <Eigen/Eigen>
 //#include <Eigen/Sparse>
 //#include <Eigen/Core>
- #include </usr/include/Eigen/Eigen>
- #include </usr/include/Eigen/Sparse>
- #include </usr/include/Eigen/Core>
+ #include </Users/mekenametcalf/Desktop/Eigen/Eigen>
+ #include </Users/mekenametcalf/Desktop/Eigen/Sparse>
+ #include </Users/mekenametcalf/Desktop/Eigen/Core>
 #include "Basis.h"
 
 #ifndef Fock_Basis_Binary_Hamiltonian_Template_h

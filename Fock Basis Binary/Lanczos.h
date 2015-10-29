@@ -18,15 +18,15 @@ private:
     //typedef Eigen::SparseMatrix<double> SpMat;
     typedef Eigen::Matrix<Tnum, Eigen::Dynamic, Eigen::Dynamic> MatrixType;
     typedef Eigen::Matrix<Tnum, Eigen::Dynamic, 1> VectorType;
-    MatrixType TriDiag;
+    Eigen::MatrixXd TriDiag;
     //Eigen::MatrixXd TriDiag;
     
     VectorType Lanczos_Vec;
     VectorType Lanczos_Vec_Temp;
-    VectorType rc_vec;
+    Eigen::VectorXcd rc_vec;
     VectorType r_vec;
     
-    MatrixType D_Mat;
+    Eigen::MatrixXcd D_Mat;
     MatrixType Q_Mat;
     VectorType G_state;
     //Eigen::VectorXcd Temp_G_state;
@@ -51,24 +51,24 @@ public:
     std::vector<double> n_up;//public so they can be used in main program to write the file
     std::vector<double> n_dn;
     
-    Lanczos_Diag(const Hamiltonian){};//Program not accepting this constructor::SEE ERROR
+    Lanczos_Diag(const Hamiltonian<Tnum>&){};//Program not accepting this constructor::SEE ERROR
     void TimeEvoCoeff(const double &_dt);
     //construct new,simple matrix to test algorithm and eigen values
     //and set Lanz vec to be one from analytical example
-    void Lanczos_TestM(const MatrixType& _Test_Ham, const VectorType& _Test_Lanczos);
-    void Set_Mat_Dim_LA(Hamiltonian& );//int Tot_base
+    void Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos);
+    void Set_Mat_Dim_LA(const Hamiltonian<Tnum> &tb);//int Tot_base
     // void Random_Vector();
     
     // template <typename Derived>
-    void Diagonalize(const Hamiltonian &Ham);//, Hamiltonian&);
+    void Diagonalize(const Hamiltonian<Tnum> &Ham);//, Hamiltonian&);
     //why isn't it recognizing the template?
     
     
     //void Test_Tri();
-    void Density(const Hamiltonian& Ham);
+    void Density(const Hamiltonian<Tnum> &Ham);
     void ResetLanczos();
     void GetExponential(const Eigen::VectorXd& vec, int max_it);
-    void Dynamics(Hamiltonian &ham);
+    void Dynamics(Hamiltonian<Tnum> &Ham);
     
     
     
