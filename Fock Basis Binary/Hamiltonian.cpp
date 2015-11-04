@@ -33,7 +33,7 @@ void Hamiltonian<Tnum>::QuenchU(Tnum _Uquench)
 
 template<typename Tnum>
 void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
-  vector<size_t> basis, vector<size_t> index, SpMat &HopHam)
+  vector<size_t> basis, vector<size_t> index, SpMat &HopHam, std::vector<Tnum> HT)
 {
     std::vector<Tp> TL;
 
@@ -470,5 +470,5 @@ void Hamiltonian<Tnum>::ClearTriplet()
 }
 
 //template class Hamiltonian<int>;
-//template class Hamiltonian<double>;
+template class Hamiltonian<double>;
 template class Hamiltonian<complex<double> >;

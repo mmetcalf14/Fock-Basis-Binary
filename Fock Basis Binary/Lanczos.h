@@ -27,7 +27,7 @@ private:
     VectorType r_vec;
     
     Eigen::MatrixXcd D_Mat;
-    MatrixType Q_Mat;
+    Eigen::MatrixXcd Q_Mat;
     VectorType G_state;
     //Eigen::VectorXcd Temp_G_state;
     

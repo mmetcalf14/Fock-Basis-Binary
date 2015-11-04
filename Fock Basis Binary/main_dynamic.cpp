@@ -11,7 +11,7 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
-#include </Users/mekenametcalf/Desktop/Eigen/Sparse>
+#include </usr/local/include/Eigen/Sparse>
 #include "Hamiltonian.h"
 #include "Lanczos.h"
 
@@ -104,52 +104,52 @@ int main(int argc, const char * argv[])
     //set Lanczos vector dimensions
     //cout << "Setting LA Dim \n";
     Diag.Set_Mat_Dim_LA(ham);
-    
+
     //cout << "Diagonalizing \n";
     //Diagonalization of t=0 Hamiltonian
     Diag.Diagonalize(ham);
-    
+
     
     //convert |G> from Fock basis to onsite basis
     //seperate |G> states for nup and ndn
     //cout << "Getting Density\n";
     Diag.Density(ham);//before interaction turned on
-//    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-    
-    //Triplets removed to redo Interaction matrix after quenching
-    // and all non-zero elemenst of Total Ham and Ham_U are set to zero
-    ham.ClearTriplet();
-   
-    
-    //Interactions turned on after intial ground state found
-    //if U=0 there is no need to build interaction ham until after ground state is found
-    ham.QuenchU(U);
-    ham.IntMatrix_Build();
-    ham.Total_Ham();
-    
-    
-    
-    //Time Evolve
-    Diag.TimeEvoCoeff(dt);
-   // Diag.Dynamics(ham, ham);
-    
-    int NN = T_tot/10;
-    int Nflag = 0;
-    for(int t = 0; t < T_tot; t++)
-    {
-        //cout << "iteration: "<< t << endl;
-        Diag.Dynamics(ham);
-        
-        if(Nflag == NN-1)
-        {
-           Diag.Density(ham);
-           Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-            Nflag = 0;
-        }
-        
-        Nflag++;
-    }
-    
+    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+
+//    //Triplets removed to redo Interaction matrix after quenching
+//    // and all non-zero elemenst of Total Ham and Ham_U are set to zero
+//    ham.ClearTriplet();
+//   
+//
+//    //Interactions turned on after intial ground state found
+//    //if U=0 there is no need to build interaction ham until after ground state is found
+//    ham.QuenchU(U);
+//    ham.IntMatrix_Build();
+//    ham.Total_Ham();
+//    
+//    //Lanczos_Diag<complex<double> > Diag_Comp(ham);
+//    
+//    //Time Evolve
+//    Diag.TimeEvoCoeff(dt);
+//   // Diag.Dynamics(ham, ham);
+//    
+//    int NN = T_tot/10;
+//    int Nflag = 0;
+//    for(int t = 0; t < T_tot; t++)
+//    {
+//        //cout << "iteration: "<< t << endl;
+//        Diag.Dynamics(ham);
+//        
+//        if(Nflag == NN-1)
+//        {
+//           Diag.Density(ham);
+//           Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+//            Nflag = 0;
+//        }
+//        
+//        Nflag++;
+//    }
+//    
     
     fout.close();
     cout << "Code is Done! \n";

@@ -10,12 +10,12 @@
 
 #include <cmath>
 #include <complex>
-//#include <Eigen/Eigen>
-//#include <Eigen/Sparse>
-//#include <Eigen/Core>
- #include </Users/mekenametcalf/Desktop/Eigen/Eigen>
- #include </Users/mekenametcalf/Desktop/Eigen/Sparse>
- #include </Users/mekenametcalf/Desktop/Eigen/Core>
+#include </usr/local/include/Eigen/Eigen>
+#include </usr/local/include/Eigen/Sparse>
+#include </usr/local/include/Eigen/Core>
+// #include </Users/mekenametcalf/Desktop/Eigen/Eigen>
+// #include </Users/mekenametcalf/Desktop/Eigen/Sparse>
+// #include </Users/mekenametcalf/Desktop/Eigen/Core>
 #include "Basis.h"
 
 #ifndef Fock_Basis_Binary_Hamiltonian_Template_h
@@ -50,7 +50,7 @@ public:
 
     Hamiltonian( size_t _L, size_t _Nup, size_t _Ndn ):Basis(_L, _Nup, _Ndn){
       Tot_base = count_up * count_dn;
-      std::cout << Tot_base;
+      
       HopHam_down.resize(Tot_base, Tot_base);
       HopHam_up.resize(Tot_base, Tot_base);
       Ham_Interact.resize(Tot_base,Tot_base);
@@ -70,7 +70,7 @@ public:
 
     void Set_Const(Tnum t_1, Tnum t_2, Tnum _U = (Tnum)0.0e0);
     void HopMatrix_Build();
-    void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
+    void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<Tnum> HT = std::vector<Tnum>(100,0.0e0));
     void IntMatrix_Build();
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();
