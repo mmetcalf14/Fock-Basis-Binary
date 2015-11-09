@@ -11,12 +11,10 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
-//#include "/usr/local/include/c++/4.9.2/Eigen/Eigen"
-//#include "/usr/local/include/c++/4.9.2/Eigen/Dense"
-//#include "/usr/local/include/c++/4.9.2/Eigen/Eigenvalues"
-#include "/usr/include/Eigen/Sparse"
-//#include "/usr/local/include/c++/4.9.2/Eigen/StdVector"
-#include "Hamiltonian_Template.h"
+#include </usr/local/include/Eigen/Sparse>
+#include "Hamiltonian.h"
+#include "Lanczos.h"
+
 using namespace std;
 using namespace Eigen;
 
@@ -80,87 +78,78 @@ int main(int argc, const char * argv[])
     fout.precision(11);
     
     //Build basis and pass to Hamiltonian class through inheritance
-    Hamiltonian ham(Nsite, Nup, Ndown);
+    Hamiltonian<complex<double>> ham(Nsite, Nup, Ndown);
     
  
     //set hopping and interaction coefficients
     ham.Set_Const(t_1, t_2);//U=0 until |G> is found for t=0
 
-    //Set Dimensions for all matrices in Ham class
-    ham.Set_Mat_Dim();
-    
-    //building seperate hopping hamiltonian for up and down spin
-    ham.BuildHopHam_up();
-    ham.BuildHopHam_dn();
+
+
     //set hamiltonian from triplets
     ham.HopMatrix_Build();
     
-    //create indices in Fock basis
-    ham.Interaction_Index();
+
     //build interaction matrix
-    ham.BaseInteraction();
-    ham.Build_Interactions();
     ham.IntMatrix_Build();
     
     //add together all three matrices for total Ham
     ham.Total_Ham();
     
     //create object for diag class
-    Lanczos_Diag Diag(ham);//how to I do this constructor
+    Lanczos_Diag<complex<double>> Diag(ham);//how to I do this constructor
     
     Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
     
     //set Lanczos vector dimensions
     //cout << "Setting LA Dim \n";
     Diag.Set_Mat_Dim_LA(ham);
-    
+
     //cout << "Diagonalizing \n";
     //Diagonalization of t=0 Hamiltonian
-    Diag.Diagonalize(ham, ham);
-    
+    Diag.Diagonalize(ham);
+
     
     //convert |G> from Fock basis to onsite basis
     //seperate |G> states for nup and ndn
     //cout << "Getting Density\n";
-    Diag.Density(ham, ham, ham, ham, ham);//before interaction turned on
-//    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-    
-    //Triplets removed to redo Interaction matrix after quenching
-    // and all non-zero elemenst of Total Ham and Ham_U are set to zero
-    ham.ClearTriplet();
-   
-    
-    //Interactions turned on after intial ground state found
-    //if U=0 there is no need to build interaction ham until after ground state is found
-    ham.QuenchU(U);
-    ham.BaseInteraction();//redo interaction Ham and reconstruct Total Ham
-    ham.Build_Interactions();
-    ham.IntMatrix_Build();
-    ham.Total_Ham();
-    
-    
-    
-    //Time Evolve
-    Diag.TimeEvoCoeff(dt);
-   // Diag.Dynamics(ham, ham);
-    
-    int NN = T_tot/10;
-    int Nflag = 0;
-    for(int t = 0; t < T_tot; t++)
-    {
-        //cout << "iteration: "<< t << endl;
-        Diag.Dynamics(ham, ham);
-        
-        if(Nflag == NN-1)
-        {
-           Diag.Density(ham, ham, ham, ham, ham);
-           Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-            Nflag = 0;
-        }
-        
-        Nflag++;
-    }
-    
+    Diag.Density(ham);//before interaction turned on
+    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+
+//    //Triplets removed to redo Interaction matrix after quenching
+//    // and all non-zero elemenst of Total Ham and Ham_U are set to zero
+//    ham.ClearTriplet();
+//   
+//
+//    //Interactions turned on after intial ground state found
+//    //if U=0 there is no need to build interaction ham until after ground state is found
+//    ham.QuenchU(U);
+//    ham.IntMatrix_Build();
+//    ham.Total_Ham();
+//    
+//    //Lanczos_Diag<complex<double> > Diag_Comp(ham);
+//    
+//    //Time Evolve
+//    Diag.TimeEvoCoeff(dt);
+//   // Diag.Dynamics(ham, ham);
+//    
+//    int NN = T_tot/10;
+//    int Nflag = 0;
+//    for(int t = 0; t < T_tot; t++)
+//    {
+//        //cout << "iteration: "<< t << endl;
+//        Diag.Dynamics(ham);
+//        
+//        if(Nflag == NN-1)
+//        {
+//           Diag.Density(ham);
+//           Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+//            Nflag = 0;
+//        }
+//        
+//        Nflag++;
+//    }
+//    
     
     fout.close();
     cout << "Code is Done! \n";
