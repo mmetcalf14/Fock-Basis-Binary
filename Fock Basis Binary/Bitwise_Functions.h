@@ -1,8 +1,8 @@
 //
 //  Bitwise_Functions.h
-//  Fock Basis Binary
+//  ED Hubbard Hamiltonian
 //
-//  Created by mekena McGrew on 10/22/15.
+//  Created by mekena McGrew on 11/4/15.
 //  Copyright © 2015 Mekena Metcalf. All rights reserved.
 //
 

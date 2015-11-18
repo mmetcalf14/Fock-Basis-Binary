@@ -1,60 +1,62 @@
 //
-//  Hamiltonian_Template.h
-//  Fock Basis Binary
+//  Hamiltonian.h
+//  ED Hubbard Hamiltonian
 //
-//  Created by mekena McGrew on 6/29/15.
-//  Copyright (c) 2015 Mekena Metcalf. All rights reserved.
+//  Created by mekena McGrew on 11/4/15.
+//  Copyright © 2015 Mekena Metcalf. All rights reserved.
 //
+
+
+
+
+#ifndef Hamiltonian_h
+#define Hamiltonian_h
+//using namespace Eigen;
 
 #include <iostream>
 
 #include <cmath>
 #include <complex>
-//#include <Eigen/Eigen>
-//#include <Eigen/Sparse>
-//#include <Eigen/Core>
- #include </usr/include/Eigen/Eigen>
- #include </usr/include/Eigen/Sparse>
- #include </usr/include/Eigen/Core>
+#include </usr/local/include/Eigen/Eigen>
+#include </usr/local/include/Eigen/Sparse>
+#include </usr/local/include/Eigen/Core>
+// #include </Users/mekenametcalf/Desktop/Eigen/Eigen>
+// #include </Users/mekenametcalf/Desktop/Eigen/Sparse>
+// #include </Users/mekenametcalf/Desktop/Eigen/Core>
 #include "Basis.h"
 
-#ifndef Fock_Basis_Binary_Hamiltonian_Template_h
-#define Fock_Basis_Binary_Hamiltonian_Template_h
-
-
-//using namespace Eigen;
-
-
-
-//template <class T>
+template <typename Tnum>
 class Hamiltonian :public Basis //declare class for Hamiltonian matrices
 {
+    template<typename T> //any type of Lanczos is friend of Hamiltonian class
     friend class Lanczos_Diag;
 private:
-
-    typedef Eigen::SparseMatrix<double> SpMat;
-    typedef Eigen::Triplet<double> Tp;
-
-    double J1; //A-B hopping
-    double J2; //B-A hopping
-    double U;
+    
+    typedef Eigen::SparseMatrix<Tnum> SpMat;
+    typedef Eigen::Triplet<Tnum> Tp;
+    
+    Tnum J1; //A-B hopping
+    Tnum J2; //B-A hopping
+    Tnum U;
     int Tot_base;
     //Declaring Matrices
     SpMat HopHam_up;//declare dimension in function
     SpMat HopHam_down;
     SpMat Ham_Interact;
     SpMat Ham_Tot;
-
+    
+    std::vector<double> Harm_Trap;
+    
 public:
-
+    
     Hamiltonian( size_t _L, size_t _Nup, size_t _Ndn ):Basis(_L, _Nup, _Ndn){
-      Tot_base = count_up * count_dn;
-      std::cout << Tot_base;
-      HopHam_down.resize(Tot_base, Tot_base);
-      HopHam_up.resize(Tot_base, Tot_base);
-      Ham_Interact.resize(Tot_base,Tot_base);
+        Tot_base = count_up * count_dn;
+        
+        HopHam_down.resize(Tot_base, Tot_base);
+        HopHam_up.resize(Tot_base, Tot_base);
+        Ham_Interact.resize(Tot_base,Tot_base);
     };//is this costructor or
-
+    
     //making public because too difficult to pass as friend object
     //Hamiltonian Functions
     // void Set_Mat_Dim();
@@ -63,13 +65,15 @@ public:
     // void Interaction_Index();
     // void Build_Interactions();
     // void BaseInteraction();
-
-    void ClearTriplet();
-    void QuenchU(double _Uquench);
-
-    void Set_Const(double t_1, double t_2, double _U = 0.0e0);
+    
+    void ClearHopTriplet();
+    void ClearInteractTriplet();
+    void QuenchU(Tnum _Uquench);
+    void GetHarmTrap(std::vector<double> HT);
+    
+    void Set_Const(Tnum t_1, Tnum t_2, Tnum _U = (Tnum)0.0e0);
     void HopMatrix_Build();
-    void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
+    void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<double> HT = std::vector<double>(100,0.0e0));
     void IntMatrix_Build();
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();
@@ -77,5 +81,4 @@ public:
 
 
 
-
-#endif
+#endif /* Hamiltonian_h */
