@@ -12,6 +12,8 @@
 
 using namespace std;
 #define TESTMAT
+template<typename Tnum>
+int Lanczos_Diag<Tnum>::itmax = 200;
 
 template<typename Tnum>
 void Lanczos_Diag<Tnum>::TimeEvoCoeff(const double &_dt)
@@ -158,7 +160,7 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
         G_state += K_Mat[i]*Evec.row(i);//Evec.row(i)**K_Mat[i]
     }
     //cout << "Test: " << G_state(1)-G_state(0) << endl;
-    cout <<"G_state: " << G_state << endl;
+    //cout <<"G_state: " << G_state << endl;
     
 }
 

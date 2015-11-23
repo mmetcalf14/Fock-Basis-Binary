@@ -266,7 +266,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
             size_t k = TotalIndex(i, i);
             // size_t k = (count_up +1)*i - count_up - 1;//added a -1 because for loop starts at 1
             TL_Ubase.push_back(Tp(k,k, g ));//do I need to have two different Hamiltonians?
-            cout << k << " " << k << " " << g << endl;
+           // cout << k << " " << k << " " << g << endl;
             
         }
     }
@@ -275,7 +275,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
     //
     // void Hamiltonian::Build_Interactions()
     // {
-    cout << "Was Hamiltonian::Build_Interactions" << endl;
+    //cout << "Was Hamiltonian::Build_Interactions" << endl;
     //Construct Diagonal elements from Fock space mixed indices
     for(int i = 0; i < L; i++)//The Matrix class in Eigen only allows ints for index
     {
@@ -287,12 +287,12 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
                 { //cout << "k: " << k << " l: " << l << endl;
                     if( l != k )
                     {
-                        cout << i << " " << k << " " << l << endl;
-                        cout << IndexU_dn(i,l) << " " << IndexU_up(i,k) << endl;
+                        //cout << i << " " << k << " " << l << endl;
+                        //cout << IndexU_dn(i,l) << " " << IndexU_up(i,k) << endl;
                         r = (IndexU_dn(i,l) *count_up) + IndexU_up(i,k);//=TotalIndex(IndexU_up(i,k), IndexU_dn(i,l)
                         //cout << "r: " << r << endl;
                         TL_Ubase.push_back(Tp(r,r, U ));//do we need a -1? double check here
-                        cout << r << " " << r << " " << U << endl;
+                        //cout << r << " " << r << " " << U << endl;
                     }
                 }
                 else

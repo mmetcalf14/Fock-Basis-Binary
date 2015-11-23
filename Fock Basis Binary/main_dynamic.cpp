@@ -95,7 +95,7 @@ int main(int argc, const char * argv[])
     
     ofstream FidOut("ED_Nu2_Nd3_L5_Fidelity_110515.dat");
     assert(FidOut.is_open());
-    ofstream HTOut("ED_Nu2_Nd3_L5_Fidelity_HT_110515.dat");
+    ofstream HTOut("ED_J1-1_J2-2_U10_Nu5_Nd4_L9_Fidelity_HT_110515.dat");
     assert(HTOut.is_open());
     
     FidOut.setf(ios::scientific);
@@ -142,13 +142,13 @@ int main(int argc, const char * argv[])
 //    //Diagonalization of t=0 Hamiltonian
 //    Diag.Diagonalize(ham);
 //    
-    
+//    
 //    //convert |G> from Fock basis to onsite basis
 //    //seperate |G> states for nup and ndn
 //    //cout << "Getting Density\n";
 //    Diag.Density(ham);//before interaction turned on
 //    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-//    
+//
     //    //Triplets removed to redo Interaction matrix after quenching
     //    // and all non-zero elemenst of Total Ham and Ham_U are set to zero
     //    ham.ClearTriplet();
@@ -289,6 +289,7 @@ void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d ,
 
         for(int w = 0; w <= Wtot; w++)
         {
+            cout << "iteration: " << w << endl;
             Harmonic_Trap(HT, L, y); //this is correct
 //            cout << "Harmonic Trap: " << y << endl;//this is correct
 //            for(int i = 0; i < HT.size(); i++)

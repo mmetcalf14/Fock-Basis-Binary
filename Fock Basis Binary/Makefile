@@ -2,10 +2,11 @@
 #Mekena Metcalf 081715
 
 #Macros
-OBJS =  main_static.o Hamiltonian.o Lanczos.o Basis.o
-TARGET = ED_Static.app
+OBJS =  main_dynamic.o Hamiltonian.o Lanczos.o Basis.o
+TARGET = ED_Dynamic.app
 # Compile Macros
-CC = clang++ -O3 -m64 -std=c++11 -stdlib=libc++ -I./ -I/usr/local/include
+#CC = clang++ -O3 -m64 -std=c++11 -stdlib=libc++ -I./ -I/usr/local/include
+CC = g++ -lm -lstdc++ -I/usr/local/include
 #CFLAGS = -o $@ -c
 LIB = -lstdc++
 

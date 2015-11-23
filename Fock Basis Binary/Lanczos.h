@@ -15,7 +15,7 @@ template<typename Tnum>
 class Lanczos_Diag //:public Hamiltonian
 {
 private:
-    int itmax = 200;
+    static int itmax;
     //typedef Eigen::SparseMatrix<double> SpMat;
     typedef Eigen::Matrix<Tnum, Eigen::Dynamic, Eigen::Dynamic> MatrixType;
     typedef Eigen::Matrix<Tnum, Eigen::Dynamic, 1> VectorType;
