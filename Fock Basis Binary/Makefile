@@ -6,7 +6,7 @@ OBJS =  main_dynamic.o Hamiltonian.o Lanczos.o Basis.o
 TARGET = ED_Dynamic.app
 # Compile Macros
 #CC = clang++ -O3 -m64 -std=c++11 -stdlib=libc++ -I./ -I/usr/local/include
-CC = g++ -lm -lstdc++ -I/usr/local/include
+CC = g++ -lstdc++ -lm -I/usr/local/include
 #CFLAGS = -o $@ -c
 LIB = -lstdc++
 

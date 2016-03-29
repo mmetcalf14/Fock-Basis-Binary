@@ -48,7 +48,9 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
         //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
         for(size_t i = 0; i < (L-1); i++)
         {
-            if ( MY_bittest(p_bas, i) && !(MY_bittest(p_bas, i+1)) ) {
+            if ( MY_bittest(p_bas, i) && !(MY_bittest(p_bas, i+1)) )//next to nearest neigbor i+2
+                //if i+1 is occupied and going to to i+2 must get minus sign
+            {
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
                 size_t l_ind = index[l_bas];
                 assert( l_bas != p_bas );

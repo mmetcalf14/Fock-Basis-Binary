@@ -39,7 +39,7 @@ int main(int argc, const char * argv[])
     int Nup;
     int Ndown;
     int Nsite;
-    double Y = 0.;
+    double Y = 0.4;
     double Ymax = 1.;
     double t_1;
     double t_2;
@@ -49,6 +49,7 @@ int main(int argc, const char * argv[])
     int T_f;
     double dt = 1.;
     char output[60];
+    char HTFout[60];
     Matrix4d Test_Ham;
     Vector4d Test_Lanczos;
     Test_Ham << 0, -1, 0, 0,
@@ -75,6 +76,7 @@ int main(int argc, const char * argv[])
     ReadFile >> U;
     ReadFile >> T_f;
     ReadFile >> output;
+    ReadFile >> HTFout;
     
     cout << Nup << endl;
     cout << Ndown << endl;
@@ -83,6 +85,7 @@ int main(int argc, const char * argv[])
     cout << t_2 << endl;
     cout << U << endl;
     cout << output << endl;
+    
     
     int T_tot = T_f/dt;
     
@@ -95,11 +98,11 @@ int main(int argc, const char * argv[])
     
     ofstream FidOut("ED_Nu2_Nd3_L5_Fidelity_110515.dat");
     assert(FidOut.is_open());
-    ofstream HTOut("ED_J1-1_J2-2_U10_Nu5_Nd4_L9_Fidelity_HT_110515.dat");
-    assert(HTOut.is_open());
-    
     FidOut.setf(ios::scientific);
     FidOut.precision(11);
+    
+    ofstream HTOut(HTFout);
+    assert(HTOut.is_open());
     HTOut.setf(ios::scientific);
     HTOut.precision(11);
     
@@ -111,43 +114,43 @@ int main(int argc, const char * argv[])
     Lanczos_Diag<double> Diag(ham);
 
     
-    //ham.GetHarmTrap(Harm_Trap);
-    Fidelity_HT(HTOut, ham, Diag, U, t_1, t_2, Umax, Ymax, Harm_Trap, Nsite);
+    ham.GetHarmTrap(Harm_Trap);
+    //Fidelity_HT(HTOut, ham, Diag, U, t_1, t_2, Umax, Ymax, Harm_Trap, Nsite);
     //Fidelity(FidOut, ham, Diag, U, t_1, t_2, Umax, Jmax, Nsite);
 
-//    //set hopping and interaction coefficients
-//    ham.Set_Const(t_1, t_2, U);//U=0 until |G> is found for t=0
-//    
-//    
-//    
-//    //set hamiltonian from triplets
-//    ham.HopMatrix_Build();
-//    
-//    
-//    //build interaction matrix
-//    ham.IntMatrix_Build();
-//    
-//    //add together all three matrices for total Ham
-//    ham.Total_Ham();
-//    
-//    //create object for diag class
-//    
-//    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
-//    
-//    //set Lanczos vector dimensions
-//    //cout << "Setting LA Dim \n";
-//    Diag.Set_Mat_Dim_LA(ham);
-//    
-//    //cout << "Diagonalizing \n";
-//    //Diagonalization of t=0 Hamiltonian
-//    Diag.Diagonalize(ham);
-//    
-//    
-//    //convert |G> from Fock basis to onsite basis
-//    //seperate |G> states for nup and ndn
-//    //cout << "Getting Density\n";
-//    Diag.Density(ham);//before interaction turned on
-//    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+    //set hopping and interaction coefficients
+    ham.Set_Const(t_1, t_2, U);//U=0 until |G> is found for t=0
+    
+    
+    
+    //set hamiltonian from triplets
+    ham.HopMatrix_Build();
+    
+    
+    //build interaction matrix
+    ham.IntMatrix_Build();
+    
+    //add together all three matrices for total Ham
+    ham.Total_Ham();
+    
+    //create object for diag class
+    
+    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
+    
+    //set Lanczos vector dimensions
+    //cout << "Setting LA Dim \n";
+    Diag.Set_Mat_Dim_LA(ham);
+    
+    //cout << "Diagonalizing \n";
+    //Diagonalization of t=0 Hamiltonian
+    Diag.Diagonalize(ham);
+    
+    
+    //convert |G> from Fock basis to onsite basis
+    //seperate |G> states for nup and ndn
+    //cout << "Getting Density\n";
+    Diag.Density(ham);//before interaction turned on
+    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
 //
     //    //Triplets removed to redo Interaction matrix after quenching
     //    // and all non-zero elemenst of Total Ham and Ham_U are set to zero
@@ -206,7 +209,18 @@ void Write_Density(ofstream &fout, vector<double> &n_up, vector<double> &n_dn, i
 
 void Harmonic_Trap(vector<double> &HT, int L, double y)
 {
-    int Ro = (L +1)/2;
+    int Ro;
+    if(L % 2 == 0)
+    {
+        
+     Ro = (L)/2;
+    }
+    else
+    {
+    Ro = (L +1)/2;
+    }
+    
+    //cout << "R0: " << Ro << endl;
     for(int i = 1; i <= L; i++)
     {
         double val = y*((i)-Ro)*((i)-Ro);
@@ -311,7 +325,7 @@ void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d ,
             if(w > 0)
             {
                 F = GdotG(Gstate, Gstate_Temp);
-                
+                cout << "F: " << F << endl;
                 g = (1-F)/(L*dw);//this is wrong
                 output << y << " " << g << endl;
                 
