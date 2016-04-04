@@ -150,15 +150,15 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
     
     //cout <<" First-GS state: " <<Eval(1)-Eval(0)<< endl;
     //cout << "T mat: " << TriDiag << endl;
-    cout << "Eigenvalues: " << Eval << endl;
-    
-    ofstream output;
-    output.open("AlternatingChain_J1-2_J2-1_Delta0_y0.4_L10_Nup6_Ndn6_EnergyEV_MLM_032316.dat");
-    assert(output.is_open());
-    output.setf(ios::scientific);
-    output.precision(11);
-    
-    output << Eval << endl;
+//    cout << "Eigenvalues: " << Eval << endl;
+//    
+//    ofstream output;
+//    output.open("AlternatingChain_J1-2_J2-1_Delta0_y0.4_L10_Nup6_Ndn6_EnergyEV_MLM_032316.dat");
+//    assert(output.is_open());
+//    output.setf(ios::scientific);
+//    output.precision(11);
+//    
+//    output << Eval << endl;
     
     cnt = it;
     Evec.resize(cnt);
@@ -172,7 +172,7 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
     }
     //cout << "Test: " << G_state(1)-G_state(0) << endl;
     //cout <<"G_state: " << G_state << endl;
-    output.close();
+    //output.close();
 }
 
 

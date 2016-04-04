@@ -234,7 +234,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
     //
     // void Hamiltonian::BaseInteraction()
     // {
-    cout << "Was Hamiltonian::BaseInteraction" << endl;
+    //cout << "Was Hamiltonian::BaseInteraction" << endl;
     std::vector<Tp> TL_Ubase;
     Tnum g;
     Tnum NNup = Nup;

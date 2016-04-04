@@ -27,6 +27,8 @@ void Harmonic_Trap(vector<double> &HT, int L, double y);
 template<typename Tnum>
 void Fidelity(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , double U, double J1, double J2, double Um, double Jm, int L);
 template<typename Tnum>
+void U_Fid(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , double U, double J1, double J2, double Um, int L);
+template<typename Tnum>
 void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , double U, double J1, double J2, double Um, double Ym, vector<double> HT, int L);
 double GdotG( const VectorXd &G1, const VectorXd &G2);
 double GdotG( const VectorXcd &Gc1, const VectorXcd &Gc2);
@@ -44,7 +46,7 @@ int main(int argc, const char * argv[])
     double t_1;
     double t_2;
     double U;
-    double Umax = 10;
+    double Umax = 20;
     double Jmax = 2;
     int T_f;
     double dt = 1.;
@@ -96,7 +98,7 @@ int main(int argc, const char * argv[])
     fout.setf(ios::scientific);
     fout.precision(11);
     
-    ofstream FidOut("ED_Nu2_Nd3_L5_Fidelity_110515.dat");
+    ofstream FidOut("ED_J1-1_J2-2_Nu6_Nd6_L10_IntFidelity_040416.dat");
     assert(FidOut.is_open());
     FidOut.setf(ios::scientific);
     FidOut.precision(11);
@@ -114,44 +116,45 @@ int main(int argc, const char * argv[])
     Lanczos_Diag<double> Diag(ham);
 
     
-    ham.GetHarmTrap(Harm_Trap);
+    //ham.GetHarmTrap(Harm_Trap);
     //Fidelity_HT(HTOut, ham, Diag, U, t_1, t_2, Umax, Ymax, Harm_Trap, Nsite);
     //Fidelity(FidOut, ham, Diag, U, t_1, t_2, Umax, Jmax, Nsite);
+    U_Fid(FidOut, ham, Diag, U, t_1, t_2, Umax, Nsite);
 
-    //set hopping and interaction coefficients
-    ham.Set_Const(t_1, t_2, U);//U=0 until |G> is found for t=0
-    
-    
-    
-    //set hamiltonian from triplets
-    ham.HopMatrix_Build();
-    
-    
-    //build interaction matrix
-    ham.IntMatrix_Build();
-    
-    //add together all three matrices for total Ham
-    ham.Total_Ham();
-    
-    //create object for diag class
-    
-    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
-    
-    //set Lanczos vector dimensions
-    //cout << "Setting LA Dim \n";
-    Diag.Set_Mat_Dim_LA(ham);
-    
-    //cout << "Diagonalizing \n";
-    //Diagonalization of t=0 Hamiltonian
-    Diag.Diagonalize(ham);
-    
-    
-    //convert |G> from Fock basis to onsite basis
-    //seperate |G> states for nup and ndn
-    //cout << "Getting Density\n";
-    Diag.Density(ham);//before interaction turned on
-    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-//
+//    //set hopping and interaction coefficients
+//    ham.Set_Const(t_1, t_2, U);//U=0 until |G> is found for t=0
+//    
+//    
+//    
+//    //set hamiltonian from triplets
+//    ham.HopMatrix_Build();
+//    
+//    
+//    //build interaction matrix
+//    ham.IntMatrix_Build();
+//    
+//    //add together all three matrices for total Ham
+//    ham.Total_Ham();
+//    
+//    //create object for diag class
+//    
+//    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
+//    
+//    //set Lanczos vector dimensions
+//    //cout << "Setting LA Dim \n";
+//    Diag.Set_Mat_Dim_LA(ham);
+//    
+//    //cout << "Diagonalizing \n";
+//    //Diagonalization of t=0 Hamiltonian
+//    Diag.Diagonalize(ham);
+//    
+//    
+//    //convert |G> from Fock basis to onsite basis
+//    //seperate |G> states for nup and ndn
+//    //cout << "Getting Density\n";
+//    Diag.Density(ham);//before interaction turned on
+//    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+
     //    //Triplets removed to redo Interaction matrix after quenching
     //    // and all non-zero elemenst of Total Ham and Ham_U are set to zero
     //    ham.ClearTriplet();
@@ -282,6 +285,63 @@ void Fidelity(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, dou
     }
     
     
+}
+
+template<typename Tnum>
+void U_Fid(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , double U, double J1, double J2, double Um, int L)
+{
+    typedef Eigen::Matrix<Tnum, Eigen::Dynamic, 1> VectorType;
+    
+    double ddU = .001;
+    double dU = 1.;
+    double UU;
+    int Utot = Um/dU;
+    double g;
+    double F;
+    VectorType Gstate_i;
+    VectorType Gstate_f;
+    // U = 0;
+    
+    for(int i = 0; i <= Utot ; i++)
+    {
+        cout << "Loop: " << i << " U: "<< U<< endl;
+
+            
+        h.Set_Const(J1, J2, U);//change value of U
+        
+        if(i == 0)
+        {
+        h.HopMatrix_Build();//only need to build hopham once
+        }
+        
+        //get preliminary Gstate
+            h.IntMatrix_Build();//build new matrix for every iteration
+            h.Total_Ham();//combine hopham and hopint
+            d.Set_Mat_Dim_LA(h);
+            d.Diagonalize(h);
+            Gstate_i = d.SendGstate();
+        
+        //add ddu to U and get next G-state
+        UU = U+ddU;//increase U
+        cout << "U+ddu: "<< UU << endl;
+        h.ClearInteractTriplet();//clear interaction matrix
+        h.Set_Const(J1, J2, UU);//reset constant with U+ddU
+        h.IntMatrix_Build();//build new matrix for every iteration
+        h.Total_Ham();//combine hopham and hopint
+        d.Set_Mat_Dim_LA(h);
+        d.Diagonalize(h);
+        Gstate_f = d.SendGstate();//Gstate of U+ddU
+        
+        //get fidelity between U and U+ddU
+        F = GdotG(Gstate_f, Gstate_i);
+        g = (1-F)/(L*ddU);//changing variable is U
+        output << U << " " << g << endl;
+        //clear interaction matrix for next iteration
+        U++;
+        h.ClearInteractTriplet();
+    }
+    
+
 }
 
 template<typename Tnum>
