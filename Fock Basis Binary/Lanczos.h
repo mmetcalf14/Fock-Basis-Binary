@@ -27,9 +27,14 @@ private:
     Eigen::VectorXcd rc_vec;
     VectorType r_vec;
     
-    Eigen::MatrixXcd D_Mat;
+    Eigen::MatrixXcd D_Mat;//for it to work D_mat and Q_mat need to be Matrixtype and Tnum complex
     Eigen::MatrixXcd Q_Mat;
-    VectorType G_state;
+//    MatrixType D_Mat;
+//    MatrixType Q_Mat;
+    
+    VectorType G_state;//this should be complex correct?
+    //Eigen::VectorXcd G_state;
+    
     //Eigen::VectorXcd Temp_G_state;
     
     //Eigen::VectorXd G_state_realspace;
