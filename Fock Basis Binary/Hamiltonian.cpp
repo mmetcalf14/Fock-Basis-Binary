@@ -173,7 +173,8 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
                     {
                         point_dn = point_up;
                         IndexU_dn(i,point_dn) = j;//was j+1
-                        point_dn++;
+                        //point_dn++; this was causing an error
+                        
                     }
                     point_up++;
                 }
@@ -189,7 +190,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
                     {
                         point_dn = point_up;
                         IndexU_dn(i,point_dn) = j;//was j+1
-                        point_dn++;
+                        //point_dn++;
                     }
                     point_up++;
                 }
@@ -257,6 +258,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
         if( (Nup+Ndn) <= L)
         {
             g = U*NNup;
+            
         }
         else
         {

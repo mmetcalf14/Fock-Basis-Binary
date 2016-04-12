@@ -52,6 +52,7 @@ int main(int argc, const char * argv[])
     double dt = 1.;
     char output[60];
     char HTFout[60];
+    char IntFidOut[60];
     Matrix4d Test_Ham;
     Vector4d Test_Lanczos;
     Test_Ham << 0, -1, 0, 0,
@@ -79,6 +80,7 @@ int main(int argc, const char * argv[])
     ReadFile >> T_f;
     ReadFile >> output;
     ReadFile >> HTFout;
+    ReadFile >> IntFidOut;
     
     cout << Nup << endl;
     cout << Ndown << endl;
@@ -98,7 +100,7 @@ int main(int argc, const char * argv[])
     fout.setf(ios::scientific);
     fout.precision(11);
     
-    ofstream FidOut("ED_J1-1_J2-2_Nu6_Nd6_L10_IntFidelity_040416.dat");
+    ofstream FidOut(IntFidOut);
     assert(FidOut.is_open());
     FidOut.setf(ios::scientific);
     FidOut.precision(11);
@@ -112,8 +114,8 @@ int main(int argc, const char * argv[])
     //Harmonic_Trap(Harm_Trap, Nsite, Y);
     
     //Build basis and pass to Hamiltonian class through inheritance
-    Hamiltonian<complex<double>> ham(Nsite, Nup, Ndown);
-    Lanczos_Diag<complex<double>> Diag(ham);
+    Hamiltonian<double> ham(Nsite, Nup, Ndown);
+    Lanczos_Diag<double> Diag(ham);
 
     
     //ham.GetHarmTrap(Harm_Trap);
@@ -141,53 +143,53 @@ int main(int argc, const char * argv[])
     //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
     
     //set Lanczos vector dimensions
-    //cout << "Setting LA Dim \n";
+    cout << "Setting LA Dim \n";
     Diag.Set_Mat_Dim_LA(ham);
     
-    //cout << "Diagonalizing \n";
+    cout << "Diagonalizing \n";
     //Diagonalization of t=0 Hamiltonian
     Diag.Diagonalize(ham);
     
     
     //convert |G> from Fock basis to onsite basis
     //seperate |G> states for nup and ndn
-    //cout << "Getting Density\n";
+    cout << "Getting Density\n";
     Diag.Density(ham);//before interaction turned on
     Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
 
-        //Triplets removed to redo Interaction matrix after quenching
-        // and all non-zero elemenst of Total Ham and Ham_U are set to zero
-        ham.ClearInteractTriplet();
-    
-    
-        //Interactions turned on after intial ground state found
-        //if U=0 there is no need to build interaction ham until after ground state is found
-        ham.QuenchU(U);
-        ham.IntMatrix_Build();
-        ham.Total_Ham();
-    
-        //Lanczos_Diag<complex<double> > Diag_Comp(ham);
-    
-        //Time Evolve
-        Diag.TimeEvoCoeff(dt);
-       // Diag.Dynamics(ham, ham);
-    
-        int NN = T_tot/10;
-        int Nflag = 0;
-        for(int t = 0; t < T_tot; t++)
-        {
-            //cout << "iteration: "<< t << endl;
-            Diag.Dynamics(ham);
-    
-            if(Nflag == NN-1)
-            {
-               Diag.Density(ham);
-               Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-                Nflag = 0;
-            }
-    
-            Nflag++;
-        }
+//        //Triplets removed to redo Interaction matrix after quenching
+//        // and all non-zero elemenst of Total Ham and Ham_U are set to zero
+//        ham.ClearInteractTriplet();
+//    
+//    
+//        //Interactions turned on after intial ground state found
+//        //if U=0 there is no need to build interaction ham until after ground state is found
+//        ham.QuenchU(U);
+//        ham.IntMatrix_Build();
+//        ham.Total_Ham();
+//    
+//        //Lanczos_Diag<complex<double> > Diag_Comp(ham);
+//    
+//        //Time Evolve
+//        Diag.TimeEvoCoeff(dt);
+//       // Diag.Dynamics(ham, ham);
+//    
+//        int NN = T_tot/10;
+//        int Nflag = 0;
+//        for(int t = 0; t < T_tot; t++)
+//        {
+//            //cout << "iteration: "<< t << endl;
+//            Diag.Dynamics(ham);
+//    
+//            if(Nflag == NN-1)
+//            {
+//               Diag.Density(ham);
+//               Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+//                Nflag = 0;
+//            }
+//    
+//            Nflag++;
+//        }
     
     FidOut.close();
     HTOut.close();
@@ -270,7 +272,7 @@ void Fidelity(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, dou
             {
                 F = GdotG(Gstate, Gstate_Temp);
 
-                g = (1-F)/(L*dU);//this is wrong
+                g = 2*(1-F)/(L*(dU*dU));//this is wrong
                 output << U << " " << J2 << " " << g << endl;
                 
             }
@@ -334,7 +336,7 @@ void U_Fid(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , doubl
         
         //get fidelity between U and U+ddU
         F = GdotG(Gstate_f, Gstate_i);
-        g = (1-F)/(L*ddU);//changing variable is U
+        g = 2*(1-F)/(L*(ddU*ddU));//changing variable is U
         output << U << " " << g << endl;
         //clear interaction matrix for next iteration
         U++;
@@ -386,7 +388,7 @@ void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d ,
             {
                 F = GdotG(Gstate, Gstate_Temp);
                 cout << "F: " << F << endl;
-                g = (1-F)/(L*dw);//this is wrong
+                g = 2*(1-F)/(L*(dw*dw));//this is wrong
                 output << y << " " << g << endl;
                 
             }
