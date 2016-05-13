@@ -49,10 +49,15 @@ int main(int argc, const char * argv[])
     double Umax = 20;
     double Jmax = 2;
     int T_f;
-    double dt = 1.;
+    double dt = .01;
+    double t_p;
+    double Phi_t = 0.0;
+    double Pi = 3.1415926;
+    double Phi_max = Pi/2.;
     char output[60];
     char HTFout[60];
     char IntFidOut[60];
+    char PeierlsDensity[60];
     Matrix4d Test_Ham;
     Vector4d Test_Lanczos;
     Test_Ham << 0, -1, 0, 0,
@@ -78,9 +83,11 @@ int main(int argc, const char * argv[])
     ReadFile >> t_2;
     ReadFile >> U;
     ReadFile >> T_f;
+    ReadFile >> t_p;
     ReadFile >> output;
     ReadFile >> HTFout;
     ReadFile >> IntFidOut;
+    ReadFile >> PeierlsDensity;
     
     cout << Nup << endl;
     cout << Ndown << endl;
@@ -96,7 +103,6 @@ int main(int argc, const char * argv[])
     
     ofstream fout(output);
     assert(fout.is_open());
-    
     fout.setf(ios::scientific);
     fout.precision(11);
     
@@ -110,12 +116,17 @@ int main(int argc, const char * argv[])
     HTOut.setf(ios::scientific);
     HTOut.precision(11);
     
+    ofstream PDout(PeierlsDensity);
+    assert(PDout.is_open());
+    PDout.setf(ios::scientific);
+    PDout.precision(11);
+    
    //creating vector with harmoinc trap values per site
     //Harmonic_Trap(Harm_Trap, Nsite, Y);
     
     //Build basis and pass to Hamiltonian class through inheritance
-    Hamiltonian<double> ham(Nsite, Nup, Ndown);
-    Lanczos_Diag<double> Diag(ham);
+    Hamiltonian<complex<double>> ham(Nsite, Nup, Ndown);
+    Lanczos_Diag<complex<double>> Diag(ham);
 
     
     //ham.GetHarmTrap(Harm_Trap);
@@ -124,76 +135,108 @@ int main(int argc, const char * argv[])
     //U_Fid(FidOut, ham, Diag, U, t_1, t_2, Umax, Nsite);
 
     //set hopping and interaction coefficients
-    ham.Set_Const(t_1, t_2, U);//U=0 until |G> is found for t=0
+    //ham.Set_Const(t_1, t_2, U);//U=0 until |G> is found for t=0
     
     
     
     //set hamiltonian from triplets
-    ham.HopMatrix_Build();
-    
-    
-    //build interaction matrix
-    ham.IntMatrix_Build();
-    
-    //add together all three matrices for total Ham
-    ham.Total_Ham();
-    
-    //create object for diag class
-    
-    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
-    
-    //set Lanczos vector dimensions
-    cout << "Setting LA Dim \n";
-    Diag.Set_Mat_Dim_LA(ham);
-    
-    cout << "Diagonalizing \n";
-    //Diagonalization of t=0 Hamiltonian
-    Diag.Diagonalize(ham);
-    
-    
-    //convert |G> from Fock basis to onsite basis
-    //seperate |G> states for nup and ndn
-    cout << "Getting Density\n";
-    Diag.Density(ham);//before interaction turned on
-    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
+//    ham.HopMatrix_Build();
+//    
+//    
+//    //build interaction matrix
+//    ham.IntMatrix_Build();
+//    
+//    //add together all three matrices for total Ham
+//    ham.Total_Ham();
+//    
+//    //create object for diag class
+//    
+//    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
+//    
+//    //set Lanczos vector dimensions
+//    cout << "Setting LA Dim \n";
+//    Diag.Set_Mat_Dim_LA(ham);
+//    
+//    cout << "Diagonalizing \n";
+//    //Diagonalization of t=0 Hamiltonian
+//    Diag.Diagonalize(ham);
+//    
+//    
+//    //convert |G> from Fock basis to onsite basis
+//    //seperate |G> states for nup and ndn
+//    cout << "Getting Density\n";
+//    Diag.Density(ham);//before interaction turned on
+//    Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
 
-//        //Triplets removed to redo Interaction matrix after quenching
-//        // and all non-zero elemenst of Total Ham and Ham_U are set to zero
-//        ham.ClearInteractTriplet();
-//    
-//    
-//        //Interactions turned on after intial ground state found
-//        //if U=0 there is no need to build interaction ham until after ground state is found
+        //Triplets removed to redo Interaction matrix after quenching
+        // and all non-zero elemenst of Total Ham and Ham_U are set to zero
+        //ham.ClearInteractTriplet();
+    
+    
+        //Interactions turned on after intial ground state found
+        //if U=0 there is no need to build interaction ham until after ground state is found
 //        ham.QuenchU(U);
 //        ham.IntMatrix_Build();
 //        ham.Total_Ham();
-//    
-//        //Lanczos_Diag<complex<double> > Diag_Comp(ham);
-//    
-//        //Time Evolve
-//        Diag.TimeEvoCoeff(dt);
-//       // Diag.Dynamics(ham, ham);
-//    
-//        int NN = T_tot/10;
-//        int Nflag = 0;
-//        for(int t = 0; t < T_tot; t++)
-//        {
-//            //cout << "iteration: "<< t << endl;
-//            Diag.Dynamics(ham);
-//    
-//            if(Nflag == NN-1)
-//            {
-//               Diag.Density(ham);
-//               Write_Density(fout, Diag.n_up, Diag.n_dn, Nsite);
-//                Nflag = 0;
-//            }
-//    
-//            Nflag++;
-//        }
+    
+        //Lanczos_Diag<complex<double> > Diag_Comp(ham);
+    
+        //Time Evolve
+        Diag.TimeEvoCoeff(dt);
+       
+    
+        //int NN = T_tot/10;
+        int Nflag = 0.;
+        double t = 0.;
+    
+        for(int it = 0; it < T_tot; it++)
+        {
+            t = it*dt;
+            cout << "t: " << t << endl;
+            if(t <= t_p)
+            {
+                Phi_t = -1*(t/t_p)*Phi_max;
+            }
+            else
+            {
+                Phi_t = Phi_max;
+            }
+            
+            ham.GetPhi(Phi_t);
+            //cout << "New phi is input!\n";
+            if(it == 0)
+            {
+                ham.Set_Const(t_1, t_2, U);
+                ham.IntMatrix_Build();
+                
+            }
+            
+            ham.HopMatrix_Build_Peierls();
+            //cout << "We have the new Hamiltonian\n";
+            ham.Total_Ham();
+            //cout << "Total Hamiltonian is built\n";
+            Diag.Set_Mat_Dim_LA(ham);
+            Diag.Diagonalize(ham);
+            //cout << "Diagonalized \n";
+            Diag.Dynamics(ham);
+            //cout << "Time-evolved " << endl;
+    
+            if(Nflag == 100)
+            {
+                cout << "Getting Density for t=" << t << endl;
+                Diag.Density(ham);
+               Write_Density(PDout, Diag.n_up, Diag.n_dn, Nsite);
+                Nflag = 0;
+            }
+    
+            Nflag++;
+            ham.ClearHopTriplet();
+        }
     
     FidOut.close();
     HTOut.close();
     fout.close();
+    PDout.close();
     cout << "Code is Done! \n";
     
     return 0;
@@ -294,11 +337,12 @@ void U_Fid(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , doubl
 {
     typedef Eigen::Matrix<Tnum, Eigen::Dynamic, 1> VectorType;
     
-    double ddU = .001;
+    double ddU = .0001;
     double dU = 1.;
     double UU;
     int Utot = Um/dU;
     double g;
+    double glog;
     double F;
     VectorType Gstate_i;
     VectorType Gstate_f;
@@ -319,6 +363,7 @@ void U_Fid(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , doubl
         //get preliminary Gstate
             h.IntMatrix_Build();//build new matrix for every iteration
             h.Total_Ham();//combine hopham and hopint
+
             d.Set_Mat_Dim_LA(h);
             d.Diagonalize(h);
             Gstate_i = d.SendGstate();
@@ -335,9 +380,18 @@ void U_Fid(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , doubl
         Gstate_f = d.SendGstate();//Gstate of U+ddU
         
         //get fidelity between U and U+ddU
-        F = GdotG(Gstate_f, Gstate_i);
-        g = 2*(1-F)/(L*(ddU*ddU));//changing variable is U
-        output << U << " " << g << endl;
+
+            F = GdotG(Gstate_f, Gstate_i);
+            g = 2.*(1.-F)/(L*(ddU*ddU));//changing variable is U
+        glog = (-(2./L)*log(F))/(ddU*ddU);
+            output << U << " " << g << endl;
+        
+        if(i == 0)
+        {
+            cout << scientific;
+            cout << "F: " << F << " g: " << g << " glog: " << glog <<"Log(F) " << log(F) <<  endl;
+        }
+        
         //clear interaction matrix for next iteration
         U++;
         h.ClearInteractTriplet();
@@ -356,8 +410,8 @@ void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d ,
     double y = 0;
     int Wtot = Ym/dw;
     int Utot = Um/dU;
-    double g;
-    double F;
+    long double g;
+    long double F;
     VectorType Gstate;
     VectorType Gstate_Temp;
     // U = 0;

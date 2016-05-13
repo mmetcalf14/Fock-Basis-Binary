@@ -45,6 +45,8 @@ private:
     SpMat Ham_Interact;
     SpMat Ham_Tot;
     
+    double Phi_t;
+    
     std::vector<double> Harm_Trap;
     
 public:
@@ -73,7 +75,10 @@ public:
     
     void Set_Const(Tnum t_1, Tnum t_2, Tnum _U = (Tnum)0.0e0);
     void HopMatrix_Build();
+    void HopMatrix_Build_Peierls();
     void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<double> HT = std::vector<double>(100,0.0e0));
+    void BuildHopHam_Peierls(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<double> HT = std::vector<double>(100,0.0e0));
+    void GetPhi(double _Phi_t);
     void IntMatrix_Build();
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();

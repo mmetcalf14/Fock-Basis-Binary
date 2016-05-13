@@ -51,6 +51,7 @@ void Lanczos_Diag<Tnum>::Set_Mat_Dim_LA(const Hamiltonian<Tnum> &tb)//int Tot_ba
 template<typename Tnum>
 void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonian &tb)
 {
+   
     bool Converged = false; //used to exit while loop should I set it to false here?
     Eigen::MatrixXd Work_Mat;
     //Eigen::VectorXd Eval;
@@ -69,19 +70,21 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
     //#endif
     //cout << "Lanczos not norm: " << Lanczos_Vec << endl;
     Lanczos_Vec.normalize();
-    //cout << "Lanczos norm: " << Lanczos_Vec << endl;
+    //cout << "Lanczos norm: \n" << Lanczos_Vec << endl;
     
     K_Mat.push_back(Lanczos_Vec);//error here
+    //cout << "Kmat: \n" << K_Mat[0] << endl;
     int it = 0;
     
     
     do
     {
+        //cout << "it: " << it << endl;
         if(it == 0)
         {
             
             r_vec = Ham.Ham_Tot*K_Mat[it]; //how can I use ifdef here?
-            
+            //cout << "rvec worked\n";
             //#ifdef TESTMAT
             //r_vec = Test_Ham*K_Mat[it];
             //#endif
@@ -139,7 +142,7 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
             cout << "Beta is zero \n";
             Converged = true;
         }
-        if(it == (Ham.Tot_base-2)|| it == itmax)
+        if(it == (Ham.Tot_base-2)|| it == (itmax-1))
         {
             cout << "Not Converged \n";
             Converged = true;
@@ -161,6 +164,7 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
 //    
 //    output << Eval << endl;
     
+    
     cnt = it;
     Evec.resize(cnt);
     Evec = Evec_Mat.col(0);
@@ -171,9 +175,12 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
     {
         G_state += K_Mat[i]*Evec.row(i);//Evec.row(i)**K_Mat[i]
     }
+    cout << "Have the Groundstate\n";
     //cout << "Test: " << G_state(1)-G_state(0) << endl;
     //cout <<"G_state: " << G_state << endl;
     //output.close();
+    
+    
 }
 
 
@@ -225,7 +232,7 @@ void Lanczos_Diag<Tnum>::Density(const Hamiltonian<Tnum> &Ham)
         }
     }
     
-    cout << "Sum: " << sum << endl;
+    //cout << "Sum: " << sum << endl;
     
     cout << "Here is the ground state for up spin: \n";
     for(int i = 0; i < Ham.L; i++)
@@ -241,129 +248,130 @@ void Lanczos_Diag<Tnum>::Density(const Hamiltonian<Tnum> &Ham)
     
 }
 
-//template<typename Tnum>
-//void Lanczos_Diag<Tnum>::Dynamics(Hamiltonian<Tnum> &ham)//, Eigen::VectorXd GS)
-//{
-//    cout << "Beginning Dynamics\n";
-//
-//    int imax = 9;
-//    int it = 0;
-//    Eigen::MatrixXd Work_Tri;
-//    Eigen::MatrixXcd Work_Q;
-//    Eigen::MatrixXd Evec_Mat;//this is real because tri_diag mat is real
-//    Eigen::VectorXd Eval;//real for same reason
-//    
-//    //G_state = Eigen::VectorXcd::Zero(tb.Tot_base);
-//    //D_Mat = Eigen::MatrixXcd::Zero(imax, imax);
-//
-//    //DEGUG
-//    cout << "Assigning Gstate\n";
-//    //G_state.real() = Test_Lanczos;
-//
-//    //G_state.real() = GS;
-//
-//
-//    Q_Mat.col(0) = G_state;//G_state input correctly
-//
-//
-//
-//    do
-//    {
-//
-//        if(it == 0)
-//        {
-//
-//            rc_vec = ham.Ham_Tot*Q_Mat.col(it);
-//            //rc_vec = Test_Ham*Q_Mat.col(it);
-//        }
-//        else
-//        {
-//
-//            rc_vec = ham.Ham_Tot*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
-//            //rc_vec = Test_Ham*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
-//
-//        }
-//
-//        alpha = Q_Mat.col(it).dot( rc_vec );//this shouldn't be giving complex
-//        //cout << "alpha: "<<alpha << endl;
-//        TriDiag(it,it) = alpha.real();
-//
-//        rc_vec -= (alpha*Q_Mat.col(it));
-//
-//        beta = rc_vec.norm();//beta converges to zero but the iteration keeps going
-//        //cout << "beta: "<<beta << endl;
-//
-//        TriDiag(it+1,it)=beta; //self adjoint eigensolver only uses lower triangle
-//
-//        TriDiag(it,it+1)=beta;
-//        rc_vec.normalize(); //this is the new Lanczos Vector
-//
-//        Q_Mat.col(it+1) = rc_vec;//it+1 since we aren't using pushback
-//
-//        it++;
-//    }while((it < imax) && (beta > .0000000001));
-//
-//    //testing by adding another alpha and taking full matrix. Theorem may not prove true without
-//    //beta=0 elements
-//    rc_vec = ham.Ham_Tot*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
-//    alpha = Q_Mat.col(it).dot( rc_vec );//this shouldn't be giving complex
-//    TriDiag(it,it) = alpha.real();
-//    it++;
-//
-//
-//    Work_Tri = TriDiag.block(0,0,it,it);//do I need to include zero for beta
-//    Work_Q = Q_Mat.block(0,0,ham.Tot_base,it);
-//
-////    cout <<"Tri Matrix: \n" << TriDiag << endl;
-//    //cout <<"Block Tri Matrix: \n" << Work_Tri << endl;
-//    //cout << "Q_Mat:\n" << Work_Q << endl;
-//    //Work Tri looks good now when beta =0 and when it =imax
-//
-//    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Tri);
-//    Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
-//    Evec_Mat = DiagMe.eigenvectors();
-//    //cout << "New Eigenvalues: " << Eval << endl;
-//
-//    GetExponential(Eval, it);
-//
-//    //VectorType Temp_Gstate;//this could be set as real if Tnum is double
-//    Eigen::VectorXcd Temp_Gstate;
-//    //do I want this redefined for every time iteration?
-//
-//
-//    Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;//this should be
-//    //complex because D_Mat and Work_Q are complex
-//    
-//    G_state = Temp_Gstate;//if I make temp_Gstate complex then G_state is always complex
-//
-//    
-//    G_state.normalize();
-//    
-//
-//
-//
-//}
-//
-//template<typename Tnum>
-//void Lanczos_Diag<Tnum>::GetExponential(const Eigen::VectorXd& vec, int max_it)
-//{
-//    //int it = max_it-1;
-//    Eigen::VectorXcd D(max_it);//max_it is the number of iteration done in Dynamics (it)(complex vector
-//
-//    for(int i = 0; i < max_it; i++)
-//    {
-//
-//        D(i) = exp(-1.*(I*dt*vec(i))/hbar);//vec is real but the I makes D complex
-//    }
-//
-//    D_Mat = D.asDiagonal();//Dmat is complex and so is D
-//
-//    //cout << "itmax: " << max_it << endl;
-//    //cout << Eval.size()  << endl;
-//    //cout << "D_Mat: \n" << D_Mat << endl;//these values are not changing with each iteration
-//
-//    //return D_Mat;//this may cause problems since D_Mat is defined in class
-//}
+template<>
+void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double>> &ham)//, Eigen::VectorXd GS)
+{
+    //cout << "Beginning Dynamics\n";
+
+    int imax = 9;
+    int it = 0;
+    Eigen::MatrixXd Work_Tri;
+    Eigen::MatrixXcd Work_Q;
+    Eigen::MatrixXd Evec_Mat;//this is real because tri_diag mat is real
+    Eigen::VectorXd Eval;//real for same reason
+    
+    //G_state = Eigen::VectorXcd::Zero(tb.Tot_base);
+    //D_Mat = Eigen::MatrixXcd::Zero(imax, imax);
+
+    //DEGUG
+    cout << "Assigning Gstate\n";
+    //G_state.real() = Test_Lanczos;
+
+    //G_state.real() = GS;
+
+
+    Q_Mat.col(0) = G_state;//G_state input correctly
+
+
+
+    do
+    {
+        //cout << "it: " << it << endl;
+        if(it == 0)
+        {
+
+            rc_vec = ham.Ham_Tot*Q_Mat.col(it);
+            //rc_vec = Test_Ham*Q_Mat.col(it);
+        }
+        else
+        {
+
+            rc_vec = ham.Ham_Tot*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
+            //rc_vec = Test_Ham*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
+
+        }
+
+        alpha = Q_Mat.col(it).dot( rc_vec );//this shouldn't be giving complex
+        //cout << "alpha: "<<alpha << endl;
+        TriDiag(it,it) = alpha.real();
+
+        rc_vec -= (alpha*Q_Mat.col(it));
+
+        beta = rc_vec.norm();//beta converges to zero but the iteration keeps going
+        //cout << "beta: "<<beta << endl;
+
+        TriDiag(it+1,it)=beta; //self adjoint eigensolver only uses lower triangle
+
+        TriDiag(it,it+1)=beta;
+        rc_vec.normalize(); //this is the new Lanczos Vector
+
+        Q_Mat.col(it+1) = rc_vec;//it+1 since we aren't using pushback
+
+        it++;
+    }while((it < (imax)) && (beta > .0000000001));
+
+    //testing by adding another alpha and taking full matrix. Theorem may not prove true without
+    //beta=0 elements
+    rc_vec = ham.Ham_Tot*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
+    alpha = Q_Mat.col(it).dot( rc_vec );//this shouldn't be giving complex
+    TriDiag(it,it) = alpha.real();
+    it++;
+
+
+    Work_Tri = TriDiag.block(0,0,it,it);//do I need to include zero for beta
+    Work_Q = Q_Mat.block(0,0,ham.Tot_base,it);
+
+//    cout <<"Tri Matrix: \n" << TriDiag << endl;
+    //cout <<"Block Tri Matrix: \n" << Work_Tri << endl;
+    //cout << "Q_Mat:\n" << Work_Q << endl;
+    //Work Tri looks good now when beta =0 and when it =imax
+
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Tri);
+    Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
+    Evec_Mat = DiagMe.eigenvectors();
+    //cout << "New Eigenvalues: " << Eval << endl;
+    cout << "Getting Exponential\n";
+    GetExponential(Eval, it);
+    cout << "Have exponential\n";
+
+    //VectorType Temp_Gstate;//this could be set as real if Tnum is double
+    Eigen::VectorXcd Temp_Gstate;
+    //do I want this redefined for every time iteration?
+
+
+    Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;//this should be
+    cout << "Have new temp gstate\n";
+    G_state = Temp_Gstate;//if I make temp_Gstate complex then G_state is always complex
+
+    
+    G_state.normalize();
+    
+
+
+
+}
+
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::GetExponential(const Eigen::VectorXd& vec, int max_it)
+{
+    //int it = max_it-1;
+    Eigen::VectorXcd D(max_it);//max_it is the number of iteration done in Dynamics (it)(complex vector
+
+    for(int i = 0; i < max_it; i++)
+    {
+
+        D(i) = exp(-1.*(I*dt*vec(i))/hbar);//vec is real but the I makes D complex
+        //cout << "D[i] = " << D(i) << endl;
+    }
+
+    D_Mat = D.asDiagonal();//Dmat is complex and so is D
+
+    //cout << "itmax: " << max_it << endl;
+    //cout << Eval.size()  << endl;
+    //cout << "D_Mat: \n" << D_Mat << endl;//these values are not changing with each iteration
+
+    //return D_Mat;//this may cause problems since D_Mat is defined in class
+}
 
 template class Lanczos_Diag<double>;
 template class Lanczos_Diag<complex<double> >;

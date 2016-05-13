@@ -29,6 +29,12 @@ void Hamiltonian<Tnum>::QuenchU(Tnum _Uquench)
 }
 
 template<typename Tnum>
+void Hamiltonian<Tnum>::GetPhi(double _Phi_t)
+{
+    Phi_t = _Phi_t;
+}
+
+template<typename Tnum>
 void Hamiltonian<Tnum>::GetHarmTrap(std::vector<double> HT)
 {
     Harm_Trap = HT;
@@ -71,7 +77,7 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
                         }else{
                             //cout << "More than 2 species fermion!!" << endl;
                         }
-                        //cout << r << " " << s << endl;
+                        //cout << "pbas: "<<p_bas<<" lbas: "<<l_bas<< " " << r << " " << s << endl;
                         
                         if((i%2) == 0)//even number sites have J1 hop to nn (A)
                         {
@@ -146,6 +152,121 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
     
 }
 
+template<>
+void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count, size_t count_opp,
+                                    vector<size_t> basis, vector<size_t> index, SpMat &HopHam, std::vector<double> HT)
+{
+    std::vector<Tp> TL;
+    complex<double> I;
+    I.real(0.0);
+    I.imag(1.0);
+
+    
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t p_bas = basis[bs];
+        
+        size_t p_ind = index[p_bas];
+        //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
+        for(size_t i = 0; i < (L-1); i++)
+        {
+            if ( MY_bittest(p_bas, i) && !(MY_bittest(p_bas, i+1)) )//next to nearest neigbor i+2
+                //if i+1 is occupied and going to to i+2 must get minus sign
+            {
+                size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
+                size_t l_ind = index[l_bas];
+                assert( l_bas != p_bas );
+                
+                complex<double> val;
+                
+                if( count_opp )
+                {
+                    for(size_t k = 0; k < count_opp; k++)
+                    {
+                        int r,s;
+                        if ( species == 0 ){
+                            r = TotalIndex(p_ind, k);//(k*count) + p_ind;
+                            s = TotalIndex(l_ind, k);//(k*count) + l_ind;
+                        }else if ( species == 1 ){
+                            r = TotalIndex(k, p_ind);
+                            s = TotalIndex(k, l_ind);
+                        }else{
+                            //cout << "More than 2 species fermion!!" << endl;
+                        }
+                        //cout << "pbas: "<<p_bas<<" lbas: "<<l_bas<< r << " " << s << endl;
+                        
+                        if((i%2) == 0)//even number sites have J1 hop to nn (A)
+                        {
+                            val = -J1*exp(I*Phi_t) ;
+                        }
+                        else //odd number sites have J2 (B)
+                        {
+                            val = -J2*exp(I*Phi_t);
+                        }
+                        
+                       // cout << "Setting Triplet\n";
+                        TL.push_back(Tp(r,s,val));
+                        TL.push_back(Tp(s,r,conj(val)));//take conjugate of exponential for other half of matrix
+                        ///cout << "Triplet Set\n";
+                        //I need to reference the total index
+                        
+                        
+                    }
+                }
+                else
+                {
+                    if((i%2) == 0)
+                    {
+                        val = -J1*exp(I*Phi_t) ;
+                    }
+                    else
+                    {
+                        val = -J2*exp(I*Phi_t);
+                    }
+                    
+                    TL.push_back(Tp(p_ind,l_ind, val ));
+                    TL.push_back(Tp(l_ind,p_ind, conj(val) ));
+                    
+                }
+            }
+        }
+    }
+    
+    if(HT.size() > 0)
+    {
+        for(size_t bs = 0; bs < count; bs++)//harmonic trap
+        {
+            size_t bas = basis[bs];
+            
+            size_t ind = index[bas];
+            for(size_t i = 0; i < L; i++)
+            {
+                if(MY_bittest(bas, i))
+                {
+                    double val = HT[i];
+                    for(size_t k = 0; k < count_opp; k++)
+                    {
+                        int q;
+                        if(species == 0)
+                        {
+                            q = TotalIndex(ind, k);
+                        }
+                        if(species == 1)
+                        {
+                            q = TotalIndex(k,ind);
+                        }
+                        TL.push_back(Tp(q,q,val));
+                        
+                    }
+                }
+            }
+        }
+    }
+    
+    HopHam.setFromTriplets(TL.begin(), TL.end());
+    cout << "Hop Ham set \n";
+    
+}
 
 template<typename Tnum>
 void Hamiltonian<Tnum>::IntMatrix_Build()
@@ -173,7 +294,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
                     {
                         point_dn = point_up;
                         IndexU_dn(i,point_dn) = j;//was j+1
-                        //point_dn++; this was causing an error
+                        point_dn++; //why is this causing errors?
                         
                     }
                     point_up++;
@@ -190,7 +311,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
                     {
                         point_dn = point_up;
                         IndexU_dn(i,point_dn) = j;//was j+1
-                        //point_dn++;
+                        point_dn++;
                     }
                     point_up++;
                 }
@@ -315,7 +436,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
 
 // void Hamiltonian::Set_Mat_Dim()
 // {
-//     //std::cout << "Entering dimension alg \n";
+//     //std::cout << "Entering dimension alg \n"; 
 //     // Tot_base = count_up*count_dn; //should this be size t or int for matrix dim
 //     // HopHam_down.resize(Tot_base, Tot_base);
 //     // HopHam_up.resize(Tot_base, Tot_base);
@@ -331,7 +452,18 @@ void Hamiltonian<Tnum>::HopMatrix_Build()
     std::cout << "No problem before setting Triplet\n";
     BuildHopHam(0, count_up, count_dn, basis_up, index_up, HopHam_up, Harm_Trap);
     std::cout << "No problem after up spin\n";
+    //cout << "HopHam_up: " << HopHam_up << endl;
     BuildHopHam(1, count_dn, count_up, basis_down, index_dn, HopHam_down, Harm_Trap);
+    std::cout << "No problem after down spin\n";
+}
+
+template<>
+void Hamiltonian<complex<double>>::HopMatrix_Build_Peierls()
+{
+    std::cout << "No problem before setting Triplet\n";
+    BuildHopHam_Peierls(0, count_up, count_dn, basis_up, index_up, HopHam_up, Harm_Trap);
+    std::cout << "No problem after up spin\n";
+    BuildHopHam_Peierls(1, count_dn, count_up, basis_down, index_dn, HopHam_down, Harm_Trap);
     std::cout << "No problem after down spin\n";
 }
 
@@ -345,6 +477,8 @@ template<typename Tnum>
 void Hamiltonian<Tnum>::Total_Ham()
 {
     Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
+    
+    
     
     //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
