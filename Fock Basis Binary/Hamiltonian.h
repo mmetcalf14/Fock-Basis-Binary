@@ -38,6 +38,7 @@ private:
     Tnum J1; //A-B hopping
     Tnum J2; //B-A hopping
     Tnum U;
+    Tnum h;
     int Tot_base;
     //Declaring Matrices
     SpMat HopHam_up;//declare dimension in function
@@ -76,12 +77,16 @@ public:
     void Set_Const(Tnum t_1, Tnum t_2, Tnum _U = (Tnum)0.0e0);
     void HopMatrix_Build();
     void HopMatrix_Build_Peierls();
+    void HopMatrix_Build_QPump();
     void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<double> HT = std::vector<double>(100,0.0e0));
     void BuildHopHam_Peierls(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<double> HT = std::vector<double>(100,0.0e0));
+     void BuildHopHam_QPump(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
     void GetPhi(double _Phi_t);
+    void GetOnsite(Tnum _h);
     void IntMatrix_Build();
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();
+    void OutHam();
 };
 
 

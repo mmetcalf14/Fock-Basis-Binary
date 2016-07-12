@@ -264,7 +264,7 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double>> &ham)/
     //D_Mat = Eigen::MatrixXcd::Zero(imax, imax);
 
     //DEGUG
-    cout << "Assigning Gstate\n";
+    //cout << "Assigning Gstate\n";
     //G_state.real() = Test_Lanczos;
 
     //G_state.real() = GS;
@@ -276,19 +276,16 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double>> &ham)/
 
     do
     {
-        //cout << "it: " << it << endl;
+        
         if(it == 0)
         {
-
             rc_vec = ham.Ham_Tot*Q_Mat.col(it);
             //rc_vec = Test_Ham*Q_Mat.col(it);
         }
         else
         {
-
             rc_vec = ham.Ham_Tot*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
             //rc_vec = Test_Ham*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
-
         }
 
         alpha = Q_Mat.col(it).dot( rc_vec );//this shouldn't be giving complex
@@ -317,33 +314,21 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double>> &ham)/
     TriDiag(it,it) = alpha.real();
     it++;
 
-
     Work_Tri = TriDiag.block(0,0,it,it);//do I need to include zero for beta
     Work_Q = Q_Mat.block(0,0,ham.Tot_base,it);
-
-//    cout <<"Tri Matrix: \n" << TriDiag << endl;
-    //cout <<"Block Tri Matrix: \n" << Work_Tri << endl;
-    //cout << "Q_Mat:\n" << Work_Q << endl;
-    //Work Tri looks good now when beta =0 and when it =imax
 
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Tri);
     Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
     Evec_Mat = DiagMe.eigenvectors();
-    //cout << "New Eigenvalues: " << Eval << endl;
-    cout << "Getting Exponential\n";
+
     GetExponential(Eval, it);
-    cout << "Have exponential\n";
-
-    //VectorType Temp_Gstate;//this could be set as real if Tnum is double
+    
     Eigen::VectorXcd Temp_Gstate;
-    //do I want this redefined for every time iteration?
-
-
+    
     Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;//this should be
-    cout << "Have new temp gstate\n";
+    
     G_state = Temp_Gstate;//if I make temp_Gstate complex then G_state is always complex
 
-    
     G_state.normalize();
     
 
@@ -359,18 +344,11 @@ void Lanczos_Diag<Tnum>::GetExponential(const Eigen::VectorXd& vec, int max_it)
 
     for(int i = 0; i < max_it; i++)
     {
-
         D(i) = exp(-1.*(I*dt*vec(i))/hbar);//vec is real but the I makes D complex
-        //cout << "D[i] = " << D(i) << endl;
     }
 
     D_Mat = D.asDiagonal();//Dmat is complex and so is D
 
-    //cout << "itmax: " << max_it << endl;
-    //cout << Eval.size()  << endl;
-    //cout << "D_Mat: \n" << D_Mat << endl;//these values are not changing with each iteration
-
-    //return D_Mat;//this may cause problems since D_Mat is defined in class
 }
 
 template class Lanczos_Diag<double>;

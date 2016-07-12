@@ -22,14 +22,27 @@ using namespace std;
 using namespace Eigen;
 
 void Write_Density(ofstream &fout, vector<double> &n_up, vector<double> &n_dn, int L );
+ void DensityDiff(ofstream &fout, vector<double> &n_up, vector<double> &n_dn, int L );
+void DensityInTime(ofstream &fout, vector<double> &n, int L, double Phi );
+void Density(ofstream &fout, vector<double> &n, int L);
+
 void Harmonic_Trap(vector<double> &HT, int L, double y);
 
 template<typename Tnum>
 void Fidelity(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , double U, double J1, double J2, double Um, double Jm, int L);
+
 template<typename Tnum>
 void U_Fid(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , double U, double J1, double J2, double Um, int L);
+
 template<typename Tnum>
 void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , double U, double J1, double J2, double Um, double Ym, vector<double> HT, int L);
+
+template<typename Tnum>
+void PeierlsTD(ofstream &out, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T_it, double dt, double tp, int L);
+
+template<typename Tnum>
+void QPump_TD(ofstream &out, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, const int T, const double dt, const double h_0, const double J_0, const double d_0, double U, int L);
+
 double GdotG( const VectorXd &G1, const VectorXd &G2);
 double GdotG( const VectorXcd &Gc1, const VectorXcd &Gc2);
 
@@ -51,13 +64,22 @@ int main(int argc, const char * argv[])
     int T_f;
     double dt = .01;
     double t_p;
-    double Phi_t = 0.0;
-    double Pi = 3.1415926;
-    double Phi_max = Pi/2.;
+    
+    const double h0 = 0.5;
+    const double d0 = 0.5;
+    const double J0 = 1.;
+    
+    
+
+    
     char output[60];
     char HTFout[60];
     char IntFidOut[60];
     char PeierlsDensity[60];
+    char PeierlsDensity_up[60];
+    char PeierlsDensity_down[60];
+    char QPumpDensity[60];
+    
     Matrix4d Test_Ham;
     Vector4d Test_Lanczos;
     Test_Ham << 0, -1, 0, 0,
@@ -88,6 +110,7 @@ int main(int argc, const char * argv[])
     ReadFile >> HTFout;
     ReadFile >> IntFidOut;
     ReadFile >> PeierlsDensity;
+    ReadFile >> QPumpDensity;
     
     cout << Nup << endl;
     cout << Ndown << endl;
@@ -96,6 +119,7 @@ int main(int argc, const char * argv[])
     cout << t_2 << endl;
     cout << U << endl;
     cout << output << endl;
+    
     
     
     int T_tot = T_f/dt;
@@ -121,6 +145,21 @@ int main(int argc, const char * argv[])
     PDout.setf(ios::scientific);
     PDout.precision(11);
     
+    ofstream QPout(QPumpDensity);
+    assert(QPout.is_open());
+    QPout.setf(ios::scientific);
+    QPout.precision(11);
+    
+    ofstream PDout_up("ED_J1gtJ2_U10_Nu3_L5_Thouless_TimeEvolved_Density_070516.dat");
+    assert(PDout_up.is_open());
+    PDout_up.setf(ios::scientific);
+    PDout_up.precision(11);
+    
+    ofstream PDout_dn("ED_J1gtJ2_U10_Nd3_L5_Thouless_TimeEvolved_Density_070516.dat");
+    assert(PDout_dn.is_open());
+    PDout_dn.setf(ios::scientific);
+    PDout_dn.precision(11);
+    
    //creating vector with harmoinc trap values per site
     //Harmonic_Trap(Harm_Trap, Nsite, Y);
     
@@ -135,7 +174,7 @@ int main(int argc, const char * argv[])
     //U_Fid(FidOut, ham, Diag, U, t_1, t_2, Umax, Nsite);
 
     //set hopping and interaction coefficients
-    //ham.Set_Const(t_1, t_2, U);//U=0 until |G> is found for t=0
+    ham.Set_Const(t_1, t_2, U);//U=0 until |G> is found for t=0
     
     
     
@@ -144,7 +183,7 @@ int main(int argc, const char * argv[])
 //    
 //    
 //    //build interaction matrix
-//    ham.IntMatrix_Build();
+    ham.IntMatrix_Build();
 //    
 //    //add together all three matrices for total Ham
 //    ham.Total_Ham();
@@ -182,61 +221,20 @@ int main(int argc, const char * argv[])
         //Lanczos_Diag<complex<double> > Diag_Comp(ham);
     
         //Time Evolve
-        Diag.TimeEvoCoeff(dt);
+    
+    QPump_TD(QPout, ham, Diag, T_f, dt, h0, J0, d0, U, Nsite);
        
     
         //int NN = T_tot/10;
-        int Nflag = 0.;
-        double t = 0.;
-    
-        for(int it = 0; it < T_tot; it++)
-        {
-            t = it*dt;
-            cout << "t: " << t << endl;
-            if(t <= t_p)
-            {
-                Phi_t = -1*(t/t_p)*Phi_max;
-            }
-            else
-            {
-                Phi_t = Phi_max;
-            }
-            
-            ham.GetPhi(Phi_t);
-            //cout << "New phi is input!\n";
-            if(it == 0)
-            {
-                ham.Set_Const(t_1, t_2, U);
-                ham.IntMatrix_Build();
-                
-            }
-            
-            ham.HopMatrix_Build_Peierls();
-            //cout << "We have the new Hamiltonian\n";
-            ham.Total_Ham();
-            //cout << "Total Hamiltonian is built\n";
-            Diag.Set_Mat_Dim_LA(ham);
-            Diag.Diagonalize(ham);
-            //cout << "Diagonalized \n";
-            Diag.Dynamics(ham);
-            //cout << "Time-evolved " << endl;
-    
-            if(Nflag == 100)
-            {
-                cout << "Getting Density for t=" << t << endl;
-                Diag.Density(ham);
-               Write_Density(PDout, Diag.n_up, Diag.n_dn, Nsite);
-                Nflag = 0;
-            }
-    
-            Nflag++;
-            ham.ClearHopTriplet();
-        }
     
     FidOut.close();
     HTOut.close();
     fout.close();
     PDout.close();
+    PDout_dn.close();
+    PDout_up.close();
+    QPout.close();
+    
     cout << "Code is Done! \n";
     
     return 0;
@@ -250,9 +248,37 @@ void Write_Density(ofstream &fout, vector<double> &n_up, vector<double> &n_dn, i
         
     }
     fout << endl;
-    cout << endl;
     
+}
+
+void DensityDiff(ofstream &fout, vector<double> &n_up, vector<double> &n_dn, int L )
+{
+    for(int i = 0; i < L; i++)
+    {
+        fout << i << " " << n_up[i] - n_dn[i] << endl;
+        
+    }
+    fout << endl;
+}
+
+void DensityInTime(ofstream &fout, vector<double> &n, int L, double Phi )
+{
+    for(int i = 0; i < L; i++)
+    {
+        fout << i << " " << Phi << " "  << n[i] << endl;
+        
+    }
     
+}
+
+void Density(ofstream &fout, vector<double> &n, int L)
+{
+    for(int i = 0; i < L; i++)
+    {
+        fout << i << " "<< n[i] << endl;
+        
+    }
+    fout << endl;
 }
 
 void Harmonic_Trap(vector<double> &HT, int L, double y)
@@ -457,6 +483,128 @@ void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d ,
 //        h.ClearInteractTriplet();
 //    }
 
+}
+
+template<typename Tnum>
+void PeierlsTD(ofstream &out, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T_it, double dt, double tp, int L)
+{
+    int Nflag = 0;
+    double t = 0.;
+    double Phi_max = (4*atan(1.0))/2.;
+    double Phi_t = 0.0;
+    
+    for(int it = 0; it <= T_it; it++)
+    {
+        t = it*dt;
+
+        
+        
+        if(t <= tp)
+        {
+            Phi_t = (t/tp)*Phi_max;
+            h.GetPhi(Phi_t);
+            h.HopMatrix_Build_Peierls();
+            
+            h.Total_Ham();
+            if(it == 0)
+            {
+                d.Set_Mat_Dim_LA(h);
+                d.Diagonalize(h);
+                
+                d.Density(h);
+                Write_Density(out, d.n_up, d.n_dn, L);
+                
+            }
+            //                else{
+            d.Dynamics(h);
+            //                }
+            
+            if(t < tp)
+            {
+                h.ClearHopTriplet();
+            }
+        }
+        else
+        {
+            //ham.OutHam();
+            d.Dynamics(h);
+        }
+        
+        
+        
+        if(Nflag == 100)
+        {
+            cout << "Getting Density for t=" << t << endl;
+            d.Density(h);
+            Write_Density(out, d.n_up, d.n_dn, L);
+            
+            //DensityDiff(PDout, Diag.n_up, Diag.n_dn, Nsite);
+            Nflag = 0;
+        }
+        
+        Nflag++;
+        
+        
+    }
+
+}
+
+template<typename Tnum>
+void QPump_TD(ofstream &out, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, const int T, const double dt, const double h_0, const double J_0, const double d_0, double U, int L)
+{
+    double delta;
+    double J1, J2;
+    double t;
+    double h;
+    
+    diag.TimeEvoCoeff(dt);
+    ham.ClearHopTriplet();
+    
+    int T_it = T /dt;
+    
+    const double omega = (8*atan(1.0))/T;
+    
+    for( int it = 0; it <= T_it; it++)
+    {
+        t = it*dt;
+        cout << "t: " << t << endl;
+        if( it % 100 == 0)
+        {
+            cout << "t: " << t << endl;
+        }
+        
+        delta = d_0*cos(omega*t);
+        J1 = J_0 + delta;
+        J2 = J_0 - delta;
+        h = h_0*sin(omega*t);
+        ham.GetOnsite(h);
+        
+        ham.Set_Const(J1, J2, U);
+        ham.HopMatrix_Build_QPump();
+        ham.Total_Ham();
+        //cout << "Have Total Ham\n";
+        if(it == 0)
+        {
+            diag.Set_Mat_Dim_LA(ham);
+            diag.Diagonalize(ham);
+        }
+        else
+        {
+            //cout << "Beginning Dynamics\n";
+            diag.Dynamics(ham);
+        }
+        
+        ham.ClearHopTriplet();
+        //cout << "Triplet Clear\n";
+        if(it == 0 || it == T_it/2. || it == T_it)
+        {
+            cout << "Getting Density for t=" << t << endl;
+            //cout << "Hamiltonian: \n" << ham.Ham_Tot << endl;
+            diag.Density(ham);
+            Write_Density(out, diag.n_up, diag.n_dn, L);
+            
+        }
+    }
 }
 
 double GdotG( const VectorXd &G1, const VectorXd &G2)

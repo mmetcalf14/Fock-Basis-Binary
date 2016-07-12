@@ -19,7 +19,7 @@ void Hamiltonian<Tnum>::Set_Const(Tnum t_1, Tnum t_2, Tnum _U)
     J1 = t_1;
     J2 = t_2;
     U = _U;
-
+    
 }
 
 template<typename Tnum>
@@ -32,6 +32,14 @@ template<typename Tnum>
 void Hamiltonian<Tnum>::GetPhi(double _Phi_t)
 {
     Phi_t = _Phi_t;
+    //cout <<"Phi: " << Phi_t << endl;
+}
+
+template<typename Tnum>
+void Hamiltonian<Tnum>::GetOnsite(Tnum _h)
+{
+    h = _h;
+    
 }
 
 template<typename Tnum>
@@ -269,6 +277,125 @@ void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count
 }
 
 template<typename Tnum>
+void Hamiltonian<Tnum>::BuildHopHam_QPump(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam)
+{
+    std::vector<Tp> TL;
+    
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t p_bas = basis[bs];
+        
+        size_t p_ind = index[p_bas];
+        //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
+        for(size_t i = 0; i < (L-1); i++)
+        {
+            if ( MY_bittest(p_bas, i) && !(MY_bittest(p_bas, i+1)) )//next to nearest neigbor i+2
+                //if i+1 is occupied and going to to i+2 must get minus sign
+            {
+                size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
+                size_t l_ind = index[l_bas];
+                assert( l_bas != p_bas );
+                
+                Tnum val;
+                
+                if( count_opp )
+                {
+                    for(size_t k = 0; k < count_opp; k++)
+                    {
+                        int r,s;
+                        if ( species == 0 ){
+                            r = TotalIndex(p_ind, k);//(k*count) + p_ind;
+                            s = TotalIndex(l_ind, k);//(k*count) + l_ind;
+                        }else if ( species == 1 ){
+                            r = TotalIndex(k, p_ind);
+                            s = TotalIndex(k, l_ind);
+                        }else{
+                            //cout << "More than 2 species fermion!!" << endl;
+                        }
+                        //cout << "pbas: "<<p_bas<<" lbas: "<<l_bas<< " " << r << " " << s << endl;
+                        
+                        if((i%2) == 0)//even number sites have J1 hop to nn (A)
+                        {
+                            val = -J1 ;
+                        }
+                        else //odd number sites have J2 (B)
+                        {
+                            val = -J2;
+                        }
+                        
+                        
+                        TL.push_back(Tp(r,s,val));
+                        TL.push_back(Tp(s,r,val));
+                        
+                        //I need to reference the total index
+                        
+                        
+                    }
+                }
+                else
+                {
+                    if((i%2) == 0)
+                    {
+                        val = -J1 ;
+                    }
+                    else
+                    {
+                        val = -J2;
+                    }
+                    
+                    TL.push_back(Tp(p_ind,l_ind, val ));
+                    TL.push_back(Tp(l_ind,p_ind, val ));
+                    
+                }
+            }
+        }
+    }
+    
+    //Checked that Hamiltonian matches SPM exactly
+        for(size_t bs = 0; bs < count; bs++)//harmonic trap
+        {
+            size_t bas = basis[bs];
+            
+            size_t ind = index[bas];
+            for(size_t i = 0; i < L; i++)
+            {
+                Tnum val;
+                if(MY_bittest(bas, i))
+                {
+                   if( (i%2) == 0)
+                   {
+                       val = -h;
+                   }
+                   else
+                   {
+                       val = h;
+                   }
+                    
+                    
+                    for(size_t k = 0; k < count_opp; k++)
+                    {
+                        int q;
+                        if(species == 0)
+                        {
+                            q = TotalIndex(ind, k);
+                        }
+                        if(species == 1)
+                        {
+                            q = TotalIndex(k,ind);
+                        }
+                        TL.push_back(Tp(q,q,val));
+                        
+                    }
+                }
+            }
+        }
+    
+    
+    HopHam.setFromTriplets(TL.begin(), TL.end());
+    //cout << "Hop Ham set \n";
+}
+
+template<typename Tnum>
 void Hamiltonian<Tnum>::IntMatrix_Build()
 {
     //build interaction index for up spin
@@ -460,11 +587,21 @@ void Hamiltonian<Tnum>::HopMatrix_Build()
 template<>
 void Hamiltonian<complex<double>>::HopMatrix_Build_Peierls()
 {
-    std::cout << "No problem before setting Triplet\n";
+    //std::cout << "No problem before setting Triplet\n";
     BuildHopHam_Peierls(0, count_up, count_dn, basis_up, index_up, HopHam_up, Harm_Trap);
-    std::cout << "No problem after up spin\n";
+    //std::cout << "No problem after up spin\n";
     BuildHopHam_Peierls(1, count_dn, count_up, basis_down, index_dn, HopHam_down, Harm_Trap);
-    std::cout << "No problem after down spin\n";
+    //std::cout << "No problem after down spin\n";
+}
+
+template<typename Tnum>
+void Hamiltonian<Tnum>::HopMatrix_Build_QPump()
+{
+    //std::cout << "No problem before setting Triplet\n";
+    BuildHopHam_QPump(0, count_up, count_dn, basis_up, index_up, HopHam_up);
+    //std::cout << "No problem after up spin\n";
+    BuildHopHam_QPump(1, count_dn, count_up, basis_down, index_dn, HopHam_down);
+    //std::cout << "No problem after down spin\n";
 }
 
 // void Hamiltonian::IntMatrix_Build()
@@ -477,11 +614,9 @@ template<typename Tnum>
 void Hamiltonian<Tnum>::Total_Ham()
 {
     Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
-    
-    
-    
     //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
+
 template<typename Tnum>
 void Hamiltonian<Tnum>::ClearInteractTriplet()
 {
@@ -490,6 +625,7 @@ void Hamiltonian<Tnum>::ClearInteractTriplet()
     Ham_Interact.setZero();
     Ham_Tot.setZero();
 }
+
 template<typename Tnum>
 void Hamiltonian<Tnum>::ClearHopTriplet()
 {
@@ -499,6 +635,13 @@ void Hamiltonian<Tnum>::ClearHopTriplet()
     HopHam_down.setZero();
     Ham_Tot.setZero();
 }
+
+template<typename Tnum>
+void Hamiltonian<Tnum>::OutHam()
+{
+   cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
+}
+
 
 //template class Hamiltonian<int>;
 template class Hamiltonian<double>;
