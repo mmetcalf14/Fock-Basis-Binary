@@ -38,10 +38,10 @@ template<typename Tnum>
 void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , double U, double J1, double J2, double Um, double Ym, vector<double> HT, int L);
 
 template<typename Tnum>
-void PeierlsTD(ofstream &out, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T_it, double dt, double tp, int L);
+void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T_it, double dt, double tp, int L);
 
 template<typename Tnum>
-void QPump_TD(ofstream &out, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, const int T, const double dt, const double h_0, const double J_0, const double d_0, double U, int L);
+void QPump_TD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, const int T, const double dt, const double h_0, const double J_0, const double d_0, double U, int L);
 
 double GdotG( const VectorXd &G1, const VectorXd &G2);
 double GdotG( const VectorXcd &Gc1, const VectorXcd &Gc2);
@@ -78,7 +78,8 @@ int main(int argc, const char * argv[])
     char PeierlsDensity[60];
     char PeierlsDensity_up[60];
     char PeierlsDensity_down[60];
-    char QPumpDensity[60];
+    char QPD_up[60];
+    char QPD_dn[60];
     
     Matrix4d Test_Ham;
     Vector4d Test_Lanczos;
@@ -110,7 +111,8 @@ int main(int argc, const char * argv[])
     ReadFile >> HTFout;
     ReadFile >> IntFidOut;
     ReadFile >> PeierlsDensity;
-    ReadFile >> QPumpDensity;
+    ReadFile >> QPD_up;
+    ReadFile >> QPD_dn;
     
     cout << Nup << endl;
     cout << Ndown << endl;
@@ -119,7 +121,8 @@ int main(int argc, const char * argv[])
     cout << t_2 << endl;
     cout << U << endl;
     cout << output << endl;
-    
+    cout << QPD_up << endl;
+    cout << QPD_dn << endl;
     
     
     int T_tot = T_f/dt;
@@ -145,10 +148,15 @@ int main(int argc, const char * argv[])
     PDout.setf(ios::scientific);
     PDout.precision(11);
     
-    ofstream QPout(QPumpDensity);
-    assert(QPout.is_open());
-    QPout.setf(ios::scientific);
-    QPout.precision(11);
+    ofstream QPout_up(QPD_up);
+    assert(QPout_up.is_open());
+    QPout_up.setf(ios::scientific);
+    QPout_up.precision(11);
+    
+    ofstream QPout_dn(QPD_dn);
+    assert(QPout_dn.is_open());
+    QPout_dn.setf(ios::scientific);
+    QPout_dn.precision(11);
     
     ofstream PDout_up("ED_J1gtJ2_U10_Nu3_L5_Thouless_TimeEvolved_Density_070516.dat");
     assert(PDout_up.is_open());
@@ -222,7 +230,7 @@ int main(int argc, const char * argv[])
     
         //Time Evolve
     
-    QPump_TD(QPout, ham, Diag, T_f, dt, h0, J0, d0, U, Nsite);
+    QPump_TD(QPout_up, QPout_dn, ham, Diag, T_f, dt, h0, J0, d0, U, Nsite);
        
     
         //int NN = T_tot/10;
@@ -233,7 +241,8 @@ int main(int argc, const char * argv[])
     PDout.close();
     PDout_dn.close();
     PDout_up.close();
-    QPout.close();
+    QPout_up.close();
+    QPout_dn.close();
     
     cout << "Code is Done! \n";
     
@@ -486,7 +495,7 @@ void Fidelity_HT(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d ,
 }
 
 template<typename Tnum>
-void PeierlsTD(ofstream &out, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T_it, double dt, double tp, int L)
+void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T_it, double dt, double tp, int L)
 {
     int Nflag = 0;
     double t = 0.;
@@ -512,7 +521,9 @@ void PeierlsTD(ofstream &out, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T
                 d.Diagonalize(h);
                 
                 d.Density(h);
-                Write_Density(out, d.n_up, d.n_dn, L);
+                //Write_Density(out, d.n_up, d.n_dn, L);
+                Density(out_up, d.n_up, L);
+                Density(out_dn, d.n_dn, L);
                 
             }
             //                else{
@@ -536,7 +547,8 @@ void PeierlsTD(ofstream &out, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T
         {
             cout << "Getting Density for t=" << t << endl;
             d.Density(h);
-            Write_Density(out, d.n_up, d.n_dn, L);
+            Density(out_up, d.n_up, L);
+            Density(out_dn, d.n_dn, L);
             
             //DensityDiff(PDout, Diag.n_up, Diag.n_dn, Nsite);
             Nflag = 0;
@@ -550,7 +562,7 @@ void PeierlsTD(ofstream &out, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int T
 }
 
 template<typename Tnum>
-void QPump_TD(ofstream &out, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, const int T, const double dt, const double h_0, const double J_0, const double d_0, double U, int L)
+void QPump_TD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, const int T, const double dt, const double h_0, const double J_0, const double d_0, double U, int L)
 {
     double delta;
     double J1, J2;
@@ -567,7 +579,7 @@ void QPump_TD(ofstream &out, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, c
     for( int it = 0; it <= T_it; it++)
     {
         t = it*dt;
-        cout << "t: " << t << endl;
+        //cout << "t: " << t << endl;
         if( it % 100 == 0)
         {
             cout << "t: " << t << endl;
@@ -601,7 +613,9 @@ void QPump_TD(ofstream &out, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, c
             cout << "Getting Density for t=" << t << endl;
             //cout << "Hamiltonian: \n" << ham.Ham_Tot << endl;
             diag.Density(ham);
-            Write_Density(out, diag.n_up, diag.n_dn, L);
+            //Write_Density(out, diag.n_up, diag.n_dn, L);
+            Density(out_up, diag.n_up, L);
+            Density(out_dn, diag.n_dn, L);
             
         }
     }
