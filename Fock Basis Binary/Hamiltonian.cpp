@@ -19,7 +19,7 @@ void Hamiltonian<Tnum>::Set_Const(Tnum t_1, Tnum t_2, Tnum _U)
     J1 = t_1;
     J2 = t_2;
     U = _U;
-    
+
 }
 
 template<typename Tnum>
@@ -39,7 +39,7 @@ template<typename Tnum>
 void Hamiltonian<Tnum>::GetOnsite(Tnum _h)
 {
     h = _h;
-    
+
 }
 
 template<typename Tnum>
@@ -53,11 +53,11 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
                                     vector<size_t> basis, vector<size_t> index, SpMat &HopHam, std::vector<double> HT)
 {
     std::vector<Tp> TL;
-    
+
     for(size_t bs = 0; bs < count; bs++)
     {
         size_t p_bas = basis[bs];
-        
+
         size_t p_ind = index[p_bas];
         //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
         for(size_t i = 0; i < (L-1); i++)
@@ -68,9 +68,9 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
                 size_t l_ind = index[l_bas];
                 assert( l_bas != p_bas );
-                
+
                 Tnum val;
-                
+
                 if( count_opp )
                 {
                     for(size_t k = 0; k < count_opp; k++)
@@ -86,7 +86,7 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
                             //cout << "More than 2 species fermion!!" << endl;
                         }
                         //cout << "pbas: "<<p_bas<<" lbas: "<<l_bas<< " " << r << " " << s << endl;
-                        
+
                         if((i%2) == 0)//even number sites have J1 hop to nn (A)
                         {
                             val = -J1 ;
@@ -95,14 +95,14 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
                         {
                             val = -J2;
                         }
-                       
-                        
+
+
                         TL.push_back(Tp(r,s,val));
                         TL.push_back(Tp(s,r,val));
-                        
+
                         //I need to reference the total index
-                        
-                        
+
+
                     }
                 }
                 else
@@ -115,21 +115,21 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
                     {
                         val = -J2;
                     }
-              
+
                     TL.push_back(Tp(p_ind,l_ind, val ));
                     TL.push_back(Tp(l_ind,p_ind, val ));
-                    
+
                 }
             }
         }
     }
-    
+
    if(HT.size() > 0)
    {
     for(size_t bs = 0; bs < count; bs++)//harmonic trap
     {
         size_t bas = basis[bs];
-        
+
         size_t ind = index[bas];
         for(size_t i = 0; i < L; i++)
         {
@@ -148,20 +148,20 @@ void Hamiltonian<Tnum>::BuildHopHam(int species, size_t count, size_t count_opp,
                         q = TotalIndex(k,ind);
                     }
                     TL.push_back(Tp(q,q,val));
-                    
+
                 }
             }
         }
     }
    }
-    
+
     HopHam.setFromTriplets(TL.begin(), TL.end());
     cout << "Hop Ham set \n";
-    
+
 }
 
 template<>
-void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count, size_t count_opp,
+void Hamiltonian<complex<double> >::BuildHopHam_Peierls(int species, size_t count, size_t count_opp,
                                     vector<size_t> basis, vector<size_t> index, SpMat &HopHam, std::vector<double> HT)
 {
     std::vector<Tp> TL;
@@ -169,11 +169,11 @@ void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count
     I.real(0.0);
     I.imag(1.0);
 
-    
+
     for(size_t bs = 0; bs < count; bs++)
     {
         size_t p_bas = basis[bs];
-        
+
         size_t p_ind = index[p_bas];
         //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
         for(size_t i = 0; i < (L-1); i++)
@@ -184,9 +184,9 @@ void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
                 size_t l_ind = index[l_bas];
                 assert( l_bas != p_bas );
-                
+
                 complex<double> val;
-                
+
                 if( count_opp )
                 {
                     for(size_t k = 0; k < count_opp; k++)
@@ -202,7 +202,7 @@ void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count
                             //cout << "More than 2 species fermion!!" << endl;
                         }
                         //cout << "pbas: "<<p_bas<<" lbas: "<<l_bas<< r << " " << s << endl;
-                        
+
                         if((i%2) == 0)//even number sites have J1 hop to nn (A)
                         {
                             val = -J1*exp(I*Phi_t) ;
@@ -211,14 +211,14 @@ void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count
                         {
                             val = -J2*exp(I*Phi_t);
                         }
-                        
+
                        // cout << "Setting Triplet\n";
                         TL.push_back(Tp(r,s,val));
                         TL.push_back(Tp(s,r,conj(val)));//take conjugate of exponential for other half of matrix
                         ///cout << "Triplet Set\n";
                         //I need to reference the total index
-                        
-                        
+
+
                     }
                 }
                 else
@@ -231,21 +231,21 @@ void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count
                     {
                         val = -J2*exp(I*Phi_t);
                     }
-                    
+
                     TL.push_back(Tp(p_ind,l_ind, val ));
                     TL.push_back(Tp(l_ind,p_ind, conj(val) ));
-                    
+
                 }
             }
         }
     }
-    
+
     if(HT.size() > 0)
     {
         for(size_t bs = 0; bs < count; bs++)//harmonic trap
         {
             size_t bas = basis[bs];
-            
+
             size_t ind = index[bas];
             for(size_t i = 0; i < L; i++)
             {
@@ -264,27 +264,27 @@ void Hamiltonian<complex<double>>::BuildHopHam_Peierls(int species, size_t count
                             q = TotalIndex(k,ind);
                         }
                         TL.push_back(Tp(q,q,val));
-                        
+
                     }
                 }
             }
         }
     }
-    
+
     HopHam.setFromTriplets(TL.begin(), TL.end());
     cout << "Hop Ham set \n";
-    
+
 }
 
 template<typename Tnum>
 void Hamiltonian<Tnum>::BuildHopHam_QPump(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam)
 {
     std::vector<Tp> TL;
-    
+
     for(size_t bs = 0; bs < count; bs++)
     {
         size_t p_bas = basis[bs];
-        
+
         size_t p_ind = index[p_bas];
         //cout << "We are acting on basis, " << p_bas << " with index, "<< p_ind << endl;
         for(size_t i = 0; i < (L-1); i++)
@@ -295,9 +295,9 @@ void Hamiltonian<Tnum>::BuildHopHam_QPump(int species, size_t count, size_t coun
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),i+1);
                 size_t l_ind = index[l_bas];
                 assert( l_bas != p_bas );
-                
+
                 Tnum val;
-                
+
                 if( count_opp )
                 {
                     for(size_t k = 0; k < count_opp; k++)
@@ -313,7 +313,7 @@ void Hamiltonian<Tnum>::BuildHopHam_QPump(int species, size_t count, size_t coun
                             //cout << "More than 2 species fermion!!" << endl;
                         }
                         //cout << "pbas: "<<p_bas<<" lbas: "<<l_bas<< " " << r << " " << s << endl;
-                        
+
                         if((i%2) == 0)//even number sites have J1 hop to nn (A)
                         {
                             val = -J1 ;
@@ -322,14 +322,14 @@ void Hamiltonian<Tnum>::BuildHopHam_QPump(int species, size_t count, size_t coun
                         {
                             val = -J2;
                         }
-                        
-                        
+
+
                         TL.push_back(Tp(r,s,val));
                         TL.push_back(Tp(s,r,val));
-                        
+
                         //I need to reference the total index
-                        
-                        
+
+
                     }
                 }
                 else
@@ -342,20 +342,20 @@ void Hamiltonian<Tnum>::BuildHopHam_QPump(int species, size_t count, size_t coun
                     {
                         val = -J2;
                     }
-                    
+
                     TL.push_back(Tp(p_ind,l_ind, val ));
                     TL.push_back(Tp(l_ind,p_ind, val ));
-                    
+
                 }
             }
         }
     }
-    
+
     //Checked that Hamiltonian matches SPM exactly
         for(size_t bs = 0; bs < count; bs++)//harmonic trap
         {
             size_t bas = basis[bs];
-            
+
             size_t ind = index[bas];
             for(size_t i = 0; i < L; i++)
             {
@@ -370,8 +370,8 @@ void Hamiltonian<Tnum>::BuildHopHam_QPump(int species, size_t count, size_t coun
                    {
                        val = h;
                    }
-                    
-                    
+
+
                     for(size_t k = 0; k < count_opp; k++)
                     {
                         int q;
@@ -384,13 +384,13 @@ void Hamiltonian<Tnum>::BuildHopHam_QPump(int species, size_t count, size_t coun
                             q = TotalIndex(k,ind);
                         }
                         TL.push_back(Tp(q,q,val));
-                        
+
                     }
                 }
             }
         }
-    
-    
+
+    HopHam.setZero();
     HopHam.setFromTriplets(TL.begin(), TL.end());
     //cout << "Hop Ham set \n";
 }
@@ -422,7 +422,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
                         point_dn = point_up;
                         IndexU_dn(i,point_dn) = j;//was j+1
                         point_dn++; //why is this causing errors?
-                        
+
                     }
                     point_up++;
                 }
@@ -445,7 +445,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
             }
         }
     }
-    
+
     if(Nup != Ndn)
     {
         for(size_t i = 0; i < L ; i++)
@@ -474,9 +474,9 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
                 }
             }
         }
-        
+
     }
-    
+
     //    std::cout << "The spin up Index matrix is: \n" << IndexU_up << std::endl;
     //    std::cout << "The spin down Index matrix is: \n" << IndexU_dn << std::endl;
     // }
@@ -489,29 +489,29 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
     Tnum NNup = Nup;
     Tnum NNdn = Ndn;
     Tnum LL = L;
-    
+
     if((Nup + Ndn) > L)//
     {
         g = U*(NNup + NNdn -LL);
-        
+
         for(size_t i = 0; i < Tot_base; i++)
         {
             TL_Ubase.push_back(Tp(i,i, g ));//do I need to have two different Hamiltonians?
         }
-        
+
     }
-    
+
     if(Nup == Ndn)
     {
         if( (Nup+Ndn) <= L)
         {
             g = U*NNup;
-            
+
         }
         else
         {
             g = U*(LL-NNup);//should I do this on top of other build with g?
-            
+
         }
         for(size_t i = 0; i < count_up; i++)
         {
@@ -519,7 +519,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
             // size_t k = (count_up +1)*i - count_up - 1;//added a -1 because for loop starts at 1
             TL_Ubase.push_back(Tp(k,k, g ));//do I need to have two different Hamiltonians?
            // cout << k << " " << k << " " << g << endl;
-            
+
         }
     }
     //end function algorithm
@@ -563,7 +563,7 @@ void Hamiltonian<Tnum>::IntMatrix_Build()
 
 // void Hamiltonian::Set_Mat_Dim()
 // {
-//     //std::cout << "Entering dimension alg \n"; 
+//     //std::cout << "Entering dimension alg \n";
 //     // Tot_base = count_up*count_dn; //should this be size t or int for matrix dim
 //     // HopHam_down.resize(Tot_base, Tot_base);
 //     // HopHam_up.resize(Tot_base, Tot_base);
@@ -585,7 +585,7 @@ void Hamiltonian<Tnum>::HopMatrix_Build()
 }
 
 template<>
-void Hamiltonian<complex<double>>::HopMatrix_Build_Peierls()
+void Hamiltonian<complex<double> >::HopMatrix_Build_Peierls()
 {
     //std::cout << "No problem before setting Triplet\n";
     BuildHopHam_Peierls(0, count_up, count_dn, basis_up, index_up, HopHam_up, Harm_Trap);
