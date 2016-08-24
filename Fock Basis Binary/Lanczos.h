@@ -75,6 +75,7 @@ public:
     void ResetLanczos();
     void GetExponential(const Eigen::VectorXd& vec, int max_it);
     void Dynamics(Hamiltonian<Tnum> &Ham);
+    void DebugDynamics(Hamiltonian<Tnum> &ham);
     inline VectorType SendGstate(){return G_state;};
     
     

@@ -549,7 +549,8 @@ void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos
 
             }
             //                else{
-            d.Dynamics(h);
+           // d.Dynamics(h);
+            d.DebugDynamics(h);
             //                }
 
             if(t < tp)
@@ -561,7 +562,8 @@ void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos
         {
             //cout << "in loop 2\n";
             //ham.OutHam();
-            d.Dynamics(h);
+            //d.Dynamics(h);
+            d.DebugDynamics(h);
         }
 
 

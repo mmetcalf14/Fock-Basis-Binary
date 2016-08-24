@@ -232,6 +232,7 @@ void Lanczos_Diag<Tnum>::Density(const Hamiltonian<Tnum> &Ham)
         }
     }
 
+    //cout << "Density |G>: \n" << G_state << endl;
     //cout << "Sum: " << sum << endl;
 
     cout << "Here is the ground state for up spin: \n";
@@ -249,6 +250,41 @@ void Lanczos_Diag<Tnum>::Density(const Hamiltonian<Tnum> &Ham)
 }
 
 template<>
+void Lanczos_Diag<complex<double>>::DebugDynamics(Hamiltonian<complex<double> > &ham)
+{
+    Eigen::VectorXcd work_Gstate(ham.Tot_base);
+    Eigen::VectorXcd Eval_w(ham.Tot_base);
+    Eigen::VectorXcd Exp_Vec(ham.Tot_base);
+    
+    Eigen::MatrixXcd Evec_w(ham.Tot_base,ham.Tot_base);
+    Eigen::MatrixXcd Exp_Mat = Eigen::MatrixXcd::Zero(ham.Tot_base,ham.Tot_base);
+    
+    //Diagonalize Ham
+    Eigen::ComplexEigenSolver<Eigen::MatrixXcd> DiagMe(ham.Ham_Tot);
+    Eval_w = DiagMe.eigenvalues();
+    Evec_w = DiagMe.eigenvectors();
+    
+    //Get Time Evolution operator
+    for(int i = 0; i < ham.Tot_base; i++)
+    {
+        Exp_Vec(i) = exp(-1.*(I*dt*Eval_w(i))/hbar);
+        
+    }
+    Exp_Mat = Exp_Vec.asDiagonal();
+    
+    //Get time-evolved Gstate
+    work_Gstate = (Evec_w*Exp_Mat)*(Evec_w.adjoint()*G_state);
+    //work_Gstate = Eval_w;
+    
+    work_Gstate.normalize();
+    //cout << "Exact time-evolved Gstate: \n" << work_Gstate << endl;
+//    cout << "WIth the Evolved Desnity: \n";
+//    Density(ham);
+    G_state = work_Gstate;
+    
+}
+
+template<>
 void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)//, Eigen::VectorXd GS)
 {
     //cout << "Beginning Dynamics\n";
@@ -261,17 +297,7 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
     Eigen::MatrixXd Evec_Mat(imax+1,imax+1);//this is real because tri_diag mat is real
     Eigen::VectorXd Eval(imax+1,1);//real for same reason
 
-    //G_state = Eigen::VectorXcd::Zero(tb.Tot_base);
-    //D_Mat = Eigen::MatrixXcd::Zero(imax, imax);
-
-    //DEGUG
-     //cout << "Assigning Gstate" << endl;
-    //G_state.real() = Test_Lanczos;
-
-    //G_state.real() = GS;
-    // std::cout << G_state.rows() << "  " << ham.Tot_base << std::endl;
-    // Q_Mat.resize(ham.Tot_base, imax);
-    // Q_Mat.setZero();
+//    DebugDynamics(ham);
     //cout << "G_state init: \n" << G_state << endl;
     QMat.col(0) = G_state;//G_state input correctly
     
@@ -334,7 +360,8 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
 
     Eigen::VectorXcd Temp_Gstate;
     Eigen::MatrixXcd work = Work_Q * Evec_Mat;
-   
+    
+    
     Temp_Gstate = ( work * D_Mat ) * ( work.adjoint() * G_state );//this should be
     // Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;//this should be
 
@@ -362,6 +389,8 @@ void Lanczos_Diag<Tnum>::GetExponential(const Eigen::VectorXd& vec, int max_it)
     D_Mat = D.asDiagonal();//Dmat is complex and so is D
 
 }
+
+
 
 template class Lanczos_Diag<double>;
 template class Lanczos_Diag<complex<double> >;
