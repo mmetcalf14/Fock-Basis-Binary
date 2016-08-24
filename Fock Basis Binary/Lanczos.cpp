@@ -43,7 +43,7 @@ void Lanczos_Diag<Tnum>::Set_Mat_Dim_LA(const Hamiltonian<Tnum> &tb)//int Tot_ba
     G_state = VectorType::Zero(tb.Tot_base);
 
     //Temp_G_state = Eigen::VectorXcd::Zero(tb.Tot_base);
-    Q_Mat.resize(tb.Tot_base, 10);
+    Q_Mat.resize(tb.Tot_base, 10);//change back when change imax
 
     r_vec.resize(tb.Tot_base);
     rc_vec.resize(tb.Tot_base);
@@ -168,7 +168,7 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
     cnt = it;
     Evec.resize(cnt);
     Evec = Evec_Mat.col(0);
-    TriDiag.resize(10,10);
+    TriDiag.resize(20,20);
     //cout << "We have Eigenvectors \n" << Evec_Mat << endl;
 
     for(int i = 0; i < cnt; i++)
@@ -253,7 +253,7 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
 {
     //cout << "Beginning Dynamics\n";
 
-    int imax = 9;
+    int imax = 19;
     int it = 0;
     Eigen::MatrixXd Work_Tri;
     Eigen::MatrixXcd Work_Q;
@@ -265,16 +265,21 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
     //D_Mat = Eigen::MatrixXcd::Zero(imax, imax);
 
     //DEGUG
-    // cout << "Assigning Gstate" << endl;
+     //cout << "Assigning Gstate" << endl;
     //G_state.real() = Test_Lanczos;
 
     //G_state.real() = GS;
     // std::cout << G_state.rows() << "  " << ham.Tot_base << std::endl;
     // Q_Mat.resize(ham.Tot_base, imax);
     // Q_Mat.setZero();
+    //cout << "G_state init: \n" << G_state << endl;
     QMat.col(0) = G_state;//G_state input correctly
-
-
+    
+    //cout<< "ham in dynam: " <<ham.Ham_Tot;
+    
+    //cout << "Begin Loop\n";
+    
+    
 
     do
     {
@@ -299,9 +304,9 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
         beta = rc_vec.norm();//beta converges to zero but the iteration keeps going
         //cout << "beta: "<<beta << endl;
 
-        TriDiag(it+1,it)=beta; //self adjoint eigensolver only uses lower triangle
+        TriDiag(it+1,it) = beta; //self adjoint eigensolver only uses lower triangle
 
-        TriDiag(it,it+1)=beta;
+        TriDiag(it,it+1) = beta;
         rc_vec.normalize(); //this is the new Lanczos Vector
 
         QMat.col(it+1) = rc_vec;//it+1 since we aren't using pushback
@@ -318,22 +323,25 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
 
     Work_Tri = TriDiag.block(0,0,it,it);//do I need to include zero for beta
     Work_Q = QMat.block(0,0,ham.Tot_base,it);
+    //cout << "Diagonalize\n";
     // std::cout << "DiagMe" << std::endl;
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Tri);
     Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
     Evec_Mat = DiagMe.eigenvectors();
 
-
+    //cout << "Exponential\n";
     GetExponential(Eval, it);
 
     Eigen::VectorXcd Temp_Gstate;
     Eigen::MatrixXcd work = Work_Q * Evec_Mat;
+   
     Temp_Gstate = ( work * D_Mat ) * ( work.adjoint() * G_state );//this should be
     // Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;//this should be
 
     G_state = Temp_Gstate;//if I make temp_Gstate complex then G_state is always complex
 
     G_state.normalize();
+    //cout << "G_state fin: \n" << G_state << endl;
     // std::cout << "DONE!" << std::endl;
 
 

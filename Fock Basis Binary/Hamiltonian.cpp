@@ -168,7 +168,7 @@ void Hamiltonian<complex<double> >::BuildHopHam_Peierls(int species, size_t coun
     complex<double> I;
     I.real(0.0);
     I.imag(1.0);
-
+    
 
     for(size_t bs = 0; bs < count; bs++)
     {
@@ -240,39 +240,10 @@ void Hamiltonian<complex<double> >::BuildHopHam_Peierls(int species, size_t coun
         }
     }
 
-    if(HT.size() > 0)
-    {
-        for(size_t bs = 0; bs < count; bs++)//harmonic trap
-        {
-            size_t bas = basis[bs];
-
-            size_t ind = index[bas];
-            for(size_t i = 0; i < L; i++)
-            {
-                if(MY_bittest(bas, i))
-                {
-                    double val = HT[i];
-                    for(size_t k = 0; k < count_opp; k++)
-                    {
-                        int q;
-                        if(species == 0)
-                        {
-                            q = TotalIndex(ind, k);
-                        }
-                        if(species == 1)
-                        {
-                            q = TotalIndex(k,ind);
-                        }
-                        TL.push_back(Tp(q,q,val));
-
-                    }
-                }
-            }
-        }
-    }
-
+    
+    //cout << "exponential: " << exp(I*Phi_t) << endl;
     HopHam.setFromTriplets(TL.begin(), TL.end());
-    cout << "Hop Ham set \n";
+    //cout << "Hop Ham set \n";
 
 }
 
@@ -589,8 +560,10 @@ void Hamiltonian<complex<double> >::HopMatrix_Build_Peierls()
 {
     //std::cout << "No problem before setting Triplet\n";
     BuildHopHam_Peierls(0, count_up, count_dn, basis_up, index_up, HopHam_up, Harm_Trap);
+    
     //std::cout << "No problem after up spin\n";
     BuildHopHam_Peierls(1, count_dn, count_up, basis_down, index_dn, HopHam_down, Harm_Trap);
+    
     //std::cout << "No problem after down spin\n";
 }
 
@@ -614,7 +587,7 @@ template<typename Tnum>
 void Hamiltonian<Tnum>::Total_Ham()
 {
     Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
-    //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
+   // cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
 
 template<typename Tnum>
