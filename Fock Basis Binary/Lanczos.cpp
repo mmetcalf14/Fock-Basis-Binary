@@ -371,10 +371,11 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
     
     Temp_Gstate = ( work * D_Mat ) * ( work.adjoint() * G_state );//this should be
     // Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;//this should be
-
+    Temp_Gstate.normalize();
+    cout << "Inner Product: " << Temp_Gstate.dot(G_state) << endl;
     G_state = Temp_Gstate;//if I make temp_Gstate complex then G_state is always complex
 
-    G_state.normalize();
+    //G_state.normalize();
     //cout << "G_state fin: \n" << G_state << endl;
     // std::cout << "DONE!" << std::endl;
 

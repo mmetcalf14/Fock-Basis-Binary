@@ -587,7 +587,7 @@ template<typename Tnum>
 void Hamiltonian<Tnum>::Total_Ham()
 {
     Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
-   // cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
+    //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
 
 template<typename Tnum>
