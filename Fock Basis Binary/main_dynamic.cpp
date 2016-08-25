@@ -68,7 +68,7 @@ int main(int argc, const char * argv[])
     double dt = .01;
     double t_p;
 
-    const double h0 = 0.0;
+    const double h0 = 0.5;
     const double d0 = 0.5;
     const double J0 = 1.0;
 
@@ -215,6 +215,7 @@ int main(int argc, const char * argv[])
 //    cout << "Diagonalizing \n";
 //    //Diagonalization of t=0 Hamiltonian
 //    Diag.Diagonalize(ham);
+    //Diag.CHECK();
 //
 //
 //    //convert |G> from Fock basis to onsite basis
@@ -239,9 +240,9 @@ int main(int argc, const char * argv[])
         //Time Evolve
 
     
-    //QPump_TD(QPout_up, QPout_dn, ham, Diag, T_f, dt, h0, J0, d0, U, Nsite);
+    QPump_TD(PDout_up, PDout, ham, Diag, T_f, dt, h0, J0, d0, U, Nsite);//QPout_up, QPout_dn
     
-    PeierlsTD(PDout_up, PDout, ham, Diag, T_tot, dt, t_p, Nsite);
+    //PeierlsTD(PDout_up, PDout, ham, Diag, T_tot, dt, t_p, Nsite);
     
 
         //int NN = T_tot/10;
@@ -519,13 +520,13 @@ void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos
     int Nflag = 0;
     double t = 0.;
     double Pi = (4*atan(1.0));
-    double Phi_max = Pi/2.;
+    double Phi_max = Pi/4.;
     double Phi_t = 0.0;
 
     for(int it = 0; it <= T_it; it++)
     {
         t = it*dt;
-
+        //cout << "t: " << t << endl;
 
 
         if(t <= tp)
@@ -548,10 +549,11 @@ void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos
                 EdgeDensity(out_dn, d.n_up, t);
 
             }
-            //                else{
-           // d.Dynamics(h);
-            d.DebugDynamics(h);
-            //                }
+            else
+            {
+                d.Dynamics(h);
+                //d.DebugDynamics(h);
+            }
 
             if(t < tp)
             {
@@ -562,8 +564,8 @@ void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos
         {
             //cout << "in loop 2\n";
             //ham.OutHam();
-            //d.Dynamics(h);
-            d.DebugDynamics(h);
+            d.Dynamics(h);
+            //d.DebugDynamics(h);
         }
 
 
@@ -587,7 +589,7 @@ void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos
 
 }
 
-template<typename Tnum>
+template<typename Tnum>//why does this program work and not the other???????
 void QPump_TD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &ham, Lanczos_Diag<Tnum> &diag, const int T, const double dt, const double h_0, const double J_0, const double d_0, double U, int L)
 {
     double delta;
@@ -622,7 +624,7 @@ void QPump_TD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &ham, Lanczo
         ham.Set_Const(J1, J2, U);
         ham.HopMatrix_Build_QPump();
         ham.Total_Ham();
-        ham.OutHam();
+        //ham.OutHam();
         
         if(it == 0)
         {
@@ -633,6 +635,7 @@ void QPump_TD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &ham, Lanczo
         {
             //cout << "Beginning Dynamics" << endl;
             diag.Dynamics(ham);
+            //diag.DebugDynamics(ham);
         }
 
         ham.ClearHopTriplet();

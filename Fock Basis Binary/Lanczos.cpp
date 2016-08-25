@@ -277,10 +277,12 @@ void Lanczos_Diag<complex<double>>::DebugDynamics(Hamiltonian<complex<double> > 
     //work_Gstate = Eval_w;
     
     work_Gstate.normalize();
-    //cout << "Exact time-evolved Gstate: \n" << work_Gstate << endl;
+//        cout << "Hamiltonian: \n" << ham.Ham_Tot << endl;
+//    cout << "Exact time-evolved Gstate: \n" << work_Gstate << endl;
 //    cout << "WIth the Evolved Desnity: \n";
-//    Density(ham);
+
     G_state = work_Gstate;
+    //Density(ham);
     
 }
 
@@ -291,6 +293,8 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
 
     int imax = 19;
     int it = 0;
+    
+    TriDiag = Eigen::MatrixXd::Zero(imax+1, imax+1);
     Eigen::MatrixXd Work_Tri;
     Eigen::MatrixXcd Work_Q;
     Eigen::MatrixXcd QMat(ham.Tot_base, imax+1);
@@ -303,9 +307,7 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
     
     //cout<< "ham in dynam: " <<ham.Ham_Tot;
     
-    //cout << "Begin Loop\n";
-    
-    
+    //cout << "Begin Loop\n"
 
     do
     {
@@ -320,6 +322,9 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
             rc_vec = ham.Ham_Tot * QMat.col(it)-( beta * QMat.col(it-1) );
             //rc_vec = Test_Ham*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
         }
+
+//        cout << "R vec:\n" << rc_vec << endl;
+//        cout << "Q vec:\n" << QMat.col(it) << endl;
 
         alpha = QMat.col(it).dot( rc_vec );//this shouldn't be giving complex
         //cout << "alpha: "<<alpha << endl;
@@ -345,9 +350,11 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
     rc_vec = ham.Ham_Tot * QMat.col(it) - ( beta * QMat.col(it-1) );
     alpha = QMat.col(it).dot( rc_vec );//this shouldn't be giving complex
     TriDiag(it,it) = alpha.real();
-    it++;
+    //it++;
+    //cout << "TriaDiag \n" << TriDiag << endl;
 
     Work_Tri = TriDiag.block(0,0,it,it);//do I need to include zero for beta
+    //cout << "Work Tri: " << Work_Tri << endl;
     Work_Q = QMat.block(0,0,ham.Tot_base,it);
     //cout << "Diagonalize\n";
     // std::cout << "DiagMe" << std::endl;
@@ -360,7 +367,7 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
 
     Eigen::VectorXcd Temp_Gstate;
     Eigen::MatrixXcd work = Work_Q * Evec_Mat;
-    
+   // cout << "work:\n" << work.adjoint() << "\nOther way:\n" << Evec_Mat.adjoint()*Work_Q.adjoint() << endl;
     
     Temp_Gstate = ( work * D_Mat ) * ( work.adjoint() * G_state );//this should be
     // Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;//this should be
@@ -390,7 +397,88 @@ void Lanczos_Diag<Tnum>::GetExponential(const Eigen::VectorXd& vec, int max_it)
 
 }
 
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::CHECK()
+{
+   
+    //MY NUMERICAL VS ANALYTICAL CHECK YEILDED EXACT RESULTS
+    Eigen::Matrix4cd M;
+    M << 0, -1, 0, 0,
+    -1,0,-1,0,
+    0,-1,0,-1,
+    0,0,-1,0;
+    
+    Eigen::Vector4cd V;
+    V << 0.5,0.5,0.5,0.5;
+    
+    int imax = 6;
+    int it = 0;
+    Eigen::MatrixXd Work_Tri;
+    Eigen::MatrixXcd Work_Q;
+    Eigen::MatrixXcd QMat(4, imax+1);
+    Eigen::MatrixXd Evec_Mat(imax+1,imax+1);
+    Eigen::VectorXd Eval(imax+1,1);
+    
+    TriDiag.resize(imax+1,imax+1);
+    
+    QMat.col(0) = V;
+    
+    do
+    {
+        
+        if(it == 0)
+        {
+            rc_vec = M * QMat.col(it);
+            //rc_vec = Test_Ham*Q_Mat.col(it);
+        }
+        else
+        {
+            rc_vec = M * QMat.col(it)-( beta * QMat.col(it-1) );
+            //rc_vec = Test_Ham*Q_Mat.col(it)-(beta*Q_Mat.col(it-1));
+        }
+        
+        alpha = QMat.col(it).dot( rc_vec );//this shouldn't be giving complex
+        //cout << "alpha: "<<alpha << endl;
+        TriDiag(it,it) = alpha.real();
+        
+        rc_vec -= (alpha * QMat.col(it));
+        
+        beta = rc_vec.norm();//beta converges to zero but the iteration keeps going
+        //cout << "beta: "<<beta << endl;
+        
+        TriDiag(it+1,it) = beta; //self adjoint eigensolver only uses lower triangle
+        
+        TriDiag(it,it+1) = beta;
+        rc_vec.normalize(); //this is the new Lanczos Vector
+        
+        QMat.col(it+1) = rc_vec;//it+1 since we aren't using pushback
+        
+        it++;
+    }while((it < (imax)) && (beta > .0000000001));
+    
+    //testing by adding another alpha and taking full matrix. Theorem may not prove true without
+    //beta=0 elements
+    rc_vec = M * QMat.col(it) - ( beta * QMat.col(it-1) );
+    alpha = QMat.col(it).dot( rc_vec );//this shouldn't be giving complex
+    TriDiag(it,it) = alpha.real();
+    //it++;
+    cout << "TriaDiag \n" << TriDiag << endl;
+    Work_Tri = TriDiag.block(0,0,it,it);
+    cout << "Work-Tri \n" << Work_Tri << endl;
+    
+    Work_Q = QMat.block(0,0,4,it);
+    //cout << "Diagonalize\n";
+    // std::cout << "DiagMe" << std::endl;
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> DiagMe(Work_Tri);
+    Eval = DiagMe.eigenvalues(); //set Eval and Evec to real
+    Evec_Mat = DiagMe.eigenvectors();
+    cout << "Eigenvalues: \n" << Eval << endl;
+    
+    
 
+    
+    
+}
 
 template class Lanczos_Diag<double>;
 template class Lanczos_Diag<complex<double> >;
