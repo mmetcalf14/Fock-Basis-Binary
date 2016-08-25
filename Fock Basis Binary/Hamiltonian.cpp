@@ -165,9 +165,9 @@ void Hamiltonian<complex<double> >::BuildHopHam_Peierls(int species, size_t coun
                                     vector<size_t> basis, vector<size_t> index, SpMat &HopHam, std::vector<double> HT)
 {
     std::vector<Tp> TL;
-    complex<double> I;
-    I.real(0.0);
-    I.imag(1.0);
+//    complex<double> I;
+//    I.real(0.0);
+//    I.imag(1.0);
     
 
     for(size_t bs = 0; bs < count; bs++)

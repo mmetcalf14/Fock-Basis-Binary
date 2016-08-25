@@ -43,9 +43,9 @@ private:
     Eigen::Vector4d Test_Lanczos;
     
     //time evolution constants
-    std::complex<double> I;
+    //std::complex<double> I;
     double dt;//construct?
-    double hbar;
+    //double hbar;
     
     
     std::complex<double> alpha;//alpha can be complex
@@ -58,7 +58,7 @@ public:
     std::vector<double> n_dn;
     
     Lanczos_Diag(const Hamiltonian<Tnum>&){};//Program not accepting this constructor::SEE ERROR
-    void TimeEvoCoeff(const double &_dt);
+    //void TimeEvoCoeff(const double &_dt);
     //construct new,simple matrix to test algorithm and eigen values
     //and set Lanz vec to be one from analytical example
     void Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos);
@@ -72,9 +72,10 @@ public:
     
     //void Test_Tri();
     void Density(const Hamiltonian<Tnum> &Ham);
+    void DensityCorrelation(const Hamiltonian<Tnum> &Ham);
     void ResetLanczos();
-    void GetExponential(const Eigen::VectorXd& vec, int max_it);
-    void Dynamics(Hamiltonian<Tnum> &Ham);
+    void GetExponential(const Eigen::VectorXd& vec, int max_it, double dt);
+    void Dynamics(Hamiltonian<Tnum> &Ham, double dt);
     void DebugDynamics(Hamiltonian<Tnum> &ham);
     void CHECK();
     inline VectorType SendGstate(){return G_state;};
@@ -82,6 +83,7 @@ public:
     
     
 };
+
 
 
 

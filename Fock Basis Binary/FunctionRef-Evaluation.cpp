@@ -297,7 +297,7 @@ void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos
             }
             else
             {
-                d.Dynamics(h);
+                d.Dynamics(h, dt);
                 //d.DebugDynamics(h);
             }
             
@@ -310,7 +310,7 @@ void PeierlsTD(ofstream &out_up, ofstream &out_dn, Hamiltonian<Tnum> &h, Lanczos
         {
             //cout << "in loop 2\n";
             //ham.OutHam();
-            d.Dynamics(h);
+            d.Dynamics(h, dt);
             //d.DebugDynamics(h);
         }
         
@@ -419,4 +419,4 @@ double GdotG( const VectorXcd &Gc1, const VectorXcd &Gc2)
 }
 
 template class Hamiltonian<double>;
-template class Hamiltonian<complex<double> >;
+template class Hamiltonian<complex<double>>;

@@ -78,9 +78,11 @@ public:
     void HopMatrix_Build();
     void HopMatrix_Build_Peierls();
     void HopMatrix_Build_QPump();
+    void HopMatrix_Build_Periodic();
     void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<double> HT = std::vector<double>(100,0.0e0));
     void BuildHopHam_Peierls(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<double> HT = std::vector<double>(100,0.0e0));
      void BuildHopHam_QPump(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
+    void BuildHopHam_Periodic(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
     void GetPhi(double _Phi_t);
     void GetOnsite(Tnum _h);
     void IntMatrix_Build();
@@ -89,6 +91,9 @@ public:
     void OutHam();
 };
 
+//constants
+const double hbar = 1.;
+const std::complex<double> I(0.0,1.0);
 
 
 #endif /* Hamiltonian_h */

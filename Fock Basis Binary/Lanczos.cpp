@@ -16,14 +16,14 @@ using namespace std;
 template<typename Tnum>
 int Lanczos_Diag<Tnum>::itmax = 200;
 
-template<typename Tnum>
-void Lanczos_Diag<Tnum>::TimeEvoCoeff(const double &_dt)
-{
-    I.real(0.0);
-    I.imag(1.0);
-    dt = _dt;
-    hbar = 1.;
-}
+//template<typename Tnum>
+//void Lanczos_Diag<Tnum>::TimeEvoCoeff(const double &_dt)
+//{
+//    I.real(0.0);
+//    I.imag(1.0);
+//    dt = _dt;
+//    hbar = 1.;
+//}
 
 template<typename Tnum>
 void Lanczos_Diag<Tnum>::Lanczos_TestM(const Eigen::Matrix4d& _Test_Ham, const Eigen::Vector4d& _Test_Lanczos)
@@ -287,7 +287,7 @@ void Lanczos_Diag<complex<double>>::DebugDynamics(Hamiltonian<complex<double> > 
 }
 
 template<>
-void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)//, Eigen::VectorXd GS)
+void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham, double dt)//, Eigen::VectorXd GS)
 {
     //cout << "Beginning Dynamics\n";
 
@@ -363,7 +363,7 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
     Evec_Mat = DiagMe.eigenvectors();
 
     //cout << "Exponential\n";
-    GetExponential(Eval, it);
+    GetExponential(Eval, it, dt);
 
     Eigen::VectorXcd Temp_Gstate;
     Eigen::MatrixXcd work = Work_Q * Evec_Mat;
@@ -371,11 +371,11 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
     
     Temp_Gstate = ( work * D_Mat ) * ( work.adjoint() * G_state );//this should be
     // Temp_Gstate = Work_Q*Evec_Mat*D_Mat*Evec_Mat.adjoint()*Work_Q.adjoint()*G_state;//this should be
-    Temp_Gstate.normalize();
-    cout << "Inner Product: " << Temp_Gstate.dot(G_state) << endl;
+   // Temp_Gstate.normalize();
+    //cout << "Inner Product: " << Temp_Gstate.dot(G_state) << endl;
     G_state = Temp_Gstate;//if I make temp_Gstate complex then G_state is always complex
 
-    //G_state.normalize();
+    G_state.normalize();
     //cout << "G_state fin: \n" << G_state << endl;
     // std::cout << "DONE!" << std::endl;
 
@@ -384,7 +384,7 @@ void Lanczos_Diag<complex<double>>::Dynamics(Hamiltonian<complex<double> > &ham)
 }
 
 template<typename Tnum>
-void Lanczos_Diag<Tnum>::GetExponential(const Eigen::VectorXd& vec, int max_it)
+void Lanczos_Diag<Tnum>::GetExponential(const Eigen::VectorXd& vec, int max_it, double dt)
 {
     //int it = max_it-1;
     Eigen::VectorXcd D(max_it);//max_it is the number of iteration done in Dynamics (it)(complex vector

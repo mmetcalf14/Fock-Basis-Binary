@@ -11,8 +11,8 @@
 
 #include <iostream>
 #include <fstream>
-#include <cmath>
-#include <vector>
+//#include <cmath>
+//#include <vector>
 #include <algorithm>
 #include "Hamiltonian.h"
 #include "Lanczos.h"
