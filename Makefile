@@ -3,7 +3,7 @@
 
 #Macros
 OBJS =  main_dynamic.o Hamiltonian.o Lanczos.o Basis.o
-TARGET = ED_Dynamic.app
+TARGET = ActAro_ED_Static.app
 # Compile Macros
 ## This is for Mac OS
 CC = clang++ -O3 -m64 -std=c++11 -stdlib=libc++ -I./ -I/usr/local/include
@@ -30,6 +30,8 @@ ED_Dynamic.app: $(OBJS)
 ED_Dynamic_SSCorr.app: $(OBJS)
 	$(CC) -o $@ $(OBJS)
 ED_Dynamic_Corr.app: $(OBJS)
+	$(CC) -o $@ $(OBJS)
+ActAro_ED_Static.app: $(OBJS)
 	$(CC) -o $@ $(OBJS)
 
 .PHONY: clean

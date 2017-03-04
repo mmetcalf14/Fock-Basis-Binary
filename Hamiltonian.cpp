@@ -461,28 +461,108 @@ void Hamiltonian<Tnum>::BuildHopHam_Periodic(int species, size_t count, size_t c
     //cout << "Ham Hop: " << HopHam << endl;
 }
 
+template<>
+void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double gamma, int site1, int site2)
+{
+    std::vector<Tp> TL;
+   
+    int mid_site;
+    //cout << "site1: " << site1 << " site2: " << site2 << endl;
+    
+    if(site1 < (L-1))
+    {
+        
+        mid_site = site1+1;
+    }
+    else{
+        mid_site = 0;
+    }
+    //cout <<"Mid site: " << mid_site << endl;
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t p_bas = basis[bs];
+        
+        size_t p_ind = index[p_bas];
 
-//    if ( MY_bittest(p_bas, 4) && !(MY_bittest(p_bas, 0)) )
-//    {
-//        size_t l_bas = MY_bitset(MY_bitclr(p_bas,4),0);
-//        size_t l_ind = index[l_bas];
-//        assert( l_bas != p_bas );
+            if ( MY_bittest(p_bas, site1) && !(MY_bittest(p_bas, site2)) )
+            {
+                size_t l_bas = MY_bitset(MY_bitclr(p_bas,site1),site2);
+                size_t l_ind = index[l_bas];
+                assert( l_bas != p_bas );
+                
+                cout <<"p: "<< p_bas << " l: " << l_bas << endl;
+                complex<double> val;
+                
+                if( count_opp )
+                {
+                    for(size_t k = 0; k < count_opp; k++)
+                    {
+                        int r,s;
+                            if ( species == 0 ){
+                                r = TotalIndex(p_ind,k);//(k*count) + p_ind;
+                                s = TotalIndex(l_ind, k);
+                        
+                                val = I*gamma;
+                                if(MY_bittest(p_bas, mid_site))
+                                {
+                                    val = -1.*val;//this is if there is a particle of the same species
+                                                  //occupying the NN site
+                                    cout << "neg\n";
+                                }
+                            }else if ( species == 1 ){
+                                
+                                r = TotalIndex(k, p_ind);
+                                s = TotalIndex(k, l_ind);
+                                //val = -I*gamma;//this is only multiplying -1 by real part
+                                val = -I*gamma;//this only works for all imaginary
+                                //cout << "r: " << r << " s: " << s << endl;
+                                //I'm creating a new constant called neg I which is -I
+                                //There must be a better way to do this
+                                if(MY_bittest(p_bas, mid_site))
+                                {
+                                    val = -1.*val;//this is if there is a particle of the same species
+                                    //occupying the NN site
+                                    cout << "neg\n";
+                                }
+                            }else{
+                                //cout << "More than 2 species fermion!!" << endl;
+                            }
+
+                        
+                        TL.push_back(Tp(r,s,val));//lower triangle
+                        TL.push_back(Tp(s,r,conj(val)));//upper triangle
+                        
+                        
+                        
+                    }
+                }
+                else
+                {
+                    val = I*gamma;
+                    if(MY_bittest(p_bas, mid_site))
+                    {
+                        val = -1.*val;//this is if there is a particle of the same species
+                        //occupying the NN site
+                    }
+
+                    
+                    TL.push_back(Tp(p_ind,l_ind, conj(val) ));
+                    TL.push_back(Tp(l_ind,p_ind, (val) ));
+                    
+                }
+            }
     
-//    if ( species == 0 ){
-//        r = TotalIndex(p_ind, k);//(k*count) + p_ind;
-//        s = TotalIndex(l_ind, k);
-//        
-//        val = I*gamma;
-//    }else if ( species == 1 ){
-//        
-//        r = TotalIndex(k, p_ind);
-//        s = TotalIndex(k, l_ind);
-//        val = -1.0*I*gamma;
-//    }else{
-//        //cout << "More than 2 species fermion!!" << endl;
-//    }
+    }
     
-//end function
+    
+    HopHam.setFromTriplets(TL.begin(), TL.end());
+    
+    //cout << "Spin Orbit HopHam \n" << HopHam << endl;
+    //cout << "Hop Ham set \n";
+    
+}
+
+
 
 
 template<typename Tnum>
@@ -903,6 +983,19 @@ void Hamiltonian<Tnum>::HopMatrix_Build_Periodic()
     BuildHopHam_Periodic(1, count_dn, count_up, basis_down, index_dn, HopHam_down);
 }
 
+template<>
+void Hamiltonian<complex<double>>::HopMatrix_Build_PeriodicWithSOC(int site1, int site2, double gamma)
+{
+    cout << "HopHam_up \n" << endl;
+    BuildHopHam_Periodic(0, count_up, count_dn, basis_up, index_up, HopHam_up);
+    cout << "HopHam_dn \n" << endl;
+    BuildHopHam_Periodic(1, count_dn, count_up, basis_down, index_dn, HopHam_down);
+    cout << "SOCHam_up \n" << endl;
+    BuildSOCHam(0, count_up, count_dn, basis_up, index_up, SOCHam_up, gamma, site1, site2);
+    cout << "SOCHam_dn \n" << endl;
+    BuildSOCHam(1, count_dn, count_up, basis_down, index_dn, SOCHam_dn, gamma, site1, site2);
+}
+
 // void Hamiltonian::IntMatrix_Build()
 // {
 //     Ham_Interact.setFromTriplets(TL_Ubase.begin(), TL_Ubase.end());
@@ -916,6 +1009,13 @@ void Hamiltonian<Tnum>::Total_Ham()
     //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 //    cout << "HopHam up: " << HopHam_up << endl;
 //     cout << "HopHam dn: " << HopHam_down << endl;
+}
+
+template<typename Tnum>
+void Hamiltonian<Tnum>::Total_Ham_WSOC()
+{
+  Ham_Tot = HopHam_up + HopHam_down + Ham_Interact + SOCHam_dn + SOCHam_up;
+    //cout << "Total Ham: " << Ham_Tot << endl;
 }
 
 template<typename Tnum>
@@ -934,6 +1034,8 @@ void Hamiltonian<Tnum>::ClearHopTriplet()
     //cout << "Is triplet set to 0? " << TL_Ubase.size() << endl;
     HopHam_up.setZero();
     HopHam_down.setZero();
+    SOCHam_dn.setZero();
+    SOCHam_up.setZero();
     Ham_Tot.setZero();
 }
 

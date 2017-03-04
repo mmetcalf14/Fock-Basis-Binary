@@ -1,2022 +1,1826 @@
+3
+3
 6
-6
-12
 1
 0
-ED_hoprat05_Cut1_U10_Nu4_Nd4_L8_Tf50_OQ_Density_101016.dat
-Hopping rat: 2
-Loop: 0 U: 0
-No problem before setting Triplet
-Hop Ham set 
-No problem after up spin
-Hop Ham set 
-No problem after down spin
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.000000e-02
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.900000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.900000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.900000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.900000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.900000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 6.900000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 7.900000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 8.900000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.000000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.100000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.200000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.300000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.400000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.500000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.600000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.700000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.800000e-01
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 9.900000e-01
-Loop: 100 U: 1.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.010000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.020000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.030000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.040000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.050000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.060000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.070000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.080000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.090000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.100000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.110000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.120000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.130000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.140000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.150000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.160000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.170000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.180000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.190000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.200000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.210000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.220000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.230000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.240000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.250000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.260000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.270000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.280000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.290000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.300000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.310000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.320000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.330000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.340000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.350000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.360000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.370000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.380000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.390000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.400000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.410000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.420000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.430000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.440000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.450000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.460000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.470000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.480000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.490000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.500000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.510000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.520000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.530000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.540000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.550000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.560000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.570000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.580000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.590000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.600000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.610000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.620000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.630000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.640000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.650000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.660000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.670000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.680000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.690000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.700000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.710000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.720000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.730000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.740000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.750000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.760000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.770000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.780000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.790000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.800000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.810000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.820000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.830000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.840000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.850000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.860000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.870000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.880000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.890000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.900000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.910000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.920000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.930000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.940000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.950000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.960000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.970000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.980000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 1.990000e+00
-Loop: 200 U: 2.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.010000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.020000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.030000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.040000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.050000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.060000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.070000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.080000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.090000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.100000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.110000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.120000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.130000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.140000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.150000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.160000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.170000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.180000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.190000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.200000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.210000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.220000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.230000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.240000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.250000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.260000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.270000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.280000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.290000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.300000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.310000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.320000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.330000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.340000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.350000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.360000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.370000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.380000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.390000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.400000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.410000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.420000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.430000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.440000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.450000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.460000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.470000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.480000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.490000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.500000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.510000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.520000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.530000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.540000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.550000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.560000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.570000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.580000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.590000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.600000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.610000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.620000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.630000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.640000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.650000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.660000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.670000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.680000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.690000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.700000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.710000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.720000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.730000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.740000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.750000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.760000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.770000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.780000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.790000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.800000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.810000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.820000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.830000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.840000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.850000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.860000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.870000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.880000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.890000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.900000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.910000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.920000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.930000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.940000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.950000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.960000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.970000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.980000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 2.990000e+00
-Loop: 300 U: 3.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.010000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.020000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.030000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.040000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.050000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.060000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.070000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.080000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.090000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.100000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.110000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.120000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.130000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.140000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.150000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.160000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.170000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.180000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.190000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.200000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.210000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.220000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.230000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.240000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.250000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.260000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.270000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.280000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.290000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.300000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.310000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.320000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.330000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.340000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.350000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.360000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.370000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.380000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.390000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.400000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.410000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.420000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.430000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.440000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.450000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.460000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.470000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.480000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.490000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.500000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.510000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.520000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.530000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.540000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.550000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.560000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.570000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.580000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.590000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.600000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.610000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.620000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.630000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.640000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.650000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.660000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.670000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.680000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.690000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.700000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.710000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.720000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.730000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.740000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.750000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.760000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.770000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.780000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.790000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.800000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.810000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.820000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.830000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.840000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.850000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.860000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.870000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.880000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.890000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.900000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.910000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.920000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.930000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.940000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.950000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.960000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.970000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.980000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 3.990000e+00
-Loop: 400 U: 4.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.010000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.020000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.030000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.040000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.050000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.060000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.070000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.080000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.090000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.100000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.110000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.120000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.130000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.140000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.150000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.160000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.170000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.180000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.190000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.200000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.210000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.220000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.230000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.240000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.250000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.260000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.270000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.280000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.290000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.300000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.310000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.320000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.330000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.340000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.350000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.360000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.370000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.380000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.390000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.400000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.410000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.420000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.430000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.440000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.450000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.460000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.470000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.480000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.490000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.500000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.510000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.520000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.530000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.540000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.550000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.560000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.570000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.580000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.590000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.600000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.610000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.620000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.630000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.640000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.650000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.660000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.670000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.680000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.690000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.700000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.710000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.720000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.730000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.740000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.750000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.760000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.770000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.780000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.790000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.800000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.810000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.820000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.830000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.840000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.850000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.860000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.870000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.880000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.890000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.900000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.910000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.920000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.930000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.940000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.950000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.960000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.970000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.980000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 4.990000e+00
-Loop: 500 U: 5.000000e+00
-No problem building interaction Ham 
-Dif of Eval is zero 
-Have the Groundstate
-U: 5.000000e+00
+ED_ActAro_hoprat1_U0_Nu3_Nd3_L6_EVvsG_011717.dat
+Hopping rat: 1
+TB: 400
+gamma: 0
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+No problem building interaction Ham 
+gamma: 0.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+Code is Done! 
+3
+3
+6
+1
+5
+ED_ActAro_hoprat1_U5_Nu3_Nd3_L6_EVvsG_011717.dat
+Hopping rat: 1
+TB: 400
+gamma: 0
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+No problem building interaction Ham 
+gamma: 0.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+Code is Done! 
+3
+3
+6
+1
+100
+ED_ActAro_hoprat1_U100_Nu3_Nd3_L6_EVvsG_011717.dat
+Hopping rat: 1
+TB: 400
+gamma: 0
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+No problem building interaction Ham 
+gamma: 0.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+Code is Done! 
+1
+1
+6
+1
+0
+ED_ActAro_hoprat1_U0_Nu1_Nd1_L6_EVvsG_012317.dat
+Hopping rat: 1
+TB: 36
+gamma: 0
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+No problem building interaction Ham 
+gamma: 0.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+Code is Done! 
+1
+1
+6
+1
+0
+ED_ActAro_hoprat1_overU_Nu1_Nd1_L6_EVvsU_012317.dat
+Hopping rat: 1
+TB: 36
+gamma: 0
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+No problem building interaction Ham 
+gamma: 0.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 0.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.1
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.3
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.4
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.5
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.6
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.7
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.8
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 1.9
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+gamma: 2
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+TB: 36
+U: 0
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+No problem building interaction Ham 
+U: 0.1
+No problem building interaction Ham 
+U: 0.2
+No problem building interaction Ham 
+U: 0.3
+No problem building interaction Ham 
+U: 0.4
+No problem building interaction Ham 
+U: 0.5
+No problem building interaction Ham 
+U: 0.6
+No problem building interaction Ham 
+U: 0.7
+No problem building interaction Ham 
+U: 0.8
+No problem building interaction Ham 
+U: 0.9
+No problem building interaction Ham 
+U: 1
+No problem building interaction Ham 
+U: 1.1
+No problem building interaction Ham 
+U: 1.2
+No problem building interaction Ham 
+U: 1.3
+No problem building interaction Ham 
+U: 1.4
+No problem building interaction Ham 
+U: 1.5
+No problem building interaction Ham 
+U: 1.6
+No problem building interaction Ham 
+U: 1.7
+No problem building interaction Ham 
+U: 1.8
+No problem building interaction Ham 
+U: 1.9
+No problem building interaction Ham 
+U: 2
+No problem building interaction Ham 
+U: 2.1
+No problem building interaction Ham 
+U: 2.2
+No problem building interaction Ham 
+U: 2.3
+No problem building interaction Ham 
+U: 2.4
+No problem building interaction Ham 
+U: 2.5
+No problem building interaction Ham 
+U: 2.6
+No problem building interaction Ham 
+U: 2.7
+No problem building interaction Ham 
+U: 2.8
+No problem building interaction Ham 
+U: 2.9
+No problem building interaction Ham 
+U: 3
+No problem building interaction Ham 
+U: 3.1
+No problem building interaction Ham 
+U: 3.2
+No problem building interaction Ham 
+U: 3.3
+No problem building interaction Ham 
+U: 3.4
+No problem building interaction Ham 
+U: 3.5
+No problem building interaction Ham 
+U: 3.6
+No problem building interaction Ham 
+U: 3.7
+No problem building interaction Ham 
+U: 3.8
+No problem building interaction Ham 
+U: 3.9
+No problem building interaction Ham 
+U: 4
+No problem building interaction Ham 
+U: 4.1
+No problem building interaction Ham 
+U: 4.2
+No problem building interaction Ham 
+U: 4.3
+No problem building interaction Ham 
+U: 4.4
+No problem building interaction Ham 
+U: 4.5
+No problem building interaction Ham 
+U: 4.6
+No problem building interaction Ham 
+U: 4.7
+No problem building interaction Ham 
+U: 4.8
+No problem building interaction Ham 
+U: 4.9
+No problem building interaction Ham 
+U: 5
+No problem building interaction Ham 
+U: 5.1
+No problem building interaction Ham 
+U: 5.2
+No problem building interaction Ham 
+U: 5.3
+No problem building interaction Ham 
+U: 5.4
+No problem building interaction Ham 
+U: 5.5
+No problem building interaction Ham 
+U: 5.6
+No problem building interaction Ham 
+U: 5.7
+No problem building interaction Ham 
+U: 5.8
+No problem building interaction Ham 
+U: 5.9
+No problem building interaction Ham 
+U: 6
+No problem building interaction Ham 
+U: 6.1
+No problem building interaction Ham 
+U: 6.2
+No problem building interaction Ham 
+U: 6.3
+No problem building interaction Ham 
+U: 6.4
+No problem building interaction Ham 
+U: 6.5
+No problem building interaction Ham 
+U: 6.6
+No problem building interaction Ham 
+U: 6.7
+No problem building interaction Ham 
+U: 6.8
+No problem building interaction Ham 
+U: 6.9
+No problem building interaction Ham 
+U: 7
+No problem building interaction Ham 
+U: 7.1
+No problem building interaction Ham 
+U: 7.2
+No problem building interaction Ham 
+U: 7.3
+No problem building interaction Ham 
+U: 7.4
+No problem building interaction Ham 
+U: 7.5
+No problem building interaction Ham 
+U: 7.6
+No problem building interaction Ham 
+U: 7.7
+No problem building interaction Ham 
+U: 7.8
+No problem building interaction Ham 
+U: 7.9
+No problem building interaction Ham 
+U: 8
+No problem building interaction Ham 
+U: 8.1
+No problem building interaction Ham 
+U: 8.2
+No problem building interaction Ham 
+U: 8.3
+No problem building interaction Ham 
+U: 8.4
+No problem building interaction Ham 
+U: 8.5
+No problem building interaction Ham 
+U: 8.6
+No problem building interaction Ham 
+U: 8.7
+No problem building interaction Ham 
+U: 8.8
+No problem building interaction Ham 
+U: 8.9
+No problem building interaction Ham 
+U: 9
+No problem building interaction Ham 
+U: 9.1
+No problem building interaction Ham 
+U: 9.2
+No problem building interaction Ham 
+U: 9.3
+No problem building interaction Ham 
+U: 9.4
+No problem building interaction Ham 
+U: 9.5
+No problem building interaction Ham 
+U: 9.6
+No problem building interaction Ham 
+U: 9.7
+No problem building interaction Ham 
+U: 9.8
+No problem building interaction Ham 
+U: 9.9
+No problem building interaction Ham 
+U: 10
+No problem building interaction Ham 
+Code is Done! 
+3
+3
+6
+1
+0
+ED_ActAro_hoprat1_overU_Nu3_Nd3_G1_L6_EVvsU_012317.dat
+Hopping rat: 1
+g: 1
+TB: 400
+U: 0
+HopHam_up 
+
+HopHam_dn 
+
+SOCHam_up 
+
+SOCHam_dn 
+
+No problem building interaction Ham 
+U: 0.01
+No problem building interaction Ham 
+U: 0.02
+No problem building interaction Ham 
+U: 0.03
+No problem building interaction Ham 
+U: 0.04
+No problem building interaction Ham 
+U: 0.05
+No problem building interaction Ham 
+U: 0.06
+No problem building interaction Ham 
+U: 0.07
+No problem building interaction Ham 
+U: 0.08
+No problem building interaction Ham 
+U: 0.09
+No problem building interaction Ham 
+U: 0.1
+No problem building interaction Ham 
+U: 0.11
+No problem building interaction Ham 
+U: 0.12
+No problem building interaction Ham 
+U: 0.13
+No problem building interaction Ham 
+U: 0.14
+No problem building interaction Ham 
+U: 0.15
+No problem building interaction Ham 
+U: 0.16
+No problem building interaction Ham 
+U: 0.17
+No problem building interaction Ham 
+U: 0.18
+No problem building interaction Ham 
+U: 0.19
+No problem building interaction Ham 
+U: 0.2
+No problem building interaction Ham 
+U: 0.21
+No problem building interaction Ham 
+U: 0.22
+No problem building interaction Ham 
+U: 0.23
+No problem building interaction Ham 
+U: 0.24
+No problem building interaction Ham 
+U: 0.25
+No problem building interaction Ham 
+U: 0.26
+No problem building interaction Ham 
+U: 0.27
+No problem building interaction Ham 
+U: 0.28
+No problem building interaction Ham 
+U: 0.29
+No problem building interaction Ham 
+U: 0.3
+No problem building interaction Ham 
+U: 0.31
+No problem building interaction Ham 
+U: 0.32
+No problem building interaction Ham 
+U: 0.33
+No problem building interaction Ham 
+U: 0.34
+No problem building interaction Ham 
+U: 0.35
+No problem building interaction Ham 
+U: 0.36
+No problem building interaction Ham 
+U: 0.37
+No problem building interaction Ham 
+U: 0.38
+No problem building interaction Ham 
+U: 0.39
+No problem building interaction Ham 
+U: 0.4
+No problem building interaction Ham 
+U: 0.41
+No problem building interaction Ham 
+U: 0.42
+No problem building interaction Ham 
+U: 0.43
+No problem building interaction Ham 
+U: 0.44
+No problem building interaction Ham 
+U: 0.45
+No problem building interaction Ham 
+U: 0.46
+No problem building interaction Ham 
+U: 0.47
+No problem building interaction Ham 
+U: 0.48
+No problem building interaction Ham 
+U: 0.49
+No problem building interaction Ham 
+U: 0.5
+No problem building interaction Ham 
+U: 0.51
+No problem building interaction Ham 
+U: 0.52
+No problem building interaction Ham 
+U: 0.53
+No problem building interaction Ham 
+U: 0.54
+No problem building interaction Ham 
+U: 0.55
+No problem building interaction Ham 
+U: 0.56
+No problem building interaction Ham 
+U: 0.57
+No problem building interaction Ham 
+U: 0.58
+No problem building interaction Ham 
+U: 0.59
+No problem building interaction Ham 
+U: 0.6
+No problem building interaction Ham 
+U: 0.61
+No problem building interaction Ham 
+U: 0.62
+No problem building interaction Ham 
+U: 0.63
+No problem building interaction Ham 
+U: 0.64
+No problem building interaction Ham 
+U: 0.65
+No problem building interaction Ham 
+U: 0.66
+No problem building interaction Ham 
+U: 0.67
+No problem building interaction Ham 
+U: 0.68
+No problem building interaction Ham 
+U: 0.69
+No problem building interaction Ham 
+U: 0.7
+No problem building interaction Ham 
+U: 0.71
+No problem building interaction Ham 
+U: 0.72
+No problem building interaction Ham 
+U: 0.73
+No problem building interaction Ham 
+U: 0.74
+No problem building interaction Ham 
+U: 0.75
+No problem building interaction Ham 
+U: 0.76
+No problem building interaction Ham 
+U: 0.77
+No problem building interaction Ham 
+U: 0.78
+No problem building interaction Ham 
+U: 0.79
+No problem building interaction Ham 
+U: 0.8
+No problem building interaction Ham 
+U: 0.81
+No problem building interaction Ham 
+U: 0.82
+No problem building interaction Ham 
+U: 0.83
+No problem building interaction Ham 
+U: 0.84
+No problem building interaction Ham 
+U: 0.85
+No problem building interaction Ham 
+U: 0.86
+No problem building interaction Ham 
+U: 0.87
+No problem building interaction Ham 
+U: 0.88
+No problem building interaction Ham 
+U: 0.89
+No problem building interaction Ham 
+U: 0.9
+No problem building interaction Ham 
+U: 0.91
+No problem building interaction Ham 
+U: 0.92
+No problem building interaction Ham 
+U: 0.93
+No problem building interaction Ham 
+U: 0.94
+No problem building interaction Ham 
+U: 0.95
+No problem building interaction Ham 
+U: 0.96
+No problem building interaction Ham 
+U: 0.97
+No problem building interaction Ham 
+U: 0.98
+No problem building interaction Ham 
+U: 0.99
+No problem building interaction Ham 
+U: 1
+No problem building interaction Ham 
+U: 1.01
+No problem building interaction Ham 
+U: 1.02
+No problem building interaction Ham 
+U: 1.03
+No problem building interaction Ham 
+U: 1.04
+No problem building interaction Ham 
+U: 1.05
+No problem building interaction Ham 
+U: 1.06
+No problem building interaction Ham 
+U: 1.07
+No problem building interaction Ham 
+U: 1.08
+No problem building interaction Ham 
+U: 1.09
+No problem building interaction Ham 
+U: 1.1
+No problem building interaction Ham 
+U: 1.11
+No problem building interaction Ham 
+U: 1.12
+No problem building interaction Ham 
+U: 1.13
+No problem building interaction Ham 
+U: 1.14
+No problem building interaction Ham 
+U: 1.15
+No problem building interaction Ham 
+U: 1.16
+No problem building interaction Ham 
+U: 1.17
+No problem building interaction Ham 
+U: 1.18
+No problem building interaction Ham 
+U: 1.19
+No problem building interaction Ham 
+U: 1.2
+No problem building interaction Ham 
+U: 1.21
+No problem building interaction Ham 
+U: 1.22
+No problem building interaction Ham 
+U: 1.23
+No problem building interaction Ham 
+U: 1.24
+No problem building interaction Ham 
+U: 1.25
+No problem building interaction Ham 
+U: 1.26
+No problem building interaction Ham 
+U: 1.27
+No problem building interaction Ham 
+U: 1.28
+No problem building interaction Ham 
+U: 1.29
+No problem building interaction Ham 
+U: 1.3
+No problem building interaction Ham 
+U: 1.31
+No problem building interaction Ham 
+U: 1.32
+No problem building interaction Ham 
+U: 1.33
+No problem building interaction Ham 
+U: 1.34
+No problem building interaction Ham 
+U: 1.35
+No problem building interaction Ham 
+U: 1.36
+No problem building interaction Ham 
+U: 1.37
+No problem building interaction Ham 
+U: 1.38
+No problem building interaction Ham 
+U: 1.39
+No problem building interaction Ham 
+U: 1.4
+No problem building interaction Ham 
+U: 1.41
+No problem building interaction Ham 
+U: 1.42
+No problem building interaction Ham 
+U: 1.43
+No problem building interaction Ham 
+U: 1.44
+No problem building interaction Ham 
+U: 1.45
+No problem building interaction Ham 
+U: 1.46
+No problem building interaction Ham 
+U: 1.47
+No problem building interaction Ham 
+U: 1.48
+No problem building interaction Ham 
+U: 1.49
+No problem building interaction Ham 
+U: 1.5
+No problem building interaction Ham 
+U: 1.51
+No problem building interaction Ham 
+U: 1.52
+No problem building interaction Ham 
+U: 1.53
+No problem building interaction Ham 
+U: 1.54
+No problem building interaction Ham 
+U: 1.55
+No problem building interaction Ham 
+U: 1.56
+No problem building interaction Ham 
+U: 1.57
+No problem building interaction Ham 
+U: 1.58
+No problem building interaction Ham 
+U: 1.59
+No problem building interaction Ham 
+U: 1.6
+No problem building interaction Ham 
+U: 1.61
+No problem building interaction Ham 
+U: 1.62
+No problem building interaction Ham 
+U: 1.63
+No problem building interaction Ham 
+U: 1.64
+No problem building interaction Ham 
+U: 1.65
+No problem building interaction Ham 
+U: 1.66
+No problem building interaction Ham 
+U: 1.67
+No problem building interaction Ham 
+U: 1.68
+No problem building interaction Ham 
+U: 1.69
+No problem building interaction Ham 
+U: 1.7
+No problem building interaction Ham 
+U: 1.71
+No problem building interaction Ham 
+U: 1.72
+No problem building interaction Ham 
+U: 1.73
+No problem building interaction Ham 
+U: 1.74
+No problem building interaction Ham 
+U: 1.75
+No problem building interaction Ham 
+U: 1.76
+No problem building interaction Ham 
+U: 1.77
+No problem building interaction Ham 
+U: 1.78
+No problem building interaction Ham 
+U: 1.79
+No problem building interaction Ham 
+U: 1.8
+No problem building interaction Ham 
+U: 1.81
+No problem building interaction Ham 
+U: 1.82
+No problem building interaction Ham 
+U: 1.83
+No problem building interaction Ham 
+U: 1.84
+No problem building interaction Ham 
+U: 1.85
+No problem building interaction Ham 
+U: 1.86
+No problem building interaction Ham 
+U: 1.87
+No problem building interaction Ham 
+U: 1.88
+No problem building interaction Ham 
+U: 1.89
+No problem building interaction Ham 
+U: 1.9
+No problem building interaction Ham 
+U: 1.91
+No problem building interaction Ham 
+U: 1.92
+No problem building interaction Ham 
+U: 1.93
+No problem building interaction Ham 
+U: 1.94
+No problem building interaction Ham 
+U: 1.95
+No problem building interaction Ham 
+U: 1.96
+No problem building interaction Ham 
+U: 1.97
+No problem building interaction Ham 
+U: 1.98
+No problem building interaction Ham 
+U: 1.99
+No problem building interaction Ham 
+U: 2
+No problem building interaction Ham 
+U: 2.01
+No problem building interaction Ham 
+U: 2.02
+No problem building interaction Ham 
+U: 2.03
+No problem building interaction Ham 
+U: 2.04
+No problem building interaction Ham 
+U: 2.05
+No problem building interaction Ham 
+U: 2.06
+No problem building interaction Ham 
+U: 2.07
+No problem building interaction Ham 
+U: 2.08
+No problem building interaction Ham 
+U: 2.09
+No problem building interaction Ham 
+U: 2.1
+No problem building interaction Ham 
+U: 2.11
+No problem building interaction Ham 
+U: 2.12
+No problem building interaction Ham 
+U: 2.13
+No problem building interaction Ham 
+U: 2.14
+No problem building interaction Ham 
+U: 2.15
+No problem building interaction Ham 
+U: 2.16
+No problem building interaction Ham 
+U: 2.17
+No problem building interaction Ham 
+U: 2.18
+No problem building interaction Ham 
+U: 2.19
+No problem building interaction Ham 
+U: 2.2
+No problem building interaction Ham 
+U: 2.21
+No problem building interaction Ham 
+U: 2.22
+No problem building interaction Ham 
+U: 2.23
+No problem building interaction Ham 
+U: 2.24
+No problem building interaction Ham 
+U: 2.25
+No problem building interaction Ham 
+U: 2.26
+No problem building interaction Ham 
+U: 2.27
+No problem building interaction Ham 
+U: 2.28
+No problem building interaction Ham 
+U: 2.29
+No problem building interaction Ham 
+U: 2.3
+No problem building interaction Ham 
+U: 2.31
+No problem building interaction Ham 
+U: 2.32
+No problem building interaction Ham 
+U: 2.33
+No problem building interaction Ham 
+U: 2.34
+No problem building interaction Ham 
+U: 2.35
+No problem building interaction Ham 
+U: 2.36
+No problem building interaction Ham 
+U: 2.37
+No problem building interaction Ham 
+U: 2.38
+No problem building interaction Ham 
+U: 2.39
+No problem building interaction Ham 
+U: 2.4
+No problem building interaction Ham 
+U: 2.41
+No problem building interaction Ham 
+U: 2.42
+No problem building interaction Ham 
+U: 2.43
+No problem building interaction Ham 
+U: 2.44
+No problem building interaction Ham 
+U: 2.45
+No problem building interaction Ham 
+U: 2.46
+No problem building interaction Ham 
+U: 2.47
+No problem building interaction Ham 
+U: 2.48
+No problem building interaction Ham 
+U: 2.49
+No problem building interaction Ham 
+U: 2.5
+No problem building interaction Ham 
+U: 2.51
+No problem building interaction Ham 
+U: 2.52
+No problem building interaction Ham 
+U: 2.53
+No problem building interaction Ham 
+U: 2.54
+No problem building interaction Ham 
+U: 2.55
+No problem building interaction Ham 
+U: 2.56
+No problem building interaction Ham 
+U: 2.57
+No problem building interaction Ham 
+U: 2.58
+No problem building interaction Ham 
+U: 2.59
+No problem building interaction Ham 
+U: 2.6
+No problem building interaction Ham 
+U: 2.61
+No problem building interaction Ham 
+U: 2.62
+No problem building interaction Ham 
+U: 2.63
+No problem building interaction Ham 
+U: 2.64
+No problem building interaction Ham 
+U: 2.65
+No problem building interaction Ham 
+U: 2.66
+No problem building interaction Ham 
+U: 2.67
+No problem building interaction Ham 
+U: 2.68
+No problem building interaction Ham 
+U: 2.69
+No problem building interaction Ham 
+U: 2.7
+No problem building interaction Ham 
+U: 2.71
+No problem building interaction Ham 
+U: 2.72
+No problem building interaction Ham 
+U: 2.73
+No problem building interaction Ham 
+U: 2.74
+No problem building interaction Ham 
+U: 2.75
+No problem building interaction Ham 
+U: 2.76
+No problem building interaction Ham 
+U: 2.77
+No problem building interaction Ham 
+U: 2.78
+No problem building interaction Ham 
+U: 2.79
+No problem building interaction Ham 
+U: 2.8
+No problem building interaction Ham 
+U: 2.81
+No problem building interaction Ham 
+U: 2.82
+No problem building interaction Ham 
+U: 2.83
+No problem building interaction Ham 
+U: 2.84
+No problem building interaction Ham 
+U: 2.85
+No problem building interaction Ham 
+U: 2.86
+No problem building interaction Ham 
+U: 2.87
+No problem building interaction Ham 
+U: 2.88
+No problem building interaction Ham 
+U: 2.89
+No problem building interaction Ham 
+U: 2.9
+No problem building interaction Ham 
+U: 2.91
+No problem building interaction Ham 
+U: 2.92
+No problem building interaction Ham 
+U: 2.93
+No problem building interaction Ham 
+U: 2.94
+No problem building interaction Ham 
+U: 2.95
+No problem building interaction Ham 
+U: 2.96
+No problem building interaction Ham 
+U: 2.97
+No problem building interaction Ham 
+U: 2.98
+No problem building interaction Ham 
+U: 2.99
+No problem building interaction Ham 
+U: 3
+No problem building interaction Ham 
 Code is Done! 

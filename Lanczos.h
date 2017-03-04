@@ -69,6 +69,7 @@ public:
     // template <typename Derived>
     void Diagonalize(const Hamiltonian<Tnum> &Ham);//, Hamiltonian&);
     //why isn't it recognizing the template?
+    Eigen::VectorXd FullDiagonalization(const Hamiltonian<Tnum> &Ham);
     
 
     //void Test_Tri();
