@@ -1,0 +1,27 @@
+#!/bin/bash
+# The job is located in the current working directory.
+#$ -V
+# Join stdout and stderr
+#$ -j y
+# shell env
+#$ -S /bin/bash
+# This is walltime you required
+#$ -l h_rt=24:0:0
+# ED_Dynamic_Corr
+#$ -N ED_Corr_U2_Cut0
+# Send email to user
+#$ -M mmcgrew@ucmerced.edu
+# Set when to send email (b)egin (e)nd (a)bort
+#$ -m e
+#$ -cwd
+# Below specifies job run time in Cluster (Change when needed)
+#$ -q long.q
+cd /home/mmcgrew/Codes/Exact_Diag/Fock\ Basis\ Binary/CorrelationReg_L12_halffill/U-2_Cut0/
+echo "------------------------------------------------------------------------"
+echo "Job started on" `date`
+echo "------------------------------------------------------------------------"
+/home/mmcgrew/Codes/Exact_Diag/Fock\ Basis\ Binary/CorrelationReg_L12_halffill/U-2_Cut0/ED_Dynamic_Corr.app
+echo "------------------------------------------------------------------------"
+echo "Job ended on" `date`
+echo "------------------------------------------------------------------------"
+exit 0

@@ -604,6 +604,98 @@ double Lanczos_Diag<Tnum>::Calc_SameSpin(double bs, std::complex<double> cf, siz
     return SC;
 }
 
+template<typename Tnum>
+complex<double> Lanczos_Diag<Tnum>::Expect_Cij(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp,vector<size_t> basis, vector<size_t> index, size_t s1, size_t s2)
+{
+    
+    complex<double> cf = 0.0;
+    //complex<double> cfh;
+    
+    
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t pb = basis[bs];
+        
+        size_t pi = index[pb];
+        
+        if ( MY_bittest(pb, s1) && !(MY_bittest(pb, s2)) )
+        {
+            size_t qb = MY_bitset(MY_bitclr(pb,s1),s2);
+            size_t qi = index[qb];
+            assert( qb != pb );
+            
+            //cout << "pb: " << pb << " qb: " << qb << endl;
+            for(size_t k = 0; k < count_opp; k++)
+            {
+                int r,s;
+                if ( spinspec == 0 ){
+                    r = Ham.TotalIndex(pi, k);//(k*count) + p_ind;
+                    s = Ham.TotalIndex(qi, k);//(k*count) + l_ind;
+                    
+                }else if ( spinspec == 1 ){
+                    r = Ham.TotalIndex(k, pi);
+                    s = Ham.TotalIndex(k, qi);
+                    
+                }else{
+                    //cout << "More than 2 species fermion!!" << endl;
+                }
+                //cf += conj(G_state(s))*G_state(r)*Ham.Ham_Tot.coeffRef(r,s); //sum_nm <conj(c_n)*c_m*Hnm>
+                //Is above the correct way to handle the Hamiltonian in Fock basis?
+                //cout << "r: " << r << " s: "<< s << endl;
+                cf += conj(G_state(s))*G_state(r);
+                //cout << "coefficient: " << cf << endl;
+            }
+        }
+    }
+    
+    //cfh = Ham.J1*exp(I*phi)*cf;
+    
+    //J = -2.*cfh.imag();
+    
+    return cf;
+}
+
+template<typename Tnum>
+complex<double> Lanczos_Diag<Tnum>::Expect_Cii(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp,vector<size_t> basis, vector<size_t> index, size_t s)
+{
+    complex<double> cf;
+    
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t pb = basis[bs];
+        
+        size_t pi = index[pb];
+        
+        if (MY_bittest(pb, s))
+        {
+            
+            for(size_t k = 0; k < count_opp; k++)
+            {
+                int r,s;
+                if ( spinspec == 0 ){
+                    r = Ham.TotalIndex(pi, k);//(k*count) + p_ind;
+                    //(k*count) + l_ind;
+                    
+                }else if ( spinspec == 1 ){
+                    r = Ham.TotalIndex(k, pi);
+                    
+                    
+                }else{
+                    //cout << "More than 2 species fermion!!" << endl;
+                }
+                //cf += conj(G_state(s))*G_state(r)*Ham.Ham_Tot.coeffRef(r,s); //sum_nm <conj(c_n)*c_m*Hnm>
+                //Is above the correct way to handle the Hamiltonian in Fock basis?
+                cf += conj(G_state(r))*G_state(r);//I don't know which one is the correct one
+            }
+        }
+    }
+
+    
+    
+    return cf;
+    
+}
+
 template<>
 void Lanczos_Diag<complex<double>>::DebugDynamics(Hamiltonian<complex<double> > &ham, double dt)
 {
@@ -850,8 +942,82 @@ Eigen::VectorXd Lanczos_Diag<complex<double>>::FullDiagonalization(const Hamilto
     G_state = EVMat.col(0);//the first coloum in the lowest energy eigenstate
     G_state.normalize();
     
+    cout << "ground state: " << G_state << endl;
+    
     return Ev;
 }
+
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::TotalCurrents(const Hamiltonian<Tnum> &Ham, size_t s1, size_t s2)
+{
+    complex<double> Cij_up;
+    complex<double> Cij_dn;
+    //Phi = 0 for SOC case
+    
+    cout <<"Phi: "<< Ham.Phi_t << endl;
+    
+    if(Ham.Phi_t == 0.0)
+    {
+        cout << "UP\n";
+    Cij_up = -Ham.J1*Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1, s2);
+        cout << "Down\n";
+    Cij_dn = -Ham.J1*Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1, s2);
+        //cout << "In the correct loop\n";
+    }
+    else{
+        Cij_up = -Ham.J1*exp(I*Ham.Phi_t)*Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1, s2);
+        Cij_dn = -Ham.J1*exp(I*Ham.Phi_t)*Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1, s2);
+    }
+    
+    Jup = -2*Cij_up.imag();
+    Jdn = -2*Cij_dn.imag();
+    
+    cout << "Jup: " << Jup << " Jdn: " << Jdn << endl;
+    
+    double JQ = Jup.real()+Jdn.real();
+    double JS = Jup.real()-Jdn.real();
+    
+    cout << "JQ: " << JQ << " JS: " << JS << endl;
+}
+
+template<typename Tnum>
+complex<double> Lanczos_Diag<Tnum>::CurrentVariance(const Hamiltonian<Tnum> &Ham, int spec, size_t s1, size_t s2)
+{
+    complex<double> Ni;
+    complex<double> Nj;
+    complex<double> Cij;
+    complex<double> Cji;
+    complex<double> Jsquare;
+    complex<double> Var;
+    
+    if(spec == 0)
+    {
+        Ni = Expect_Cii(Ham,0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1);
+        Nj = Expect_Cii(Ham,0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s2);
+        Cij = Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1, s2);
+        Cji = Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s2, s1);
+        
+        Jsquare = -2.*Ham.J1*Ham.J1*((Cij*Cji)+(Ni*Nj));
+        Var = Jsquare + (Jup*Jup);
+    }
+    else if (spec == 1)
+    {
+        Ni = Expect_Cii(Ham,1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1);
+        Nj = Expect_Cii(Ham,1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s2);
+        Cij = Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1, s2);
+        Cji = Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s2, s1);
+        
+        Jsquare = -2.*Ham.J1*Ham.J1*((Cij*Cji)+(Ni*Nj));
+        Var = Jsquare + (Jdn*Jdn);
+    }
+    else{
+        cout << "Not a spin species\n";
+    }
+    
+    
+    return Var;
+}
+    
 
 template class Lanczos_Diag<double>;
 template class Lanczos_Diag<complex<double> >;

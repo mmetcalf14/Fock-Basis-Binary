@@ -41,6 +41,8 @@ private:
     //Test matrices
     Eigen::Matrix4d Test_Ham;
     Eigen::Vector4d Test_Lanczos;
+    std::complex<double> Jup;
+    std::complex<double> Jdn;
     
     //time evolution constants
     //std::complex<double> I;
@@ -77,6 +79,10 @@ public:
     double DensityWCorr(const Hamiltonian<Tnum> &Ham, int cut);
     double DensityWCorr_O2(const Hamiltonian<Tnum> &Ham, int cut);
     void SpinCorr(const Hamiltonian<Tnum> &Ham, std::ofstream &output, double t, int cut);
+    std::complex<double> Expect_Cij(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s1, size_t s2);
+    std::complex<double> Expect_Cii(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s);
+    void TotalCurrents(const Hamiltonian<Tnum> &Ham, size_t s1, size_t s2);
+    std::complex<double> CurrentVariance(const Hamiltonian<Tnum> &Ham, int spec, size_t s1, size_t s2);
     
     double DensityCorrelation(double bu, double bd, std::complex<double> cf, size_t site1, size_t site2);
     double DensityCorr_O2(double bu, double bd, std::complex<double> cf, size_t site1, size_t site2);

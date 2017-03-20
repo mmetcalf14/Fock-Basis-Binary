@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -q batch
+#PBS -l nodes=atomtronics.ucmerced.edu:ppn=1
+#PBS -N ED_Dynamic
+#PBS -j oe
+#PBS -V
+#PBS -d /home/mmetcalf/Codes/Fock-Basis-Binary/Fock-Basis-Binary/Fock\ Basis\ Binary/SpinCorr_L12_halffill/U-1_Cut0/
+cd $PBS_O_WORKDIR
+echo "------------------------------------------------------------------------"
+echo "Job started on" `date`
+echo "------------------------------------------------------------------------"
+/home/mmetcalf/Codes/Fock-Basis-Binary/Fock-Basis-Binary/Fock\ Basis\ Binary/SpinCorr_L12_halffill/U-1_Cut0/ED_Dynamic.app
+echo "------------------------------------------------------------------------"
+echo "Job ended on" `date`
+echo "------------------------------------------------------------------------"
+exit 0

@@ -490,7 +490,7 @@ void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_
                 size_t l_ind = index[l_bas];
                 assert( l_bas != p_bas );
                 
-                cout <<"p: "<< p_bas << " l: " << l_bas << endl;
+                //cout <<"p: "<< p_bas << " l: " << l_bas << endl;
                 complex<double> val;
                 
                 if( count_opp )
@@ -507,7 +507,7 @@ void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_
                                 {
                                     val = -1.*val;//this is if there is a particle of the same species
                                                   //occupying the NN site
-                                    cout << "neg\n";
+                                    //cout << "neg\n";
                                 }
                             }else if ( species == 1 ){
                                 
@@ -522,7 +522,7 @@ void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_
                                 {
                                     val = -1.*val;//this is if there is a particle of the same species
                                     //occupying the NN site
-                                    cout << "neg\n";
+                                    //cout << "neg\n";
                                 }
                             }else{
                                 //cout << "More than 2 species fermion!!" << endl;
@@ -531,6 +531,8 @@ void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_
                         
                         TL.push_back(Tp(r,s,val));//lower triangle
                         TL.push_back(Tp(s,r,conj(val)));//upper triangle
+
+
                         
                         
                         
@@ -955,7 +957,7 @@ void Hamiltonian<Tnum>::HopMatrix_Build()
 }
 
 template<>
-void Hamiltonian<complex<double> >::HopMatrix_Build_Peierls()
+void Hamiltonian<complex<double>>::HopMatrix_Build_Peierls()
 {
     //std::cout << "No problem before setting Triplet\n";
     BuildHopHam_Peierls(0, count_up, count_dn, basis_up, index_up, HopHam_up, Harm_Trap);

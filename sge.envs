@@ -1,0 +1,25 @@
+#!/bin/bash
+# The job is located in the current working directory.
+#$ -V
+# Join stdout and stderr
+#$ -j y
+# shell env
+#$ -S /bin/bash
+# This is walltime you required
+#$ -l h_rt=24:0:0
+# Job name
+#$ -N H_20_U2.0_dU1.0_Tr2.0
+# Send email to user
+#$ -M mmcgrew@ucmerced.edu
+# Set when to send email (b)egin (e)nd (a)bort
+#$ -m e
+#$ -cwd
+cd {The directory you want to run the program}
+echo "------------------------------------------------------------------------"
+echo "Job started on" `date`
+echo "------------------------------------------------------------------------"
+{Your executables}
+echo "------------------------------------------------------------------------"
+echo "Job ended on" `date`
+echo "------------------------------------------------------------------------"
+exit 0
