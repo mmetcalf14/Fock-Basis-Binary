@@ -53,6 +53,7 @@ void CorrTD(ofstream &output, ofstream &out, Hamiltonian<Tnum> &h, Lanczos_Diag<
 
 void EVProbeGamma(ofstream &output, Hamiltonian<complex<double>> &h, Lanczos_Diag<complex<double>> &d, int s1, int s2, int L);
 void EVProbeInt(ofstream &output, Hamiltonian<complex<double>> &h, Lanczos_Diag<complex<double>> &d, int s1, int s2, int L, double gSO);
+void EVProbePhase(ofstream &output, Hamiltonian<complex<double>> &h, Lanczos_Diag<complex<double>> &d, int s1, int s2, int L, double gSO);
 
 template<typename Tnum>
 void LocalCurrent(Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d, int s1, int s2, double Phi);
@@ -87,7 +88,7 @@ int main(int argc, const char * argv[])
     const double J0 = 1.0;
     double cut;
     double gamma;
-    double Phi = Pi/4.;
+    double Phi = Pi;
     int Site1;
     int Site2;
 
@@ -146,7 +147,7 @@ int main(int argc, const char * argv[])
 
     int T_tot = T_f/dt;
     t_2 = t_1/hop_rat;
-    cout << "Hopping rat: " << t_2 << endl;
+    //cout << "Hopping rat: " << t_2 << endl;
     
 
     ofstream fout(output);
@@ -203,8 +204,8 @@ int main(int argc, const char * argv[])
 
     //Build basis and pass to Hamiltonian class through inheritance
     //COMPLEX
-    Hamiltonian<complex<double> > ham(Nsite, Nup, Ndown);
-    Lanczos_Diag<complex<double> > Diag(ham);
+    Hamiltonian<complex<double>> ham(Nsite, Nup, Ndown);
+    Lanczos_Diag<complex<double>> Diag(ham);
     
     //DOUBLE
     //Hamiltonian<double> ham(Nsite, Nup, Ndown);
@@ -214,7 +215,7 @@ int main(int argc, const char * argv[])
     //ham.GetHarmTrap(Harm_Trap);
     //Fidelity_HT(HTOut, ham, Diag, U, t_1, t_2, Umax, Ymax, Harm_Trap, Nsite);
     //Fidelity(FidOut, ham, Diag, U, t_1, t_2, Umax, Jmax, Nsite);
-    //U_Fid(FidOut, ham, Diag, U, t_1, t_2, Umax, Nsite);
+    
     //U_Fid_V2(FidOut, ham, Diag, U, t_1, t_2, Umax, Nsite);
 
     //set hopping and interaction coefficients
@@ -225,10 +226,11 @@ int main(int argc, const char * argv[])
     //set hamiltonian from triplets
     //ham.HopMatrix_Build();
     //ham.HopMatrix_Build_Periodic();
-   //ham.HopMatrix_Build_PeriodicWithSOC(Site1, Site2, gamma);
+    //ham.HopMatrix_Build_PeriodicWithSOC(Site1, Site2, gamma, Phi);
+    ham.HopMatrix_Build_PeriodicNNNHop(6, gamma, Phi);
     
-    ham.GetPhi(Phi);
-    ham.HopMatrix_Build_Peierls();
+    //ham.GetPhi(Phi);
+    //ham.HopMatrix_Build_Peierls();
 
     
     //build interaction matrix
@@ -242,9 +244,10 @@ int main(int argc, const char * argv[])
 //
 //    //Diag.Lanczos_TestM(Test_Ham, Test_Lanczos);
 //
+    
 //    //set Lanczos vector dimensions
 //    cout << "Setting LA Dim \n";
-    Diag.Set_Mat_Dim_LA(ham);
+    //Diag.Set_Mat_Dim_LA(ham);
 //
     //cout << "Diagonalizing \n";
 //    //Diagonalization of t=0 Hamiltonian
@@ -272,7 +275,9 @@ int main(int argc, const char * argv[])
     
     
     //Current
-    Diag.TotalCurrents(ham, 3, 4);
+    Diag.TotalCurrents(ham, 2, 3);
+    
+    cout << "SpinCUrr: " << Diag.SpinCurrent() << " ChargeCurr: " << Diag.ChargeCurrent() << endl;
 
         //Triplets removed to redo Interaction matrix after quenching
         // and all non-zero elemenst of Total Ham and Ham_U are set to zero
@@ -298,6 +303,7 @@ int main(int argc, const char * argv[])
     
     //EVProbeGamma(fout, ham, Diag, Site1, Site2, Nsite);
     //EVProbeInt(fout, ham, Diag, Site1, Site2, Nsite, gamma);
+    //EVProbePhase(fout, ham, Diag, Site1, Site2, Nsite, gamma);
         //int NN = T_tot/10;
 
     FidOut.close();
@@ -531,6 +537,7 @@ void U_Fid_V2(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , do
     double F;
     VectorType Gstate;
     VectorType Gstate_temp;
+    VectorXd V;
     // U = 0;
     
     for(int i = 0; i <= Utot ; i++)
@@ -545,7 +552,8 @@ void U_Fid_V2(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , do
         
         if(i == 0)
         {
-            h.HopMatrix_Build();//only need to build hopham once
+            //h.HopMatrix_Build();//only need to build hopham once
+            h.HopMatrix_Build_Periodic();
         }
         
         //get preliminary Gstate
@@ -553,7 +561,8 @@ void U_Fid_V2(ofstream &output, Hamiltonian<Tnum> &h, Lanczos_Diag<Tnum> &d , do
         h.Total_Ham();//combine hopham and hopint
         
         d.Set_Mat_Dim_LA(h);
-        d.Diagonalize(h);
+        //d.Diagonalize(h);
+        V = d.FullDiagonalization(h);//only for small L
         Gstate = d.SendGstate();
         
         //get fidelity between U and U-dU
@@ -884,7 +893,8 @@ void EVProbeGamma(ofstream &output, Hamiltonian<complex<double>> &h, Lanczos_Dia
     {
         gamma = g*dg;
         cout << "gamma: " << gamma << endl;
-        h.HopMatrix_Build_PeriodicWithSOC(s1, s2, gamma);
+       // h.HopMatrix_Build_PeriodicWithSOC(s1, s2, gamma, Pi/2.);
+        h.HopMatrix_Build_PeriodicNNNHop(6, gamma, Pi/4.);
         if (g == 0)
         {
             h.IntMatrix_Build();
@@ -892,17 +902,22 @@ void EVProbeGamma(ofstream &output, Hamiltonian<complex<double>> &h, Lanczos_Dia
         h.Total_Ham_WSOC();
         
         E = d.FullDiagonalization(h);
-        for(int i = 0; i < h.Tot_base; i++)
-        {
-            if(i == 0)
-            {
-                output << gamma << " " << E(i) << " ";
-            }
-            else{
-                output << E(i) << " ";
-            }
-        }
-        output << endl;
+        //output Eigenvalues
+//        for(int i = 0; i < h.Tot_base; i++)
+//        {
+//            if(i == 0)
+//            {
+//                output << gamma << " " << E(i) << " ";
+//            }
+//            else{
+//                output << E(i) << " ";
+//            }
+//        }
+//        output << endl;
+        
+        //output Currents
+        d.TotalCurrents(h, 2, 3);
+        output << gamma << " " << d.SpinCurrent() << " " << d.ChargeCurrent() << endl;
         
         h.ClearHopTriplet();
         
@@ -915,10 +930,10 @@ void EVProbeInt(ofstream &output, Hamiltonian<complex<double>> &h, Lanczos_Diag<
     double dU = 0.01;
     double Um = 3.0/dU;
     double U;
-    cout << "g: " <<  gSO << endl;
+    //cout << "g: " <<  gSO << endl;
 
     Eigen::VectorXd E;
-    cout << "TB: " << h.Tot_base << endl;
+    //cout << "TB: " << h.Tot_base << endl;
     
     for(int u = 0; u <= Um; u++)
     {
@@ -928,29 +943,67 @@ void EVProbeInt(ofstream &output, Hamiltonian<complex<double>> &h, Lanczos_Diag<
         
         if (u == 0)
         {
-            
-            h.HopMatrix_Build_PeriodicWithSOC(s1, s2, gSO);
+            //h.HopMatrix_Build_PeriodicWithSOC(s1, s2, gSO, Pi/4.);
+            h.HopMatrix_Build_PeriodicNNNHop(6, gSO, Pi/4.);
         }
         h.IntMatrix_Build();
         h.Total_Ham_WSOC();
-        
+
+        //Eigenvalues
         E = d.FullDiagonalization(h);
-        for(int i = 0; i < h.Tot_base; i++)
-        {
-            if(i == 0)
-            {
-                output << U << " " << E(i) << " ";
-            }
-            else{
-                output << E(i) << " ";
-            }
-        }
-        output << endl;
+//        for(int i = 0; i < h.Tot_base; i++)
+//        {
+//            if(i == 0)
+//            {
+//                output << U << " " << E(i) << " ";
+//            }
+//            else{
+//                output << E(i) << " ";
+//            }
+//        }
+//        output << endl;
+        
+        //Current
+        d.TotalCurrents(h, 2, 3);
+        output << U << " " << d.SpinCurrent() << " " << d.ChargeCurrent() << endl;
         
         h.ClearInteractTriplet();
         
     }
 
+}
+
+
+void EVProbePhase(ofstream &output, Hamiltonian<complex<double>> &h, Lanczos_Diag<complex<double>> &d, int s1, int s2, int L, double gSO)
+{
+    double Phi_max = 1.0;
+    double dp = .01;
+    double P_it = Phi_max/dp;
+    double phi;
+    Eigen::VectorXd E;
+    
+    for(int p = 0; p <= P_it; p++)
+    {
+        //cout << p<< endl;
+        phi = dp*p*Pi;
+        cout << "Phi: " << phi << endl;
+         //h.HopMatrix_Build_PeriodicWithSOC(s1, s2, gSO, phi);
+          h.HopMatrix_Build_PeriodicNNNHop(6, gSO, phi);
+        if(p == 0)
+        {
+            h.IntMatrix_Build();
+        }
+        h.Total_Ham_WSOC();
+        //Eigenvalues
+        E = d.FullDiagonalization(h);
+
+        d.TotalCurrents(h, 2, 3);
+        output << phi/Pi << " " << d.SpinCurrent() << " " << d.ChargeCurrent() << endl;
+        
+
+        h.ClearHopTriplet();
+        
+    }
 }
 
 template<typename Tnum>

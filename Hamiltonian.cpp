@@ -399,9 +399,29 @@ void Hamiltonian<Tnum>::BuildHopHam_Periodic(int species, size_t count, size_t c
                 size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),ns);
                 size_t l_ind = index[l_bas];
                 assert( l_bas != p_bas );
-                
+                //cout << "init basis " << p_bas << " fin basis: " << l_bas << " site: " << i << endl;
                 
                 Tnum val;
+                
+                int del = i - ns;
+                double SC;
+                
+                //algorithm to account for antisymmetry with periodic conditions
+                if((abs(del) > 1) && (ns == 0) && (AntiSym(ns, i, p_bas) != 0))//periodic ns = 0 < i
+                {
+                    SC = -1.;
+                    //cout << "SC is negative\n";
+                }
+                else if((abs(del) > 1) && (ns != 0)&& (AntiSym(i, ns, p_bas) != 0))//linear ns = i+1 > i
+                {
+                        SC = -1.;
+
+                }
+                else{
+                    SC = 1.;
+                    
+                    //cout << "SC is positive\n";
+                }
                 
                 if( count_opp )
                 {
@@ -422,11 +442,13 @@ void Hamiltonian<Tnum>::BuildHopHam_Periodic(int species, size_t count, size_t c
                         //cout << "r: " << r<< " s: " << s << endl;
                         if((i%2) == 0)//even number sites have J1 hop to nn (A)
                         {
-                            val = -J1 ;
+                            val = -J1*SC ;
+                            //val = -J1;
                         }
                         else //odd number sites have J2 (B)
                         {
-                            val = -J2;
+                            val = -J2*SC;
+                            //val = -J2;
                         }
                         
                         
@@ -442,11 +464,13 @@ void Hamiltonian<Tnum>::BuildHopHam_Periodic(int species, size_t count, size_t c
                 {
                     if((i%2) == 0)
                     {
-                        val = -J1 ;
+                        val = -J1*SC ;
+                        //val = -J1;
                     }
                     else
                     {
-                        val = -J2;
+                        val = -J2*SC;
+                        //val = -J2;
                     }
                     
                     TL.push_back(Tp(p_ind,l_ind, val ));
@@ -462,9 +486,10 @@ void Hamiltonian<Tnum>::BuildHopHam_Periodic(int species, size_t count, size_t c
 }
 
 template<>
-void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double gamma, int site1, int site2)
+void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double gamma, double phase, int site1, int site2)
 {
     std::vector<Tp> TL;
+    //double Phi = Pi/4.;
    
     int mid_site;
     //cout << "site1: " << site1 << " site2: " << site2 << endl;
@@ -502,7 +527,8 @@ void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_
                                 r = TotalIndex(p_ind,k);//(k*count) + p_ind;
                                 s = TotalIndex(l_ind, k);
                         
-                                val = I*gamma;
+                                //val = I*gamma;
+                                val = exp(I*phase)*gamma;
                                 if(MY_bittest(p_bas, mid_site))
                                 {
                                     val = -1.*val;//this is if there is a particle of the same species
@@ -514,7 +540,7 @@ void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_
                                 r = TotalIndex(k, p_ind);
                                 s = TotalIndex(k, l_ind);
                                 //val = -I*gamma;//this is only multiplying -1 by real part
-                                val = -I*gamma;//this only works for all imaginary
+                                val = -exp(I*phase)*gamma;//this only works for all imaginary
                                 //cout << "r: " << r << " s: " << s << endl;
                                 //I'm creating a new constant called neg I which is -I
                                 //There must be a better way to do this
@@ -564,7 +590,94 @@ void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_
     
 }
 
+template<>
+void Hamiltonian<complex<double> >::Build_NNNHop(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double gamma, double phase, int link_num)
+{
+    
+    std::vector<Tp> TL;
+    
+    //cout << "Gamma: " << gamma << " Phi: " << phase << endl;
+    
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t p_bas = basis[bs];
+        size_t p_ind = index[p_bas];
+        
+        for(size_t i = 0; i < link_num; i++)//link num can be [1,6] links NOT ZERO
+        {
+            size_t ns = i+2;
+            
+            if(i == (L-2)){
+                ns = 0;
+            }
+            else if(i == L-1){
+                ns = 1;
+            }
+            
+            //cout << "i: " << i << " ns: " << ns << endl;
+            
+            if ( MY_bittest(p_bas, i) && !(MY_bittest(p_bas, ns)) )//next to nearest neigbor i+2
+                //if i+1 is occupied and going to to i+2 must get minus sign
+            {
+                size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),ns);
+                size_t l_ind = index[l_bas];
+                assert( l_bas != p_bas );
+                assert(count_opp != 0);//got rid of stupid if statement. If no other particles exit.
+                cout << "init basis " << p_bas << " fin basis: " << l_bas << " site: " << i << endl;
+                
+                complex<double> val;
+                double SC;
+                
+                //algorithm to account for antisymmetry with periodic conditions
+                if(i < L-2 && MY_bittest(p_bas, i+1))
+                {
+                    SC = -1.;
+                    cout <<"Negative symmetry1\n";
+                }
+                else if( (i >= L-2) && (AntiSym(ns, i, p_bas) != 0))
+                {
+                    SC = -1.;
+                    cout <<"Negative symmetry2\n";
+                }
+                else{
+                    SC = 1.;
+                    cout <<"Postive symmetry\n";
+                }
+                    
 
+                    for(size_t k = 0; k < count_opp; k++)
+                    {
+                        int r,s;
+                        if ( species == 0 ){
+                            r = TotalIndex(p_ind, k);//(k*count) + p_ind;
+                            s = TotalIndex(l_ind, k);
+                            val = SC*exp(I*phase)*gamma;
+                            cout << "val: " << val << endl;
+
+                        }else if ( species == 1 ){
+                            
+                            r = TotalIndex(k, p_ind);
+                            s = TotalIndex(k, l_ind);
+                            val = -1.*SC*exp(I*phase)*gamma;
+                            cout << "val: " << val << endl;
+                            
+                        }else{
+                            //cout << "More than 2 species fermion!!" << endl;
+                        }
+                        
+                        TL.push_back(Tp(r,s,conj(val)));
+                        TL.push_back(Tp(s,r,val));
+                        cout << "val2: " << val << endl;
+ 
+                    }
+            }
+        }
+    }
+    HopHam.setZero();
+    HopHam.setFromTriplets(TL.begin(), TL.end());
+    
+    cout << "HopHam: " << HopHam << endl;
+}
 
 
 template<typename Tnum>
@@ -636,6 +749,30 @@ void Hamiltonian<Tnum>::BuildHopHam_Fibonacci(int species, size_t count, size_t 
     HopHam.setFromTriplets(TL.begin(), TL.end());
     cout << "Hop Ham set \n";
 
+}
+
+template<typename Tnum>
+int Hamiltonian<Tnum>::AntiSym(size_t c, size_t d, size_t bas)
+{
+    int sym = 0;
+   
+    
+    for( size_t j = c+1; j < d; j++)
+    {
+        if(MY_bittest(bas, j))
+        {
+            sym++;
+        }
+        //cout << " sym: " << sym << endl;
+    }
+    
+    if(sym%2 != 0)//odd number of particle crossed get Anitsym
+    {
+        return 1;
+        
+    }
+
+    return 0;
 }
 
 template<typename Tnum>
@@ -981,21 +1118,38 @@ void Hamiltonian<Tnum>::HopMatrix_Build_QPump()
 template<typename Tnum>
 void Hamiltonian<Tnum>::HopMatrix_Build_Periodic()
 {
+    cout << "Spin up hopping\n";
     BuildHopHam_Periodic(0, count_up, count_dn, basis_up, index_up, HopHam_up);
+    cout << "Spin down hopping\n";
     BuildHopHam_Periodic(1, count_dn, count_up, basis_down, index_dn, HopHam_down);
 }
 
 template<>
-void Hamiltonian<complex<double>>::HopMatrix_Build_PeriodicWithSOC(int site1, int site2, double gamma)
+void Hamiltonian<complex<double>>::HopMatrix_Build_PeriodicWithSOC(int site1, int site2, double gamma, double phase)
 {
     cout << "HopHam_up \n" << endl;
     BuildHopHam_Periodic(0, count_up, count_dn, basis_up, index_up, HopHam_up);
     cout << "HopHam_dn \n" << endl;
     BuildHopHam_Periodic(1, count_dn, count_up, basis_down, index_dn, HopHam_down);
     cout << "SOCHam_up \n" << endl;
-    BuildSOCHam(0, count_up, count_dn, basis_up, index_up, SOCHam_up, gamma, site1, site2);
+    BuildSOCHam(0, count_up, count_dn, basis_up, index_up, SOCHam_up, gamma, phase, site1, site2);
     cout << "SOCHam_dn \n" << endl;
-    BuildSOCHam(1, count_dn, count_up, basis_down, index_dn, SOCHam_dn, gamma, site1, site2);
+    BuildSOCHam(1, count_dn, count_up, basis_down, index_dn, SOCHam_dn, gamma, phase, site1, site2);
+}
+
+template<>
+void Hamiltonian<complex<double>>::HopMatrix_Build_PeriodicNNNHop(int link_num, double gamma, double phase)
+{
+    cout << "HopHam_up \n" << endl;
+    BuildHopHam_Periodic(0, count_up, count_dn, basis_up, index_up, HopHam_up);
+    cout << "HopHam_dn \n" << endl;
+    BuildHopHam_Periodic(1, count_dn, count_up, basis_down, index_dn, HopHam_down);
+    cout << "NNNHam_up \n" <<  endl;
+    Build_NNNHop(0, count_up, count_dn, basis_up, index_up, SOCHam_up, gamma, phase, link_num);
+    cout << "NNNHam_dn \n" << endl;
+    Build_NNNHop(1, count_dn, count_up, basis_down, index_dn, SOCHam_dn, gamma, phase, link_num);
+//    cout << "SOC up\n" << SOCHam_up << endl;
+//    cout << "SOC dn\n" << SOCHam_dn << endl;
 }
 
 // void Hamiltonian::IntMatrix_Build()
@@ -1008,7 +1162,7 @@ template<typename Tnum>
 void Hamiltonian<Tnum>::Total_Ham()
 {
     Ham_Tot = HopHam_up + HopHam_down + Ham_Interact;
-    //cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
+    cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 //    cout << "HopHam up: " << HopHam_up << endl;
 //     cout << "HopHam dn: " << HopHam_down << endl;
 }

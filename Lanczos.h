@@ -80,9 +80,11 @@ public:
     double DensityWCorr_O2(const Hamiltonian<Tnum> &Ham, int cut);
     void SpinCorr(const Hamiltonian<Tnum> &Ham, std::ofstream &output, double t, int cut);
     std::complex<double> Expect_Cij(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s1, size_t s2);
-    std::complex<double> Expect_Cii(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s);
+    std::complex<double> Number(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s);
+    std::complex<double> NumberNumber(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s, size_t q);
     void TotalCurrents(const Hamiltonian<Tnum> &Ham, size_t s1, size_t s2);
     std::complex<double> CurrentVariance(const Hamiltonian<Tnum> &Ham, int spec, size_t s1, size_t s2);
+    std::complex<double> CurrentSquare(const Hamiltonian<Tnum> &Ham, int spec, size_t s1, size_t s2);
     
     double DensityCorrelation(double bu, double bd, std::complex<double> cf, size_t site1, size_t site2);
     double DensityCorr_O2(double bu, double bd, std::complex<double> cf, size_t site1, size_t site2);
@@ -90,6 +92,8 @@ public:
     double Calc_SC(double b1, double b2, std::complex<double> cf, size_t site1, size_t site2);
     double Calc_SameSpin(double bs, std::complex<double> cf, size_t site1, size_t site2);
     
+    double SpinCurrent();
+    double ChargeCurrent();
     void ResetLanczos();
 
     void GetExponential(const Eigen::VectorXd& vec, int max_it, double dt);

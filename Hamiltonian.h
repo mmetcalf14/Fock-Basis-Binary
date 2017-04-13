@@ -86,7 +86,8 @@ public:
     void HopMatrix_Build_QPump();
     void HopMatrix_Build_Periodic();
     void HopMatrix_Build_Fibonacci();
-    void HopMatrix_Build_PeriodicWithSOC(int site1, int site2, double gamma);
+    void HopMatrix_Build_PeriodicWithSOC(int site1, int site2, double gamma, double phase);
+    void HopMatrix_Build_PeriodicNNNHop(int link_num, double gamma, double phase);
     void MakeCut(int cut);
     
     void BuildHopHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, std::vector<double> HT = std::vector<double>(100,0.0e0));
@@ -94,10 +95,12 @@ public:
      void BuildHopHam_QPump(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
     void BuildHopHam_Periodic(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
     void BuildHopHam_Fibonacci(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
-    void BuildSOCHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double gamma, int site1, int site2);
+    void BuildSOCHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double gamma, double phase, int site1, int site2);
+    void Build_NNNHop(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double gamma, double phase, int link_num);
     
     void GetPhi(double _Phi_t);
     void GetOnsite(Tnum _h);
+    int AntiSym(size_t c, size_t d, size_t bas);
     void IntMatrix_Build();
     void Save_Ham();//input can be filename from main cpp
     void Total_Ham();

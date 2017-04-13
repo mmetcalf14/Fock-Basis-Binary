@@ -175,11 +175,13 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
     {
         G_state += K_Mat[i]*Evec.row(i);//Evec.row(i)**K_Mat[i]
     }
-    cout << "Have the Groundstate\n";
+   // cout << "Have the Groundstate\n" << G_state.dot(G_state) << endl;
     //cout << "Test: " << G_state(1)-G_state(0) << endl;
     //cout <<"G_state: " << G_state.adjoint()*G_state << endl;
     //output.close();
 
+    G_state.normalize();
+    cout <<"G_state: " << G_state << endl;
 
 }
 
@@ -239,7 +241,7 @@ void Lanczos_Diag<Tnum>::Density(const Hamiltonian<Tnum> &Ham)
     }
 
     //cout << "Density |G>: \n" << G_state << endl;
-    //cout << "Sum: " << sum << endl;
+    cout << "Sum: " << sum << endl;
 
     cout << "Here is the ground state for up spin: \n";
     for(int i = 0; i < Ham.L; i++)
@@ -656,7 +658,7 @@ complex<double> Lanczos_Diag<Tnum>::Expect_Cij(const Hamiltonian<Tnum> &Ham, int
 }
 
 template<typename Tnum>
-complex<double> Lanczos_Diag<Tnum>::Expect_Cii(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp,vector<size_t> basis, vector<size_t> index, size_t s)
+complex<double> Lanczos_Diag<Tnum>::Number(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp,vector<size_t> basis, vector<size_t> index, size_t s)
 {
     complex<double> cf;
     
@@ -665,6 +667,7 @@ complex<double> Lanczos_Diag<Tnum>::Expect_Cii(const Hamiltonian<Tnum> &Ham, int
         size_t pb = basis[bs];
         
         size_t pi = index[pb];
+        
         
         if (MY_bittest(pb, s))
         {
@@ -683,8 +686,7 @@ complex<double> Lanczos_Diag<Tnum>::Expect_Cii(const Hamiltonian<Tnum> &Ham, int
                 }else{
                     //cout << "More than 2 species fermion!!" << endl;
                 }
-                //cf += conj(G_state(s))*G_state(r)*Ham.Ham_Tot.coeffRef(r,s); //sum_nm <conj(c_n)*c_m*Hnm>
-                //Is above the correct way to handle the Hamiltonian in Fock basis?
+
                 cf += conj(G_state(r))*G_state(r);//I don't know which one is the correct one
             }
         }
@@ -694,6 +696,52 @@ complex<double> Lanczos_Diag<Tnum>::Expect_Cii(const Hamiltonian<Tnum> &Ham, int
     
     return cf;
     
+}
+
+template<typename Tnum>
+complex<double> Lanczos_Diag<Tnum>::NumberNumber(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s, size_t q)
+{
+    
+    complex<double> cf;
+    double nq;
+    double ns;
+    
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t pb = basis[bs];
+        
+        size_t pi = index[pb];
+        
+        
+        if (MY_bittest(pb, s))
+        {ns = 1.;}
+        else{ns = 0.;}
+        if (MY_bittest(pb, q))
+        {nq = 1.;}
+        else{nq = 0.;}
+        
+            for(size_t k = 0; k < count_opp; k++)
+            {
+                int r,s;
+                if ( spinspec == 0 ){
+                    r = Ham.TotalIndex(pi, k);//(k*count) + p_ind;
+                    //(k*count) + l_ind;
+                    
+                }else if ( spinspec == 1 ){
+                    r = Ham.TotalIndex(k, pi);
+                    
+                    
+                }else{
+                    //cout << "More than 2 species fermion!!" << endl;
+                }
+                
+                cf += conj(G_state(r))*G_state(r)*ns*nq;
+            }
+        
+    }
+
+    
+    return cf;
 }
 
 template<>
@@ -942,7 +990,7 @@ Eigen::VectorXd Lanczos_Diag<complex<double>>::FullDiagonalization(const Hamilto
     G_state = EVMat.col(0);//the first coloum in the lowest energy eigenstate
     G_state.normalize();
     
-    cout << "ground state: " << G_state << endl;
+    //cout << "ground state: " << G_state << endl;
     
     return Ev;
 }
@@ -958,9 +1006,9 @@ void Lanczos_Diag<Tnum>::TotalCurrents(const Hamiltonian<Tnum> &Ham, size_t s1, 
     
     if(Ham.Phi_t == 0.0)
     {
-        cout << "UP\n";
+        //cout << "UP\n";
     Cij_up = -Ham.J1*Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1, s2);
-        cout << "Down\n";
+        //cout << "Down\n";
     Cij_dn = -Ham.J1*Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1, s2);
         //cout << "In the correct loop\n";
     }
@@ -976,38 +1024,38 @@ void Lanczos_Diag<Tnum>::TotalCurrents(const Hamiltonian<Tnum> &Ham, size_t s1, 
     
     double JQ = Jup.real()+Jdn.real();
     double JS = Jup.real()-Jdn.real();
-    
     cout << "JQ: " << JQ << " JS: " << JS << endl;
+    
+}
+
+template<typename Tnum>
+double Lanczos_Diag<Tnum>::SpinCurrent()
+{
+    return Jup.real()-Jdn.real();
+}
+
+template<typename Tnum>
+double Lanczos_Diag<Tnum>::ChargeCurrent()
+{
+    return Jup.real()+Jdn.real();
 }
 
 template<typename Tnum>
 complex<double> Lanczos_Diag<Tnum>::CurrentVariance(const Hamiltonian<Tnum> &Ham, int spec, size_t s1, size_t s2)
 {
-    complex<double> Ni;
-    complex<double> Nj;
-    complex<double> Cij;
-    complex<double> Cji;
+
     complex<double> Jsquare;
     complex<double> Var;
     
     if(spec == 0)
     {
-        Ni = Expect_Cii(Ham,0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1);
-        Nj = Expect_Cii(Ham,0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s2);
-        Cij = Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1, s2);
-        Cji = Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s2, s1);
-        
-        Jsquare = -2.*Ham.J1*Ham.J1*((Cij*Cji)+(Ni*Nj));
+        Jsquare = CurrentSquare(Ham, 0, s1, s2);
+
         Var = Jsquare + (Jup*Jup);
     }
     else if (spec == 1)
     {
-        Ni = Expect_Cii(Ham,1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1);
-        Nj = Expect_Cii(Ham,1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s2);
-        Cij = Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1, s2);
-        Cji = Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s2, s1);
-        
-        Jsquare = -2.*Ham.J1*Ham.J1*((Cij*Cji)+(Ni*Nj));
+        Jsquare = CurrentSquare(Ham, 1, s1, s2);
         Var = Jsquare + (Jdn*Jdn);
     }
     else{
@@ -1017,7 +1065,37 @@ complex<double> Lanczos_Diag<Tnum>::CurrentVariance(const Hamiltonian<Tnum> &Ham
     
     return Var;
 }
+
+template<typename Tnum>
+complex<double> Lanczos_Diag<Tnum>::CurrentSquare(const Hamiltonian<Tnum> &Ham, int spec, size_t s1, size_t s2)
+{
+    complex<double> Jsq;
+
+    complex<double> N1;
+    complex<double> N2;
+    complex<double> N12;
     
+    if(spec == 0)
+    {
+        N1 = Number(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1);
+        N2 = Number(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s2);
+        N12 = NumberNumber(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1, s2);
+    }
+    else if (spec == 1)
+    {
+        N1 = Number(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1);
+        N2 = Number(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s2);
+        N12 = NumberNumber(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1, s2);
+        
+    }
+    else{
+        cout << "Not a spin species\n";
+    }
+    
+    Jsq = Ham.J1*Ham.J1*(N1 + N2 - (2.*N12));
+    
+    return Jsq;
+}
 
 template class Lanczos_Diag<double>;
 template class Lanczos_Diag<complex<double> >;
