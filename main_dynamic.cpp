@@ -88,7 +88,7 @@ int main(int argc, const char * argv[])
     const double J0 = 1.0;
     double cut;
     double gamma;
-    double Phi = Pi;
+    double Phi = Pi/2.;
     int Site1;
     int Site2;
 
@@ -275,7 +275,7 @@ int main(int argc, const char * argv[])
     
     
     //Current
-    Diag.TotalCurrents(ham, 2, 3);
+    Diag.TotalCurrents(ham, 3, 4);
     
     cout << "SpinCUrr: " << Diag.SpinCurrent() << " ChargeCurr: " << Diag.ChargeCurrent() << endl;
 

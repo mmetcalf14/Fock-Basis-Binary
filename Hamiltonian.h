@@ -106,6 +106,8 @@ public:
     void Total_Ham();
     void Total_Ham_WSOC();
     void OutHam();
+    void CheckHermicity(SpMat &Mat);
+    
 };
 
 //constants

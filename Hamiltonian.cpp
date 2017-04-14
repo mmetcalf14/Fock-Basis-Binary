@@ -623,7 +623,7 @@ void Hamiltonian<complex<double> >::Build_NNNHop(int species, size_t count, size
                 size_t l_ind = index[l_bas];
                 assert( l_bas != p_bas );
                 assert(count_opp != 0);//got rid of stupid if statement. If no other particles exit.
-                cout << "init basis " << p_bas << " fin basis: " << l_bas << " site: " << i << endl;
+                //cout << "init basis " << p_bas << " fin basis: " << l_bas << " site: " << i << endl;
                 
                 complex<double> val;
                 double SC;
@@ -667,7 +667,7 @@ void Hamiltonian<complex<double> >::Build_NNNHop(int species, size_t count, size
                         
                         TL.push_back(Tp(r,s,conj(val)));
                         TL.push_back(Tp(s,r,val));
-                        cout << "val2: " << val << endl;
+                        //cout << "val2: " << s << " " << r << " " << val << endl;
  
                     }
             }
@@ -676,7 +676,8 @@ void Hamiltonian<complex<double> >::Build_NNNHop(int species, size_t count, size
     HopHam.setZero();
     HopHam.setFromTriplets(TL.begin(), TL.end());
     
-    cout << "HopHam: " << HopHam << endl;
+    //cout << "HopHam: " << HopHam.adjoint()*HopHam << endl;
+    
 }
 
 
@@ -1172,6 +1173,7 @@ void Hamiltonian<Tnum>::Total_Ham_WSOC()
 {
   Ham_Tot = HopHam_up + HopHam_down + Ham_Interact + SOCHam_dn + SOCHam_up;
     //cout << "Total Ham: " << Ham_Tot << endl;
+    CheckHermicity(Ham_Tot);
 }
 
 template<typename Tnum>
@@ -1201,6 +1203,32 @@ void Hamiltonian<Tnum>::OutHam()
    cout << "Total Hamiltonian: \n" << Ham_Tot << endl;
 }
 
+template<>
+void Hamiltonian<complex<double>>::CheckHermicity(SpMat &Mat)
+{
+    Eigen::MatrixXcd M = Eigen::MatrixXcd(Mat);
+    if(M.isApprox(M.adjoint()))
+    {
+        cout << "The Hamiltonian is Hermitian.\n";
+    }
+    else{
+        cout << "Things are screwy and the Hamiltonian is not Hermitian.\n";
+    }
+}
+
+template<>
+void Hamiltonian<double>::CheckHermicity(SpMat &Mat)
+{
+   Eigen::MatrixXd M = Eigen::MatrixXd(Mat);
+    
+    if(M.isApprox(M.adjoint()))
+    {
+        cout << "The Hamiltonian is Hermitian.\n";
+    }
+    else{
+        cout << "Things are screwy and the Hamiltonian is not Hermitian.\n";
+    }
+}
 
 //template class Hamiltonian<int>;
 template class Hamiltonian<complex<double> >;
