@@ -41,10 +41,12 @@ private:
     //Test matrices
     Eigen::Matrix4d Test_Ham;
     Eigen::Vector4d Test_Lanczos;
+    std::complex<double> Jup;
+    std::complex<double> Jdn;
     
     //time evolution constants
     //std::complex<double> I;
-    double dt;//construct?
+    //double dt;//construct?
     //double hbar;
     
     
@@ -56,6 +58,7 @@ public:
     
     std::vector<double> n_up;//public so they can be used in main program to write the file
     std::vector<double> n_dn;
+    double Correlation;
     
     Lanczos_Diag(const Hamiltonian<Tnum>&){};//Program not accepting this constructor::SEE ERROR
     //void TimeEvoCoeff(const double &_dt);
@@ -68,15 +71,39 @@ public:
     // template <typename Derived>
     void Diagonalize(const Hamiltonian<Tnum> &Ham);//, Hamiltonian&);
     //why isn't it recognizing the template?
+    Eigen::VectorXd FullDiagonalization(const Hamiltonian<Tnum> &Ham);
     
-    
+
     //void Test_Tri();
     void Density(const Hamiltonian<Tnum> &Ham);
-    void DensityCorrelation(const Hamiltonian<Tnum> &Ham);
+    double DensityWCorr(const Hamiltonian<Tnum> &Ham, int cut);
+    double DensityWCorr_O2(const Hamiltonian<Tnum> &Ham, int cut);
+    void SpinCorr(const Hamiltonian<Tnum> &Ham, std::ofstream &output, double t, int cut);
+    std::complex<double> Expect_Cij(Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s1, size_t s2);
+    std::complex<double> Number(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s);
+    std::complex<double> NumberNumber(const Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, size_t s, size_t q);
+    void TotalCurrents(Hamiltonian<Tnum> &Ham, size_t s1, size_t s2);
+    double Current_UPspin(Hamiltonian<Tnum> &Ham, size_t s1, size_t s2);
+    double Current_DNspin(Hamiltonian<Tnum> &Ham, size_t s1, size_t s2);
+    std::complex<double> CurrentVariance(const Hamiltonian<Tnum> &Ham, int spec, size_t s1, size_t s2);
+    std::complex<double> CurrentSquare(const Hamiltonian<Tnum> &Ham, int spec, size_t s1, size_t s2);
+    
+    double DensityCorrelation(double bu, double bd, std::complex<double> cf, size_t site1, size_t site2);
+    double DensityCorr_O2(double bu, double bd, std::complex<double> cf, size_t site1, size_t site2);
+    double OnsiteDensity_O2(double bu, double bd, std::complex<double> cf, size_t site);
+    double Calc_SC(double b1, double b2, std::complex<double> cf, size_t site1, size_t site2);
+    double Calc_SameSpin(double bs, std::complex<double> cf, size_t site1, size_t site2);
+    
+    double SpinCurrent();
+    double ChargeCurrent();
+    inline double UpCurrent(){return Jup.real();};
+    inline double DownCurrent(){return Jdn.real();};
+    
     void ResetLanczos();
+
     void GetExponential(const Eigen::VectorXd& vec, int max_it, double dt);
     void Dynamics(Hamiltonian<Tnum> &Ham, double dt);
-    void DebugDynamics(Hamiltonian<Tnum> &ham);
+    void DebugDynamics(Hamiltonian<Tnum> &ham, double dt);
     void CHECK();
     inline VectorType SendGstate(){return G_state;};
     

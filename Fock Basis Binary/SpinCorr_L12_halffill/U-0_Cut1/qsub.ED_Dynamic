@@ -1,15 +1,15 @@
 #!/bin/bash
 #PBS -q batch
 #PBS -l nodes=atomtronics.ucmerced.edu:ppn=1
-#PBS -N ED_Dynamic_UFid_L12_N6
+#PBS -N ED_Dynamic
 #PBS -j oe
 #PBS -V
-#PBS -d /home/mmetcalf/Codes/Fock-Basis-Binary/Fock-Basis-Binary/Fock\ Basis\ Binary/
+#PBS -d /home/mmetcalf/Codes/Fock-Basis-Binary/Fock-Basis-Binary/Fock\ Basis\ Binary/SpinCorr_L12_halffill/U-0_Cut1/
 cd $PBS_O_WORKDIR
 echo "------------------------------------------------------------------------"
 echo "Job started on" `date`
 echo "------------------------------------------------------------------------"
-/home/mmetcalf/Codes/Fock-Basis-Binary/Fock-Basis-Binary/Fock\ Basis\ Binary/ED_Dynamic.app
+/home/mmetcalf/Codes/Fock-Basis-Binary/Fock-Basis-Binary/Fock\ Basis\ Binary/SpinCorr_L12_halffill/U-0_Cut1/ED_Dynamic.app
 echo "------------------------------------------------------------------------"
 echo "Job ended on" `date`
 echo "------------------------------------------------------------------------"

@@ -1,0 +1,8 @@
+*~
+*.o
+*.app
+a.out
+*.dat
+*gz
+*tar
+*xcodeproj
