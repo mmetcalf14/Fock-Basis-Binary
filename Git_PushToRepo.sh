@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-rm nohup.out
+rm Fock\Basis\Binary/nohup.out
 
 git init
 git add .

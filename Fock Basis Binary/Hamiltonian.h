@@ -25,11 +25,15 @@
 //#include </home/mmcgrew/Library/Eigen/Core>
 #include "Basis.h"
 
+//template <typename T> class ObservableFunctions;
+
 template <typename Tnum>
 class Hamiltonian :public Basis //declare class for Hamiltonian matrices
 {
     template<typename T> //any type of Lanczos is friend of Hamiltonian class
     friend class Lanczos_Diag;
+    template<typename T>
+    friend class ObservableFunctions;
 private:
     
     typedef Eigen::SparseMatrix<Tnum> SpMat;
@@ -90,8 +94,9 @@ public:
     void HopMatrix_Build_Fibonacci();
     void HopMatrix_Build_PeriodicWithSOC(int site1, int site2, double gamma, double phase);
     void HopMatrix_Build_PeriodicNNNHop(int link_num, double gamma, double phase);
+    void HopMatrix_Build_PeriodicBfield(int link_num, double phase);
     void HopMatrix_Build_NNNHop_WReal(int link_num, double t2, double gamma, double phase);
-    void HopMatrix_Build_HaldHam_NoGauge(int link_num, double gamma, double phase1, double phase2);
+    void HopMatrix_Build_HaldHam_NoGauge(int link_num, double gamma, double phaseNN, double phaseNNN);
     void HopMatrix_Build_Zeeman_WSOC(int link_num, double gamma, double  phase_SOC, double phase_B, double B);
     void MakeCut(int cut);
     
@@ -102,6 +107,8 @@ public:
     void BuildHopHam_Fibonacci(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam);
     void BuildSOCHam(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double gamma, double phase, int site1, int site2);
     void Build_NNNphase_periodic(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double t2, double gamma, double phase1, double phase2, int link_num);
+    void Build_NNNphase_Bfield(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double phase, int link_num);
+    
     void Build_NNPhase_periodic(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double phase);
     void Build_Zeeman_Onsite(SpMat &HopHam, double B);
     
@@ -121,6 +128,7 @@ public:
 //constants
 const double hbar = 1.;
 const std::complex<double> I(0.0,1.0);
+const std::complex<double> NegCompConst(-1.0,-1.0);
 //const std::complex<double> NegI(-0.0,-1.0);
 const double Pi = 4*atan(1);
 

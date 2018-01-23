@@ -591,13 +591,12 @@ void Hamiltonian<complex<double> >::BuildSOCHam(int species, size_t count, size_
 }
 
 template<>
-void Hamiltonian<complex<double> >::Build_NNNphase_periodic(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double t2, double gamma, double phase1, double phase2, int link_num)
+void Hamiltonian<complex<double>>::Build_NNNphase_Bfield(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double phase, int link_num)
 {
-    
     std::vector<Tp> TL;
-    //complex<double> t2_hop = -1.0;
     
-    //cout << "Gamma: " << gamma << " Phase1: " << phase1 <<" Phase2: " << phase2 << endl;
+
+    
     
     for(size_t bs = 0; bs < count; bs++)
     {
@@ -627,7 +626,102 @@ void Hamiltonian<complex<double> >::Build_NNNphase_periodic(int species, size_t 
                 //cout << "init basis " << p_bas << " fin basis: " << l_bas << " site: " << i << endl;
                 
                 complex<double> val;
-                double SC;
+                complex<double> SC;
+                
+                
+                //algorithm to account for antisymmetry with periodic conditions
+                if(i < L-2 && MY_bittest(p_bas, i+1))//this accounts for NNN hopping antisymm
+                {
+                    //SC = complex<double>(-1.,-1.);
+                    SC = -1.;
+                    val = J2*exp(I*phase);
+                    //cout <<"Negative symmetry1\n";
+                }
+                else if( (i >= L-2) && (AntiSym(ns, i, p_bas) != 0))//this accounts for PBCs antisymmetry
+                {
+                    SC = -1.;
+                    val = J2*exp(I*phase);
+                    //cout <<"Negative symmetry2\n";
+                }
+                else//no extra minus sign
+                {
+                    SC = 1.;
+                    val = -1.*J2*exp(I*phase);
+                    //cout <<"Postive symmetry\n";
+                }
+                
+                
+                for(size_t k = 0; k < count_opp; k++)
+                {
+                    int r,s;
+                    
+                    if ( species == 0 ){
+                        r = TotalIndex(p_ind,k);//(k*count) + p_ind;
+                        s = TotalIndex(l_ind, k);
+
+                    }else if ( species == 1 ){
+                        
+                        r = TotalIndex(k, p_ind);
+                        s = TotalIndex(k, l_ind);
+                        
+                        
+                    }else{
+                        //cout << "More than 2 species fermion!!" << endl;
+                    }
+                    
+
+                    
+                   //val = -1.*SC*J2*exp(I*phase);
+                    
+                    TL.push_back(Tp(r,s,conj(val)));
+                    TL.push_back(Tp(s,r,val));
+                    //cout << "val2: " << s << " " << r << " " << val << endl;
+                    
+                }
+            }
+        }
+    }
+    HopHam.setZero();
+    HopHam.setFromTriplets(TL.begin(), TL.end());
+    //cout << "NNN HopHam: " << HopHam << endl;
+}
+
+template<>
+void Hamiltonian<complex<double> >::Build_NNNphase_periodic(int species, size_t count, size_t count_opp, std::vector<size_t> basis, std::vector<size_t> index, SpMat &HopHam, double t2, double gamma, double phase1, double phase2, int link_num)
+{
+    
+    std::vector<Tp> TL;
+
+    
+    for(size_t bs = 0; bs < count; bs++)
+    {
+        size_t p_bas = basis[bs];
+        size_t p_ind = index[p_bas];
+        
+        for(size_t i = 0; i < link_num; i++)//link num can be [1,6] links NOT ZERO
+        {
+            size_t ns = i+2;
+            
+            if(i == (L-2)){
+                ns = 0;
+            }
+            else if(i == L-1){
+                ns = 1;
+            }
+            
+            //cout << "i: " << i << " ns: " << ns << endl;
+            
+            if ( MY_bittest(p_bas, i) && !(MY_bittest(p_bas, ns)) )//next to nearest neigbor i+2
+                //if i+1 is occupied and going to to i+2 must get minus sign
+            {
+                size_t l_bas = MY_bitset(MY_bitclr(p_bas,i),ns);
+                size_t l_ind = index[l_bas];
+                assert( l_bas != p_bas );
+                assert(count_opp != 0);//got rid of stupid if statement. If no other particles exit.
+                //cout << "init basis " << p_bas << " fin basis: " << l_bas << " site: " << i << endl;
+                
+                complex<double> val;
+                complex<double> SC;
                 
                 //algorithm to account for antisymmetry with periodic conditions
                 if(i < L-2 && MY_bittest(p_bas, i+1))
@@ -649,19 +743,20 @@ void Hamiltonian<complex<double> >::Build_NNNphase_periodic(int species, size_t 
                     for(size_t k = 0; k < count_opp; k++)
                     {
                         int r,s;
+                        
                         if ( species == 0 ){
                             r = TotalIndex(p_ind,k);//(k*count) + p_ind;
                             s = TotalIndex(l_ind, k);
                             
                             if(phase2 != 0.0)
                             {
-                            val = t2 + (SC*exp(I*(phase1 + phase2))*gamma);
-                                //val = SC*exp(I*(phase1 + phase2))*gamma;
+                                //val = t2 + (SC*exp(I*(phase1 - phase2))*gamma);
+                                val = SC*exp(I*(phase1 + phase2))*gamma;
                                 //cout << "val1: " << val << endl;
                             }
                             else{
-                                val = t2 + (SC*exp(I*phase1)*gamma);
-                                //val = SC*exp(I*phase1)*gamma;
+                                //val = t2 + (SC*exp(I*phase1)*gamma);
+                                val = SC*exp(I*phase1)*gamma;
                                 //cout <<"val2: " << val << endl;
                             }
 
@@ -671,14 +766,15 @@ void Hamiltonian<complex<double> >::Build_NNNphase_periodic(int species, size_t 
                             s = TotalIndex(k, l_ind);
                             if(phase2 != 0.0)
                             {
-                                val = t2 + (-1.*SC*exp(I*(phase1 + phase2))*gamma);
-                                //val = -1.*SC*exp(I*(phase1 + phase2))*gamma;
+                                //val = t2 + (-1.*SC*exp(I*(phase1 + phase2))*gamma);
+                                val = -1.*SC*exp(I*(phase1 + phase2))*gamma;
                                 //cout << "val3: " << val << endl;
                                 
                             }
                             else{
-                                val = t2 + -1.*SC*exp(I*phase1)*gamma;
-                                //val = -1.*SC*exp(I*phase1)*gamma;
+                                //val = t2 + -1.*SC*exp(I*phase1)*gamma;
+                               //val = -1.*SC*exp(I*phase1)*gamma;
+                                val = SC*exp(-1.*I*phase1)*gamma;// for addition of t_2 term
                                 //cout << "val: " << val << endl;
                                 //cout << "val4: " << val << endl;
                             }
@@ -745,21 +841,30 @@ void Hamiltonian<complex<double> >::Build_NNPhase_periodic(int species, size_t c
                 complex<double> val;
                 
                 int del = i - ns;
-                double SC;
+                complex<double> SC;
                 
                 //algorithm to account for antisymmetry with periodic conditions
                 if((abs(del) > 1) && (ns == 0) && (AntiSym(ns, i, p_bas) != 0))//periodic ns = 0 < i
                 {
+                    //SC = complex<double>(-1.,-1.);
                     SC = -1.;
+                    cout << "e^iphi: " << exp(I*phase) << " -e^iphi: " << -1.*exp(I*phase)<<endl;
+                    val = J1*exp(I*phase);
+                    //val = exp(I*phase);
                     //cout << "SC is negative\n";
                 }
                 else if((abs(del) > 1) && (ns != 0)&& (AntiSym(i, ns, p_bas) != 0))//linear ns = i+1 > i
                 {
+                    //SC = complex<double>(-1.,-1.);
                     SC = -1.;
+                    //val = exp(I*phase);
+                    val = J1*exp(I*phase);
                     
                 }
                 else{
                     SC = 1.;
+                    val = -J1*exp(I*phase);
+                    //val = -1.*exp(I*phase);
                     
                     //cout << "SC is positive\n";
                 }
@@ -778,19 +883,10 @@ void Hamiltonian<complex<double> >::Build_NNPhase_periodic(int species, size_t c
                         }else{
                             //cout << "More than 2 species fermion!!" << endl;
                         }
-                        //cout << "pbas: "<<p_bas<<" lbas: "<<l_bas<< " " << r << " " << s << endl;
-                        //cout << "r: " << r<< " s: " << s << endl;
-                        if((i%2) == 0)//even number sites have J1 hop to nn (A)
-                        {
-                            val = -J1*SC*exp(I*phase);
-                            //val = -J1;
-                        }
-                        else //odd number sites have J2 (B)
-                        {
-                            val = -J2*SC*exp(I*phase);
-                            //val = -J2;
-                        }
-                        
+                        //cout << "r: " << r << " s: " << s << endl;
+
+                        //val = -J1*SC*exp(I*phase);
+                        //val = exp(I*phase);
                         
                         TL.push_back(Tp(r,s,conj(val)));
                         TL.push_back(Tp(s,r,val));
@@ -804,6 +900,8 @@ void Hamiltonian<complex<double> >::Build_NNPhase_periodic(int species, size_t c
     }
     HopHam.setZero();
     HopHam.setFromTriplets(TL.begin(), TL.end());
+    
+    //cout << "HopHam NN: \n" << HopHam << endl;
 }
 
 template<>
@@ -921,7 +1019,7 @@ int Hamiltonian<Tnum>::AntiSym(size_t c, size_t d, size_t bas)
         
     }
 
-    return 0;
+    return 0;//even number of particles no extra minus sign
 }
 
 template<typename Tnum>
@@ -1302,16 +1400,16 @@ void Hamiltonian<complex<double>>::HopMatrix_Build_PeriodicNNNHop(int link_num, 
 }
 
 template<>
-void Hamiltonian<complex<double>>::HopMatrix_Build_HaldHam_NoGauge(int link_num, double gamma, double phase1, double phase2)
+void Hamiltonian<complex<double>>::HopMatrix_Build_HaldHam_NoGauge(int link_num, double gamma, double phaseNN, double phaseNNN)
 {
     cout << "HopHam_up \n" << endl;
-    Build_NNPhase_periodic(0, count_up, count_dn, basis_up, index_up, HopHam_up, phase1);
+    Build_NNPhase_periodic(0, count_up, count_dn, basis_up, index_up, HopHam_up, phaseNN);
     cout << "HopHam_dn \n" << endl;
-    Build_NNPhase_periodic(1, count_dn, count_up, basis_down, index_dn, HopHam_down, phase1);
+    Build_NNPhase_periodic(1, count_dn, count_up, basis_down, index_dn, HopHam_down, phaseNN);
     cout << "NNNHam_up \n" <<  endl;
-    Build_NNNphase_periodic(0, count_up, count_dn, basis_up, index_up, SOCHam_up, 0.0, gamma, phase2, phase1,link_num);
+    Build_NNNphase_periodic(0, count_up, count_dn, basis_up, index_up, SOCHam_up, 0.0, gamma, phaseNNN, 0.0,link_num);
     cout << "NNNHam_dn \n" << endl;
-    Build_NNNphase_periodic(0, count_dn, count_up, basis_down, index_dn, SOCHam_dn, 0.0, gamma, phase2, phase1, link_num);
+    Build_NNNphase_periodic(0, count_dn, count_up, basis_down, index_dn, SOCHam_dn, 0.0, gamma, phaseNNN, 0.0, link_num);
     //    cout << "SOC up\n" << SOCHam_up << endl;
     //    cout << "SOC dn\n" << SOCHam_dn << endl;
 }
@@ -1342,6 +1440,19 @@ void Hamiltonian<complex<double>>::HopMatrix_Build_NNNHop_WReal(int link_num, do
     Build_NNNphase_periodic(0, count_up, count_dn, basis_up, index_up, SOCHam_up, t2, gamma, phase, 0.0, link_num);
     cout << "NNNHam_dn \n" << endl;
     Build_NNNphase_periodic(1, count_dn, count_up, basis_down, index_dn, SOCHam_dn, t2, gamma, phase, 0.0, link_num);
+}
+
+template<>
+void Hamiltonian<complex<double> >::HopMatrix_Build_PeriodicBfield(int link_num, double phase)
+{
+    cout << "HopHam_up \n";
+    Build_NNPhase_periodic(0, count_up, count_dn, basis_up, index_up, HopHam_up, phase);
+    cout << "HopHam_dn \n";
+    Build_NNPhase_periodic(1, count_dn, count_up, basis_down, index_dn, HopHam_down, phase);
+    cout << "NNNHam_up \n";
+    Build_NNNphase_Bfield(0, count_up, count_dn, basis_up, index_up, SOCHam_up, phase, link_num);
+    cout << "NNNHam_dn \n";
+    Build_NNNphase_Bfield(1, count_dn, count_up, basis_down, index_dn, SOCHam_dn, phase, link_num);
 }
 // void Hamiltonian::IntMatrix_Build()
 // {

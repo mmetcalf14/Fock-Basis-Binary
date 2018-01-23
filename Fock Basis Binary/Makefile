@@ -2,7 +2,7 @@
 #Mekena Metcalf 081715
 
 #Macros
-OBJS =  main_dynamic.o Hamiltonian.o Lanczos.o Basis.o
+OBJS =  main_dynamic.o Hamiltonian.o Lanczos.o Basis.o Observables.o main_functions.o
 TARGET = ActAro_ED_Static.app
 # Compile Macros
 ## This is for Mac OS
@@ -33,7 +33,8 @@ ED_Dynamic_Corr.app: $(OBJS)
 	$(CC) -o $@ $(OBJS)
 ActAro_ED_Static.app: $(OBJS)
 	$(CC) -o $@ $(OBJS)
-
+ED_ProbePhase.app: $(OBJS)
+	$(CC) -o $@ $(OBJS)
 .PHONY: clean
 
 clean:

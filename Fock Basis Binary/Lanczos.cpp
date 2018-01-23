@@ -64,11 +64,6 @@ void Lanczos_Diag<Tnum>::Diagonalize(const Hamiltonian<Tnum> &Ham)//, Hamiltonia
     Eigen::VectorXd Evec;
 
 
-    //#ifdef TESTMAT
-    //Lanczos_Vec = Test_Lanczos;
-    //    Eigen::Tridiagonalization<Eigen::MatrixXd> triOfHam(Test_Ham);
-    //#endif
-    //cout << "Lanczos not norm: " << Lanczos_Vec << endl;
     Lanczos_Vec.normalize();
     //cout << "Lanczos norm: \n" << Lanczos_Vec << endl;
 
@@ -256,6 +251,54 @@ void Lanczos_Diag<Tnum>::Density(const Hamiltonian<Tnum> &Ham)
 
 }
 
+
+template<typename Tnum>
+double Lanczos_Diag<Tnum>::Occupation_AnyLevel(int spin, const Hamiltonian<Tnum> &Ham, Eigen::VectorXcd Evec)
+{
+    double Ntotal = 0.0;
+    //cout << "Evec: " << Evec << endl;
+
+    double sum = 0;
+    
+    
+    for(size_t i = 0; i < Ham.count_up; i++)//have to start at 1 change all appropriatly
+    {
+        for(size_t j= 0; j < Ham.count_dn; j++)
+        {
+            size_t ind = (j*Ham.count_up)+i; //finding appropriate Fock state
+            //switched i and j above 08/30/16 now have correct index
+            size_t bas_up = Ham.basis_up[i];
+            size_t bas_dn = Ham.basis_down[j];
+            //cout << "Index: "<< ind << endl;
+            // cout << "Normalized? " << G_state.dot(G_state) << endl;
+            complex<double> cf = conj(Evec(ind))*Evec(ind);
+            sum += cf.real();
+            
+            
+            for(int n = 0; n < Ham.L; n++)
+            {
+                if((spin == 0) && MY_bittest(bas_up, n))//testing if up particle in Fock state on site n
+                {
+                    //n_up.at(n) += cf.real();
+                    Ntotal += cf.real();
+                }
+                if((spin == 1) && MY_bittest(bas_dn, n))//testing if down particle in Fock state on site n
+                {
+                    //n_dn.at(n) += cf.real();
+                    Ntotal += cf.real();
+                }
+            }
+        }
+        
+    }
+    
+
+    cout << "Sum: " << sum << endl;
+    
+
+
+    return Ntotal;
+}
 template<typename Tnum>
 double Lanczos_Diag<Tnum>::DensityWCorr(const Hamiltonian<Tnum> &Ham, int cut)
 {
@@ -607,7 +650,7 @@ double Lanczos_Diag<Tnum>::Calc_SameSpin(double bs, std::complex<double> cf, siz
 }
 
 template<typename Tnum>
-complex<double> Lanczos_Diag<Tnum>::Expect_Cij(Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp,vector<size_t> basis, vector<size_t> index, size_t s1, size_t s2)
+complex<double> Lanczos_Diag<Tnum>::Expect_Cij(Hamiltonian<Tnum> &Ham, int spinspec, size_t count, size_t count_opp,vector<size_t> basis, vector<size_t> index, Eigen::VectorXcd EigenState, size_t s1, size_t s2)
 {
     
     complex<double> cf = 0.0;
@@ -642,8 +685,8 @@ complex<double> Lanczos_Diag<Tnum>::Expect_Cij(Hamiltonian<Tnum> &Ham, int spins
                     //cout << "More than 2 species fermion!!" << endl;
                 }
                 
-                cf += conj(G_state(s))*G_state(r)*Ham.Ham_Tot.coeffRef(s,r); //sum_nm <conj(c_n)*c_m*Hnm>
-                
+                //cf += conj(G_state(s))*G_state(r)*Ham.Ham_Tot.coeffRef(s,r); //sum_nm <conj(c_n)*c_m*Hnm>
+                cf += conj(EigenState(s))*EigenState(r)*Ham.Ham_Tot.coeffRef(s,r);
                 //Is above the correct way to handle the Hamiltonian in Fock basis?
                 //cout << "r: " << r << " s: "<< s << endl;
                 //cf += conj(G_state(s))*G_state(r);
@@ -982,8 +1025,9 @@ template<>//only for spin orbit Hamiltonian with 6 sites
 Eigen::VectorXd Lanczos_Diag<complex<double>>::FullDiagonalization(const Hamiltonian<std::complex<double> > &Ham)
 {
     Eigen::MatrixXcd H = Eigen::MatrixXcd(Ham.Ham_Tot);
-    Eigen::MatrixXcd EVMat;
+    
     Eigen::VectorXd Ev;
+    EVMat.resize(Ham.Tot_base,Ham.Tot_base);
     
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> FullDiag(H);
     Ev = FullDiag.eigenvalues();
@@ -1007,9 +1051,9 @@ void Lanczos_Diag<Tnum>::TotalCurrents(Hamiltonian<Tnum> &Ham, size_t s1, size_t
     cout <<"Phi: "<< Ham.Phi_t << endl;
     
 
-    Cij_up = Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1, s2);
+    Cij_up = Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, EVMat.col(0), s1, s2);
         //cout << "Down\n";
-    Cij_dn = Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1, s2);
+    Cij_dn = Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, EVMat.col(0), s1, s2);
         //cout << "In the correct loop\n";
     
 
@@ -1025,9 +1069,9 @@ void Lanczos_Diag<Tnum>::TotalCurrents(Hamiltonian<Tnum> &Ham, size_t s1, size_t
 }
 
 template<typename Tnum>
-double Lanczos_Diag<Tnum>::Current_UPspin(Hamiltonian<Tnum> &Ham, size_t s1, size_t s2)
+double Lanczos_Diag<Tnum>::Current_UPspin(Hamiltonian<Tnum> &Ham, int EigenNum, size_t s1, size_t s2)
 {
-    complex<double> Cij =  Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, s1, s2);
+    complex<double> Cij =  Expect_Cij(Ham, 0, Ham.count_up, Ham.count_dn, Ham.basis_up, Ham.index_up, EVMat.col(EigenNum), s1, s2);
     
     complex<double> J = -2.*Cij.imag();
     
@@ -1037,9 +1081,9 @@ double Lanczos_Diag<Tnum>::Current_UPspin(Hamiltonian<Tnum> &Ham, size_t s1, siz
 }
 
 template<typename Tnum>
-double Lanczos_Diag<Tnum>::Current_DNspin(Hamiltonian<Tnum> &Ham, size_t s1, size_t s2)
+double Lanczos_Diag<Tnum>::Current_DNspin(Hamiltonian<Tnum> &Ham, int EigenNum, size_t s1, size_t s2)
 {
-    complex<double> Cij= Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, s1, s2);
+    complex<double> Cij= Expect_Cij(Ham, 1, Ham.count_dn, Ham.count_up, Ham.basis_down, Ham.index_dn, EVMat.col(EigenNum), s1, s2);
     complex<double> J= -2.*Cij.imag();
     
     Jdn = J;
@@ -1114,6 +1158,28 @@ complex<double> Lanczos_Diag<Tnum>::CurrentSquare(const Hamiltonian<Tnum> &Ham, 
     Jsq = Ham.J1*Ham.J1*(N1 + N2 - (2.*N12));
     
     return Jsq;
+}
+
+template<typename Tnum>
+void Lanczos_Diag<Tnum>::OutputOccupation(std::ofstream &output, const Hamiltonian<Tnum> &Ham)
+{
+    vector<double> n1;
+    vector<double> n2;
+    
+    //it might be worth changing these into vectors later
+    for(int it = 0; it < Ham.Tot_base; it++)
+    {
+        double nu = Occupation_AnyLevel(0, Ham, EVMat.col(it));
+        double nd = Occupation_AnyLevel(1, Ham, EVMat.col(it));
+        
+        n1.push_back(nu);
+        n2.push_back(nd);
+        
+        output << it << " " << nu << " "  << nd << endl;
+        cout << "it: " << it << " nu: " << nu << " nd: "  << nd << endl;
+        cout << "Sz: " << (nu-nd)/2.  << " Qz: " << (nu+nd)/2. - Ham.L/2. << endl;
+    }
+    
 }
 
 template class Lanczos_Diag<double>;
